@@ -25,4 +25,8 @@ public class Collidable
 		}
 		return false;
 	}
+	public void move(int x, int y)
+	{
+		
+	}
 }
