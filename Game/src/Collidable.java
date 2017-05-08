@@ -2,7 +2,7 @@ public class Collidable
 {
 	private int[] xCoords;
 	private int[] yCoords;
-	private final int hitboxPts = 5;
+	private final int hitboxPts = 7;
 	private int type;
 	
 	public Collidable(int xinit, int yinit, int type)
@@ -11,6 +11,27 @@ public class Collidable
 		yCoords = new int[hitboxPts];
 		
 		switch(type)
+		{
+			case 1:
+				xCoords[0] = xinit; yCoords[0] = yinit;
+				xCoords[1] = xinit; yCoords[1] = yinit + 50;
+				xCoords[2] = xinit; yCoords[2] = yinit - 50;
+				xCoords[3] = xinit + 50; yCoords[3] = yinit;
+				xCoords[4] = xinit - 50; yCoords[4] = yinit;
+				xCoords[5] = xinit + 25; yCoords[5] = yinit;
+				xCoords[6] = xinit - 25; yCoords[6] = yinit;
+			break;
+			case 1:
+				xCoords[0] = xinit; yCoords[0] = yinit;
+				xCoords[1] = xinit; yCoords[1] = yinit + 50;
+				xCoords[2] = xinit; yCoords[2] = yinit - 50;
+				xCoords[3] = xinit + 50; yCoords[3] = yinit;
+				xCoords[4] = xinit - 50; yCoords[4] = yinit;
+				xCoords[5] = xinit + 25; yCoords[5] = yinit;
+				xCoords[6] = xinit - 25; yCoords[6] = yinit;
+			break;
+				
+		}
 	}
 	
 	public boolean compareTo(Collidable other)
