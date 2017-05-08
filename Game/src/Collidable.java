@@ -9,6 +9,8 @@ public class Collidable
 	{
 		xCoords = new int[hitboxPts];
 		yCoords = new int[hitboxPts];
+		
+		switch(type)
 	}
 	
 	public boolean compareTo(Collidable other)
@@ -25,8 +27,10 @@ public class Collidable
 		}
 		return false;
 	}
+	
 	public void move(int x, int y)
 	{
-		
+		xCoords[0] += x;
+		yCoords[0] += y;
 	}
 }
