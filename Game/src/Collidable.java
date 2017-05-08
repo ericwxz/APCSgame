@@ -35,4 +35,8 @@ public class Collidable
 			break;
 		}
 	}
+	public void move(int x, int y)
+	{
+		
+	}
 }
