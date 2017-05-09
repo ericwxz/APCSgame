@@ -7,7 +7,7 @@ public class World
 	private final int height = 1000;
 	private ArrayList<Collidable> list;
 	private GUI myG;
-	public World(Gui g)
+	public World(GUI g)
 	{
 		list = new ArrayList<Collidable>();
 	}
@@ -28,8 +28,6 @@ public class World
 				{
 					if (c.compareTo(k))
 					{
-						c.act();
-						k.act();
 					}
 				}
 		}
@@ -37,7 +35,7 @@ public class World
 	}
 	private boolean isValid(Collidable c)
 	{
-		
+		return true;
 	}
 	
 }
