@@ -6,7 +6,8 @@ public class World
 	private final int width = 500;
 	private final int height = 1000;
 	private ArrayList<Collidable> list;
-	public World()
+	private GUI myG;
+	public World(Gui g)
 	{
 		list = new ArrayList<Collidable>();
 	}
@@ -33,6 +34,10 @@ public class World
 				}
 		}
 		return list;
+	}
+	private boolean isValid(Collidable c)
+	{
+		
 	}
 	
 }
