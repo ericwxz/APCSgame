@@ -26,8 +26,10 @@ public class World
 			for (Collidable k : list)
 				if (!c.equals(k))
 				{
-					if (c.compareTo(k))
+					if (c.checkCollision(k))
 					{
+						int whatHappened = c.hitResult();
+						myG.updateState(whatHappened);
 					}
 				}
 		}
@@ -35,7 +37,7 @@ public class World
 	}
 	private boolean isValid(Collidable c)
 	{
-		return true;
+		
 	}
 	
 }
