@@ -2,25 +2,24 @@
 public class Projectile extends Collidable
 {
 	private int damage;
+	private boolean enemyBullet;
 	
-	public Projectile(int xinit, int yinit, int type, int livesLost)
+	public Projectile(int xinit, int yinit, int type)
 	{
 		super (xinit, yinit, type);
-		damage = livesLost;
+		//type = 2 means friendly bullet, type = 4 means enemybullet
 	}
 	
-	public boolean enemyBullet()
+	public 
+	
+	public void destroy()
 	{
-		boolean hit = false;
-		if (it is enemy bullet)
-			hit = true;
-		return hit;
+		getWorld().removeEntity()
 	}
 	
-	public void collideEffect()
+	public int getDamage()
 	{
-		if (collided)
-			disappears;
+		
 	}
 
 }

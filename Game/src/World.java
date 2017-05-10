@@ -28,7 +28,7 @@ public class World
 				{
 					if (c.checkCollision(k))
 					{
-						int whatHappened = c.hitResult();
+						int whatHappened = c.hitResult(k);
 						myG.updateState(whatHappened);
 					}
 				}
@@ -37,7 +37,7 @@ public class World
 	}
 	private boolean isValid(Collidable c)
 	{
-		
+		return (0 <= c.getLong() && c.getLong() <= 1000 && 0 <= c.getLat() && c.getLat() <= 500);
 	}
 	
 }

@@ -6,7 +6,8 @@ public class Plane extends Collidable
 	public Plane(int initX, int initY, int type)
 	{
 		super(initX,initY,type);
-		life = 3;
+		//type = 1 means friendly bullet, type = 3 means enemybullet
+		life = 5;
 	}
 	
 	public int hitResult(Collidable other)
@@ -15,11 +16,21 @@ public class Plane extends Collidable
 		{
 			case 3:
 				life--;
+				Plane enemyPlane = (Plane) other;
+				enemyPlane.hurt();
 				break;
 			case 4:
-				life--;
+				Projectile enemyProjectile = (Projectile) other;
+				life -= enemyProjectile.getDamage();
+				enemyProjectile.destroy();
 				break;
 			default:
 		}
+		return life;
+	}
+	
+	public void hurt()
+	{
+		life--;
 	}
 }
