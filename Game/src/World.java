@@ -29,6 +29,7 @@ public class World
 					if (c.checkCollision(k))
 					{
 						int whatHappened = c.hitResult(k);
+						myG.updateState(0);
 						myG.updateState(whatHappened);
 					}
 				}
