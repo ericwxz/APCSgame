@@ -3,9 +3,9 @@ public class Plane extends Collidable
 	private int life;
 	private int type;
 	
-	public Plane(int initX, int initY, int type)
+	public Plane(int initX, int initY, int type, World world)
 	{
-		super(initX,initY,type);
+		super(initX,initY,type, world);
 		//type = 1 means friendly bullet, type = 3 means enemybullet
 		life = 5;
 	}

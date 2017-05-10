@@ -15,9 +15,13 @@ public class World
 	{
 		list.add(c);
 	}
-	public void remove(Collidable c)
+	public void removeEntity(Collidable c)
 	{
-		list.remove(c);
+		for (int n = 0; n < list.size(); n++)
+		{
+			if (list.get(n) == c)
+				list.remove(n);
+		}
 	}
 	public ArrayList<Collidable> act()
 	{
