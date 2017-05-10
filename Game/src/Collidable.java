@@ -47,4 +47,8 @@ public class Collidable
 		for (int yy: hitBox.ypoints)
 			yy+=y;
 	}
+	public int getType()
+	{
+		return 0;
+	}
 }
