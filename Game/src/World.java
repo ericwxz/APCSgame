@@ -15,9 +15,13 @@ public class World
 	{
 		list.add(c);
 	}
-	public void remove(Collidable c)
+	public void removeEntity(Collidable c)
 	{
-		list.remove(c);
+		for (int n = 0; n < list.size(); n++)
+		{
+			if (list.get(n) == c)
+				list.remove(n);
+		}
 	}
 	public ArrayList<Collidable> act()
 	{
@@ -28,9 +32,7 @@ public class World
 				{
 					if (c.checkCollision(k))
 					{
-						int whatHappened = c.hitResult(k);
-						myG.updateState(0);
-						myG.updateState(whatHappened);
+						c.hitResult(k);
 					}
 				}
 		}

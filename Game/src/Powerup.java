@@ -1,16 +1,8 @@
 
 public class Powerup extends Collidable
 {
-	private int effect;
-	
-	public Powerup(int powers)
+	public Powerup(int xinit, int yinit, int type, World world)
 	{
-		effect = powers;
-	}
-	
-	public int collideEffect()
-	{
-		if (plane collided)
-			return effect;
+		super(xinit, yinit, type, world);
 	}
 }

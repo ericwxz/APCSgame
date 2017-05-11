@@ -5,7 +5,7 @@ import javax.swing.*;
 public class GUI
 {
 	private JLabel label;
-	private JLayeredPane layers;
+	private JLayeredPane layers; //set db to true
 	private World myWorld;
 
 	public GUI(World w){}
