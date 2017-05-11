@@ -7,9 +7,13 @@ public class World
 	private final int maxHeight = 1000;
 	private ArrayList<Collidable> list;
 	private GUI myG;
-	public World(GUI g)
+	public World()
 	{
 		list = new ArrayList<Collidable>();
+	}
+	public void setGui(GUI g)
+	{
+		myG = g;
 	}
 	public void add(Collidable c)
 	{
