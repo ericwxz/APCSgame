@@ -10,6 +10,7 @@ public class World
 	public World()
 	{
 		list = new ArrayList<Collidable>();
+		list.add(new Plane(100,100,1,this));
 	}
 	public void setGui(GUI g)
 	{
@@ -46,6 +47,10 @@ public class World
 	private boolean isValid(Collidable c)
 	{
 		return (0 <= c.getLong() && c.getLong() <= 1000 && 0 <= c.getLat() && c.getLat() <= 500);
+	}
+	public ArrayList<Collidable> getList()
+	{
+		return list;
 	}
 	
 }
