@@ -15,7 +15,7 @@ public class Projectile extends Collidable
 			enemyBullet = false;
 	}
 	
-	public int hitResult(Collidable other)
+	public void hitResult(Collidable other)
 	{
 		switch(other.getType())
 		{
@@ -51,7 +51,6 @@ public class Projectile extends Collidable
 				}
 				break;
 		}
-		return 0;
 	}
 
 	public void destroy()

@@ -3,8 +3,8 @@ import java.util.*;
 
 public class World 
 {
-	private final int maxWidth = 500;
-	private final int maxHeight = 1000;
+	private final int MAX_WIDTH = 500;
+	private final int MAX_HEIGHT = 1000;
 	private ArrayList<Collidable> list;
 	private GUI myG;
 	public World()

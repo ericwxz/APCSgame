@@ -1,7 +1,7 @@
 public class Plane extends Collidable
 {
 	private int life;
-	private int type;
+	private int imageState;
 	
 	public Plane(int initX, int initY, int type, World world)
 	{
@@ -10,7 +10,7 @@ public class Plane extends Collidable
 		life = 5;
 	}
 	
-	public int hitResult(Collidable other)
+	public void hitResult(Collidable other)
 	{
 		switch(other.getType())
 		{
@@ -26,7 +26,6 @@ public class Plane extends Collidable
 				break;
 			default:
 		}
-		return life;
 	}
 	
 	public void hurt(int damage)
