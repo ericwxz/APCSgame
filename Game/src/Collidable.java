@@ -44,10 +44,8 @@ public class Collidable
 		return hitBox.getBounds();
 	}
 	
-	public int hitResult(Collidable other)
-	{
-		return 0;
-	}
+	public void hitResult(Collidable other)
+	{}
 	
 	public void move(int x, int y)
 	{
@@ -70,5 +68,10 @@ public class Collidable
 	public int getLong()
 	{
 		return myy;
+	}
+	
+	public World getWorld()
+	{
+		return myWorld;
 	}
 }
