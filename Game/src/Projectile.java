@@ -14,7 +14,7 @@ public class Projectile extends Collidable
 		else
 			enemyBullet = false;
 	}
-	
+	 
 	public 
 	
 	public void destroy()
