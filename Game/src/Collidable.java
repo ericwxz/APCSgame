@@ -71,4 +71,9 @@ public class Collidable
 	{
 		return myy;
 	}
+	
+	public World getWorld()
+	{
+		return myWorld;
+	}
 }
