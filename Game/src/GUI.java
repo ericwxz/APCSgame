@@ -61,7 +61,6 @@ public class GUI implements ActionListener
 	private void paintBuffer(ArrayList a){}
 	public void actionPerformed(ActionEvent e)
 	{
-		framey.repaint();
 	}
 	public static void main(String[] args)
 	{
