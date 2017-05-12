@@ -20,7 +20,7 @@ public class Plane extends Collidable
 				Plane enemyPlane = (Plane) other;
 				enemyPlane.hurt(3);
 				break;
-			case 4:
+			case 4: 
 				Projectile enemyProjectile = (Projectile) other;
 				hurt(enemyProjectile.getDamage());
 				enemyProjectile.destroy();
