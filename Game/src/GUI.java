@@ -10,6 +10,8 @@ public class GUI extends JFrame implements ActionListener
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
 	private World myWorld;
+	private Image bg;
+	private ImageIcon bgGif;
 	private Image plane;
 	private ImageIcon planey;
 	private Image bullet;
@@ -32,6 +34,10 @@ public class GUI extends JFrame implements ActionListener
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(100,100,1);
 		
+		bgGif = new ImageIcon("i love clouds.gif");
+		bg = bgGif.getImage();
+		bg = bg.getScaledInstance(500,1000,1);
+		
 	
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	super.setSize(500,1000);
@@ -52,6 +58,8 @@ public class GUI extends JFrame implements ActionListener
 		
 		g.setColor(Color.red);
      	g.drawLine(5, 30, 350, 30);
+     	
+     	g.drawImage(bg, 0, 0, this);
      	
 		for (Collidable c: myWorld.getList())
 		{
