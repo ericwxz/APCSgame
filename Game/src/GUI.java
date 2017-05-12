@@ -27,9 +27,10 @@ public class GUI extends JFrame implements ActionListener
 		layers = new JLayeredPane();
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
-		container.add(new JButton("shucks"), BorderLayout.SOUTH);
-		planey = new ImageIcon("--C.png");
+		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
+		planey = new ImageIcon("plane1.gif");
 		plane = planey.getImage();
+		plane = plane.getScaledInstance(100,100,1);
 		
 	
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

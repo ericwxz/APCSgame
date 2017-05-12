@@ -10,7 +10,7 @@ public class World
 	public World()
 	{
 		list = new ArrayList<Collidable>();
-		list.add(new Plane(100,100,1,this));
+		list.add(new Plane(250,800,1,this));
 	}
 	public void setGui(GUI g)
 	{
