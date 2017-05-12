@@ -6,6 +6,7 @@ public class Collidable
 	private int myx;
 	private int myy;
 	private World myWorld;
+	private int myType;
 	
 	public Collidable(int xinit, int yinit, int type, World world)
 	{
@@ -13,6 +14,7 @@ public class Collidable
 		myy = yinit;
 		hitBox = new Polygon();
 		myWorld = world;
+		myType = type;
 		switch(type)
 		{
 			// create hitbox based on entity
@@ -57,7 +59,7 @@ public class Collidable
 	
 	public int getType()
 	{
-		return 0;
+		return myType;
 	}
 	
 	public int getLat()
