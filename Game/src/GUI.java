@@ -63,10 +63,12 @@ public class GUI extends JFrame implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
+
 		steps++;
 		System.out.println("it's been " + steps  + " steps");
 		if(steps % 4 == 0)
 			 repaint();
+
 	}
 	public static void main(String[] args)
 	{
