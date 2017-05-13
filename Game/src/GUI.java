@@ -32,15 +32,15 @@ public class GUI extends JFrame implements ActionListener
 		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
 		planey = new ImageIcon("plane1.gif");
 		plane = planey.getImage();
-		plane = plane.getScaledInstance(100,100,1);
+		plane = plane.getScaledInstance(50,50,1);
 		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
-		bg = bg.getScaledInstance(500,1000,1);
+		bg = bg.getScaledInstance(300,600,1);
 		
 	
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	super.setSize(500,1000);
+    	super.setSize(300,600);
     	super.setVisible(true);
     	
     	Timer timer = new javax.swing.Timer(1000, this);    
@@ -54,20 +54,18 @@ public class GUI extends JFrame implements ActionListener
 	}
 	public void paint(Graphics g)
 	{
-		super.paint(g);
-		
-		g.setColor(Color.red);
-     	g.drawLine(5, 30, 350, 30);
-     	
-     	g.drawImage(bg, 0, 0, this);
-     	
-		for (Collidable c: myWorld.getList())
-		{
-			int type = c.getType();
-			g.drawImage(plane, c.getLat(), c.getLong(), this);
-		}
+		Image offImage = createImage(300,600);
+		Graphics buffer = offImage.getGraphics();
+		paintBuffer(buffer, myWorld.act());
+		g.drawImage(offImage, 0, 0, null);	
 	}
-	private void paintBuffer(ArrayList a){}
+	private void paintBuffer(Graphics g, ArrayList a)
+	{
+		g.clearRect(0, 0, 300, 600);
+		super.paint(g);
+		g.drawImage(bg, 0, 0, this);
+		g.drawImage(plane, 125, 525, this);
+	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
