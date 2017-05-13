@@ -4,7 +4,7 @@ public class Projectile extends Collidable
 	private int damage;
 	private boolean enemyBullet;
 
-	public Projectile(int xinit, int yinit, int type, World world, int livesLost, boolean enemyBullet)
+	public Projectile(int xinit, int yinit, int type, World world, int livesLost)
 	{
 		//type = 2 means friendly bullet, type = 4 means enemybullet
 		super (xinit, yinit, type, world);
@@ -61,6 +61,14 @@ public class Projectile extends Collidable
 	public int getDamage()
 	{
 		return damage;
+	}
+	
+	public void move()
+	{
+		if(this.getType() == 4)
+			super.moveHelper(0,-6);
+		else
+			super.moveHelper(0,-6);
 	}
 
 }

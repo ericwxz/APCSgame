@@ -11,7 +11,8 @@ public class World
 	{
 		list = new ArrayList<Collidable>();
 		list.add(new Plane(135,625,1,this));
-		list.add(new Projectile(150,595,3,this, 3, true));
+		list.add(new Plane(95,650,1,this));
+		list.add(new Plane(190,540,1,this));
 	}
 	public void setGui(GUI g)
 	{
@@ -29,10 +30,27 @@ public class World
 				list.remove(n);
 		}
 	}
-	public ArrayList<Collidable> act()
+	public void cleanBounds()
+	{
+		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
+		for(Collidable c: list)
+		{
+			tempList.add(c);
+		}
+		for (Collidable c : tempList)
+		{
+			if(!isValid(c))
+			{
+				removeEntity(c);
+			}
+		}
+	}
+	
+	public ArrayList<Collidable> move()
 	{
 		for (Collidable c : list)
 		{
+			c.move();
 			for (Collidable k : list)
 				if (!c.equals(k))
 				{
@@ -44,9 +62,29 @@ public class World
 		}
 		return list;
 	}
+	
+	public ArrayList<Collidable> act()
+	{
+		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
+		for(Collidable c: list)
+		{
+			tempList.add(c);
+		}
+		
+		for (Collidable c : tempList)
+		{
+			if(c.getType() == 1)
+			{
+				Plane plane = (Plane) c;
+				plane.fire();
+			}
+		}
+		return list;
+	}
+	
 	private boolean isValid(Collidable c)
 	{
-		return (0 <= c.getLong() && c.getLong() <= 1000 && 0 <= c.getLat() && c.getLat() <= 500);
+		return (-40 <= c.getLong() && c.getLong() <= 740 && -40 <= c.getLat() && c.getLat() <= 390);
 	}
 	public ArrayList<Collidable> getList()
 	{

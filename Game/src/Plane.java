@@ -33,4 +33,22 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 	}
+	
+	public void move()
+	{
+		if(this.getType() == 3)
+		{	
+			super.moveHelper(0, 4);
+		}
+		else
+		{
+			super.moveHelper(0, -2); //replace with the results from keylistener input
+		}
+	}
+	
+	public void fire()
+	{
+		getWorld().add(new Projectile(getLat() + 15, 
+				getLong() - 20, getType() + 1, getWorld(), 3));
+	}
 }

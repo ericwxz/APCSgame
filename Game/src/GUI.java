@@ -45,7 +45,7 @@ public class GUI extends JFrame implements ActionListener
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-    	Timer timer = new javax.swing.Timer(1000, this);    
+    	Timer timer = new javax.swing.Timer(40, this);    
     	timer.start(); 
     	steps = 0;
 	}
@@ -58,17 +58,16 @@ public class GUI extends JFrame implements ActionListener
 	{
 		Image offImage = createImage(350,700);
 		Graphics buffer = offImage.getGraphics();
-		paintBuffer(buffer, myWorld.act());
+		paintBuffer(buffer, myWorld.getList());
 		g.drawImage(offImage, 0, 0, null);	
 	}
-	private void paintBuffer(Graphics g, ArrayList a)
+	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
 	{
 		g.clearRect(0, 0, 350, 700);
-		
 		super.paint(g);
-		
+
 		g.drawImage(bg, 0, 0, this);
-		for(Collidable c: myWorld.act())
+		for(Collidable c: a)
 		{
 			switch(c.getType())
 			{
@@ -76,10 +75,10 @@ public class GUI extends JFrame implements ActionListener
 					g.drawImage(plane, c.getLat(), c.getLong(), this);
 					break;
 				case 2:
-					g.drawImage(plane, c.getLat(), c.getLong(), this);
+					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
 				case 3:
-					g.drawImage(bullet, c.getLat(), c.getLong(), this);
+					g.drawImage(plane, c.getLat(), c.getLong(), this);
 					break;
 				case 4:
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
@@ -91,11 +90,15 @@ public class GUI extends JFrame implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-
 		steps++;
-		System.out.println("it's been " + steps + "ticks");
-		if(steps % 4 == 0)
-			 repaint();
+		myWorld.move();
+		if(steps % 40 == 0)
+		{
+			myWorld.act();
+			myWorld.cleanBounds();
+			System.out.println("it's been " + steps + " ticks");
+		}
+		repaint();
 
 	}
 	public static void main(String[] args)

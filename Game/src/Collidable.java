@@ -49,12 +49,19 @@ public class Collidable
 	public void hitResult(Collidable other)
 	{}
 	
-	public void move(int x, int y)
+	public void move()
+	{
+		moveHelper(0,0);
+	}
+	
+	public void moveHelper(int x, int y)
 	{
 		for (int xx: hitBox.xpoints)
 			xx+=x;
 		for (int yy: hitBox.ypoints)
 			yy+=y;
+		myy += y;
+		myx += x;
 	}
 	
 	public int getType()
