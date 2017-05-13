@@ -10,12 +10,9 @@ public class GUI extends JFrame implements ActionListener
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
 	private World myWorld;
-	private Image bg;
-	private ImageIcon bgGif;
-	private Image plane;
-	private ImageIcon planey;
-	private Image bullet;
-	private ImageIcon bullety;
+	private Image bg; private ImageIcon bgGif;
+	private Image plane; private ImageIcon planey;
+	private Image bullet; private ImageIcon bullety;
 	private int steps;
 
 	public GUI(World w)
@@ -30,17 +27,22 @@ public class GUI extends JFrame implements ActionListener
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
+		
 		planey = new ImageIcon("plane1.gif");
 		plane = planey.getImage();
-		plane = plane.getScaledInstance(50,50,1);
+		plane = plane.getScaledInstance(80,80,1);
+		
+		bullety = new ImageIcon("1 bullet.gif");
+		bullet = bullety.getImage();
+		bullet = bullet.getScaledInstance(50,50,1);
 		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
-		bg = bg.getScaledInstance(300,600,1);
+		bg = bg.getScaledInstance(350,700,1);
 		
 	
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	super.setSize(300,600);
+    	super.setSize(350,700);
     	super.setVisible(true);
     	
     	Timer timer = new javax.swing.Timer(1000, this);    
@@ -54,24 +56,44 @@ public class GUI extends JFrame implements ActionListener
 	}
 	public void paint(Graphics g)
 	{
-		Image offImage = createImage(300,600);
+		Image offImage = createImage(350,700);
 		Graphics buffer = offImage.getGraphics();
 		paintBuffer(buffer, myWorld.act());
 		g.drawImage(offImage, 0, 0, null);	
 	}
 	private void paintBuffer(Graphics g, ArrayList a)
 	{
-		g.clearRect(0, 0, 300, 600);
+		g.clearRect(0, 0, 350, 700);
+		
 		super.paint(g);
+		
 		g.drawImage(bg, 0, 0, this);
-		g.drawImage(plane, 125, 525, this);
+		for(Collidable c: myWorld.act())
+		{
+			switch(c.getType())
+			{
+				case 1: 
+					g.drawImage(plane, c.getLat(), c.getLong(), this);
+					break;
+				case 2:
+					g.drawImage(plane, c.getLat(), c.getLong(), this);
+					break;
+				case 3:
+					g.drawImage(bullet, c.getLat(), c.getLong(), this);
+					break;
+				case 4:
+					g.drawImage(bullet, c.getLat(), c.getLong(), this);
+					break;
+				default:
+			}
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
 
 		steps++;
-		System.out.println("it's been " + steps  + " steps");
+		System.out.println("it's been " + steps + "ticks");
 		if(steps % 4 == 0)
 			 repaint();
 
