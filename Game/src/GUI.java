@@ -92,9 +92,9 @@ public class GUI extends JFrame implements ActionListener
 	{
 		steps++;
 		myWorld.move();
+		myWorld.act(steps);
 		if(steps % 40 == 0)
 		{
-			myWorld.act();
 			myWorld.cleanBounds();
 			System.out.println("it's been " + steps + " ticks");
 		}

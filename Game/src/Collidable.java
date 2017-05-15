@@ -7,14 +7,16 @@ public class Collidable
 	private int myy;
 	private World myWorld;
 	private int myType;
+	private int birthTick;
 	
-	public Collidable(int xinit, int yinit, int type, World world)
+	public Collidable(int xinit, int yinit, int type, World world, int tick)
 	{
 		myx = xinit;
 		myy = yinit;
 		hitBox = new Polygon();
 		myWorld = world;
 		myType = type;
+		birthTick = tick;
 		switch(type)
 		{
 			// create hitbox based on entity
@@ -82,5 +84,10 @@ public class Collidable
 	public World getWorld()
 	{
 		return myWorld;
+	}
+	
+	public int getBirth()
+	{
+		return birthTick;
 	}
 }
