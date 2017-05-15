@@ -6,7 +6,7 @@ public class Projectile extends Collidable
 
 	public Projectile(int xinit, int yinit, int type, World world, int livesLost, boolean enemyBullet)
 	{
-		//type = 2 means friendly bullet, type = 4 means enemybullet
+		//type = 2 means friendly bullet, type = 4 means enemy bullet
 		super (xinit, yinit, type, world);
 		damage = livesLost;
 		if (type == 4)
@@ -17,6 +17,7 @@ public class Projectile extends Collidable
 	
 	public void hitResult(Collidable other)
 	{
+		//type 1 = friendly projectile, 2 = friendly bullet, 3 = enemy projectile, 4 = enemy bullet
 		switch(other.getType())
 		{
 			case 1:
