@@ -20,7 +20,7 @@ public class Plane extends Collidable
 				Plane enemyPlane = (Plane) other;
 				enemyPlane.hurt(3);
 				break;
-			case 4:
+			case 4: 
 				Projectile enemyProjectile = (Projectile) other;
 				hurt(enemyProjectile.getDamage());
 				enemyProjectile.destroy();
@@ -32,5 +32,23 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
+	}
+	
+	public void move()
+	{
+		if(this.getType() == 3)
+		{	
+			super.moveHelper(0, 4);
+		}
+		else
+		{
+			super.moveHelper(0, -2); //replace with the results from keylistener input
+		}
+	}
+	
+	public void fire()
+	{
+		getWorld().add(new Projectile(getLat() + 15, 
+				getLong() - 20, getType() + 1, getWorld(), 3));
 	}
 }

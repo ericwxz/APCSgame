@@ -6,6 +6,7 @@ public class Collidable
 	private int myx;
 	private int myy;
 	private World myWorld;
+	private int myType;
 	
 	public Collidable(int xinit, int yinit, int type, World world)
 	{
@@ -13,6 +14,7 @@ public class Collidable
 		myy = yinit;
 		hitBox = new Polygon();
 		myWorld = world;
+		myType = type;
 		switch(type)
 		{
 			// create hitbox based on entity
@@ -47,17 +49,24 @@ public class Collidable
 	public void hitResult(Collidable other)
 	{}
 	
-	public void move(int x, int y)
+	public void move()
+	{
+		moveHelper(0,0);
+	}
+	
+	public void moveHelper(int x, int y)
 	{
 		for (int xx: hitBox.xpoints)
 			xx+=x;
 		for (int yy: hitBox.ypoints)
 			yy+=y;
+		myy += y;
+		myx += x;
 	}
 	
 	public int getType()
 	{
-		return 0;
+		return myType;
 	}
 	
 	public int getLat()
