@@ -10,9 +10,8 @@ public class World
 	public World()
 	{
 		list = new ArrayList<Collidable>();
-		list.add(new Plane(135,625,1,this,0));
-		list.add(new Plane(95,650,1,this,0));
-		list.add(new Plane(190,540,1,this,0));
+		list.add(new Plane(135,700,1,this,20));
+		list.add(new Plane(135,100,3,this,0));
 	}
 	public void setGui(GUI g)
 	{
@@ -73,7 +72,7 @@ public class World
 		
 		for (Collidable c : tempList)
 		{
-			if(c.getType() == 1 && (step - c.getBirth()) % 40 == 0)
+			if(c.getType() == 3 && (step - c.getBirth()) % 40 == 0)
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);

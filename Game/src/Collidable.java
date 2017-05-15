@@ -21,12 +21,19 @@ public class Collidable
 		{
 			// create hitbox based on entity
 			case 1:
-				hitBox.addPoint(myx-10, myy-10);
-				hitBox.addPoint(myx-10, myy +10);
-				hitBox.addPoint(myx+10, myy-10);
-				hitBox.addPoint(myx+10,myy+10);
+				hitBox.addPoint(myx + 40, myy - 40);
+				hitBox.addPoint(myx + 70, myy - 40);
+				hitBox.addPoint(myx + 10, myy + 40);
+				hitBox.addPoint(myx + 40, myy - 10);
+				hitBox.addPoint(myx + 40, myy - 70);
 			break;
-			case 2:
+			case 4:
+				hitBox.addPoint(myx + 20, myy- 15);
+				hitBox.addPoint(myx + 30, myy- 15);
+				hitBox.addPoint(myx + 20, myy- 35);
+				hitBox.addPoint(myx + 30, myy- 35);
+			break;
+			case 3:
 				hitBox.addPoint(myx-10, myy-10);
 				hitBox.addPoint(myx-10, myy +10);
 				hitBox.addPoint(myx+10, myy-10);

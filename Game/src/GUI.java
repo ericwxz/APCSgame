@@ -12,12 +12,15 @@ public class GUI extends JFrame implements ActionListener
 	private World myWorld;
 	private Image bg; private ImageIcon bgGif;
 	private Image plane; private ImageIcon planey;
+	private Image bplane; private ImageIcon bplaney;
 	private Image bullet; private ImageIcon bullety;
+	private Image bbullet; private ImageIcon bbullety;
+	private Image muzzflash; private ImageIcon muzzflashy;
 	private int steps;
 
 	public GUI(World w)
 	{
-		super("ur mom");
+		super("aerial ace");
 		myWorld = w;
 
 		Container container = super.getContentPane();
@@ -28,13 +31,25 @@ public class GUI extends JFrame implements ActionListener
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
 		
-		planey = new ImageIcon("plane1.gif");
+		planey = new ImageIcon("plane1 (1).gif");
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
+		
+		bplaney = new ImageIcon("baddie plane.gif");
+		bplane = bplaney.getImage();
+		bplane = bplane.getScaledInstance(80,80,1);
 		
 		bullety = new ImageIcon("1 bullet.gif");
 		bullet = bullety.getImage();
 		bullet = bullet.getScaledInstance(50,50,1);
+		
+		bbullety = new ImageIcon("baddie BULLET.gif");
+		bbullet = bbullety.getImage();
+		bbullet = bbullet.getScaledInstance(50,50,1);
+		
+		muzzflashy = new ImageIcon("muzzflash.gif");
+		muzzflash = muzzflashy.getImage();
+		muzzflash = muzzflash.getScaledInstance(75,75,1);
 		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
@@ -78,10 +93,10 @@ public class GUI extends JFrame implements ActionListener
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
 				case 3:
-					g.drawImage(plane, c.getLat(), c.getLong(), this);
+					g.drawImage(bplane, c.getLat(), c.getLong(), this);
 					break;
 				case 4:
-					g.drawImage(bullet, c.getLat(), c.getLong(), this);
+					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;
 				default:
 			}

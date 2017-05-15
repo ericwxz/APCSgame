@@ -66,7 +66,7 @@ public class Projectile extends Collidable
 	public void move()
 	{
 		if(this.getType() == 4)
-			super.moveHelper(0,-6);
+			super.moveHelper(0, 6);
 		else
 			super.moveHelper(0,-6);
 	}
