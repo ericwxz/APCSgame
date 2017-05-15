@@ -52,7 +52,17 @@ public class GUI extends JFrame implements ActionListener
 
 	public void startGame()
 	{
-		
+		Container menu = super.getContentPane();
+		menu.setLayout(new BoxLayout(menu, 3));
+		JButton start = new JButton("Start Game");
+		JButton exit = new JButton("Exit Game");
+		JButton help = new JButton("How To Play");
+		menu.add(start);
+		menu.add(exit);
+		menu.add(help);
+		help.requestFocus();
+		if (start is clicked)
+			planeLabel.requestFocusInWindow()
 	}
 	public void paint(Graphics g)
 	{
@@ -92,9 +102,9 @@ public class GUI extends JFrame implements ActionListener
 	{
 		steps++;
 		myWorld.move();
+		myWorld.act(steps);
 		if(steps % 40 == 0)
 		{
-			myWorld.act();
 			myWorld.cleanBounds();
 			System.out.println("it's been " + steps + " ticks");
 		}

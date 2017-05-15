@@ -4,10 +4,12 @@ public class Projectile extends Collidable
 	private int damage;
 	private boolean enemyBullet;
 
-	public Projectile(int xinit, int yinit, int type, World world, int livesLost)
+	public Projectile(int xinit, int yinit, int type, World world, int livesLost, int tick)
 	{
-		//type = 2 means friendly bullet, type = 4 means enemy bullet
-		super (xinit, yinit, type, world);
+
+		//type = 2 means friendly bullet, type = 4 means enemybullet
+		super (xinit, yinit, type, world, tick);
+
 		damage = livesLost;
 		if (type == 4)
 			enemyBullet = true;
