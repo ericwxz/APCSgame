@@ -47,10 +47,15 @@ public class World
 	
 	public ArrayList<Collidable> move()
 	{
-		for (Collidable c : list)
+		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
+		for(Collidable c: list)
+		{
+			tempList.add(c);
+		}
+		for (Collidable c : tempList)
 		{
 			c.move();
-			for (Collidable k : list)
+			for (Collidable k : tempList)
 					if (c.checkCollision(k) && c != k)
 					{
 						c.hitResult(k);
