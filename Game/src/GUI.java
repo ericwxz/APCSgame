@@ -18,6 +18,7 @@ public class GUI extends JFrame implements ActionListener
 	private Image muzzflash; private ImageIcon muzzflashy;
 	private int steps;
 	private boolean inMenu;
+	private JButton start; private JButton exit; private JButton help;
 
 	public GUI(World w)
 	{
@@ -68,12 +69,13 @@ public class GUI extends JFrame implements ActionListener
 
 	public void startGame()
 	{
+		//check to see if menu is clicked
 		inMenu = true;
 		Container menu = super.getContentPane();
 		menu.setLayout(new BoxLayout(menu, 3));
-		JButton start = new JButton("Start Game");
-		JButton exit = new JButton("Exit Game");
-		JButton help = new JButton("How To Play");
+		start = new JButton("Start Game");
+		exit = new JButton("Exit Game");
+		help = new JButton("How To Play");
 		menu.add(start);
 		menu.add(exit);
 		menu.add(help);
@@ -133,7 +135,19 @@ public class GUI extends JFrame implements ActionListener
 			System.out.println("it's been " + steps + " ticks");
 		}
 		repaint();
-
+		//detect which button is cliked in the menu
+		if (start.isSelected())
+		{
+			
+		}
+		else if (help.isSelected())
+		{
+			
+		}
+		else
+		{
+			
+		}
 	}
 	private class MenuStartListener implements ActionListener
 	{
