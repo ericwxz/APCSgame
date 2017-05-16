@@ -14,6 +14,7 @@ public class GUI extends JFrame implements ActionListener
 	private Image plane; private ImageIcon planey;
 	private Image bullet; private ImageIcon bullety;
 	private int steps;
+	private boolean inMenu;
 
 	public GUI(World w)
 	{
@@ -52,6 +53,7 @@ public class GUI extends JFrame implements ActionListener
 
 	public void startGame()
 	{
+		inMenu = true;
 		Container menu = super.getContentPane();
 		menu.setLayout(new BoxLayout(menu, 3));
 		JButton start = new JButton("Start Game");
@@ -60,16 +62,21 @@ public class GUI extends JFrame implements ActionListener
 		menu.add(start);
 		menu.add(exit);
 		menu.add(help);
+		start.addActionListener(this);
 		help.requestFocus();
-		if (start is clicked)
-			planeLabel.requestFocusInWindow()
+		
+//		if (start is clicked)
+//			planeLabel.requestFocusInWindow()
 	}
 	public void paint(Graphics g)
 	{
-		Image offImage = createImage(350,700);
-		Graphics buffer = offImage.getGraphics();
-		paintBuffer(buffer, myWorld.getList());
-		g.drawImage(offImage, 0, 0, null);	
+		if (inMenu == false)
+		{
+			Image offImage = createImage(350,700);
+			Graphics buffer = offImage.getGraphics();
+			paintBuffer(buffer, myWorld.getList());
+			g.drawImage(offImage, 0, 0, null);	
+		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
 	{
@@ -110,6 +117,13 @@ public class GUI extends JFrame implements ActionListener
 		}
 		repaint();
 
+	}
+	private class MenuStartListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			inMenu = false;
+		}
 	}
 	public static void main(String[] args)
 	{
