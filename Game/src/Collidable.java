@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class Collidable
 {
@@ -50,9 +51,9 @@ public class Collidable
 		return false;
 		
 	}
-	public Rectangle getRekt()
+	public Rectangle2D getRekt()
 	{
-		return hitBox.getBounds();
+		return hitBox.getBounds2D();
 	}
 	
 	public void hitResult(Collidable other)

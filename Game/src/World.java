@@ -51,13 +51,10 @@ public class World
 		{
 			c.move();
 			for (Collidable k : list)
-				if (!c.equals(k))
-				{
-					if (c.checkCollision(k))
+					if (c.checkCollision(k) && c != k)
 					{
 						c.hitResult(k);
 					}
-				}
 		}
 		return list;
 	}
