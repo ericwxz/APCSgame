@@ -17,48 +17,49 @@ public class Projectile extends Collidable
 			enemyBullet = false;
 	}
 	
+
+	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		//type 1 = friendly projectile, 2 = friendly bullet, 3 = enemy projectile, 4 = enemy bullet
-		switch(other.getType())
+		setCollide(true);
+		if(!other.collided())
 		{
-			case 1:
-				if(enemyBullet)
-				{
-					Plane player = (Plane) other;
-					player.hurt(getDamage());
-					destroy();
-				}
-				break;
-			case 2:
-				if(enemyBullet)
-				{
-					Projectile playerProj = (Projectile) other;
-					playerProj.destroy();
-					destroy();
-				}
-				break;
-			case 3:
-				if(!enemyBullet)
-				{
-					Plane enemy = (Plane) other;
-					enemy.hurt(getDamage());
-					destroy();
-				}
-			case 4:
-				if(!enemyBullet)
-				{
-					Projectile enemyProj = (Projectile) other;
-					enemyProj.destroy();
-					destroy();
-				}
-				break;
+			switch(other.getType())
+			{
+				case 1:
+					if(enemyBullet)
+					{
+						Plane player = (Plane) other;
+						player.hurt(getDamage());
+						System.out.println("ouch");
+						destroy();
+					}
+					break;
+				case 2:
+					if(enemyBullet)
+					{
+						Projectile playerProj = (Projectile) other;
+						playerProj.destroy();
+						destroy();
+					}
+					break;
+				case 3:
+					if(!enemyBullet)
+					{
+						Plane enemy = (Plane) other;
+						enemy.hurt(getDamage());
+						destroy();
+					}
+				case 4:
+					if(!enemyBullet)
+					{
+						Projectile enemyProj = (Projectile) other;
+						enemyProj.destroy();
+						destroy();
+					}
+					break;
+			}
 		}
-	}
-
-	public void destroy()
-	{
-		getWorld().removeEntity(this);
 	}
 	
 	public int getDamage()

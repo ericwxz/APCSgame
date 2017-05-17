@@ -10,29 +10,47 @@ public class Plane extends Collidable
 		life = 5;
 	}
 	
+	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		switch(other.getType())
+		setCollide(true);
+		if(!other.collided())
 		{
-			case 3:
-				life-=2;
-				Plane enemyPlane = (Plane) other;
-				enemyPlane.hurt(3);
-				break;
-			case 4: 
-				Projectile enemyProjectile = (Projectile) other;
-				hurt(enemyProjectile.getDamage());
-				enemyProjectile.destroy();
-				break;
-			default:
-		}
+			switch(other.getType())
+			{
+				case 1:
+					if(getType() == 3)
+					{
+						Plane playerPlane = (Plane) other;
+						playerPlane.hurt(3);
+						other.destroy();
+						System.out.println("enemy plane destroyed");
+					}
+					break;
+				case 3:
+					if(getType() == 1)
+					{
+						life-=3;
+						other.destroy();
+						System.out.println("enemy plane destroyed");
+					}
+					break;
+				default:
+			}
+		}		
 	}
 	
+	public void destroy()
+	{
+		if(getType() == 1)
+			System.out.println("you'll live on in our hearts, trooper");
+		getWorld().removeEntity(this);
+	}
+	
+	//yeowch deduct a bullet's worth of HP from the plane
 	public void hurt(int damage)
 	{
 		life -= damage;
-		System.out.println("ya got hit dinkus");
-		imageState--;
 	}
 	
 	public void move()
@@ -47,14 +65,21 @@ public class Plane extends Collidable
 		}
 	}
 	
+	//give birth to a bullet a little bit in front of u
 	public void fire(int step)
 	{
 		if(getType() == 1)
-			getWorld().add(new Projectile(getLat() + 15, getLong() - 20, 2, getWorld(), 3, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong() - 20, 2, getWorld(), 1, step));
 		else
-			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 3, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 1, step));
 	}
 	
+	public int getLife()
+	{
+		return life;
+	}
+	
+	//to be implemented when i have damaged plane sprites
 	public int getImageState()
 	{
 		return 3;

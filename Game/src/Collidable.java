@@ -9,6 +9,7 @@ public class Collidable
 	private World myWorld;
 	private int myType;
 	private int birthTick;
+	private boolean collided;
 	
 	public Collidable(int xinit, int yinit, int type, World world, int tick)
 	{
@@ -18,61 +19,77 @@ public class Collidable
 		myWorld = world;
 		myType = type;
 		birthTick = tick;
-		switch(type)
-		{
-			// create hitbox based on entity
-			case 1:
-				hitBox.addPoint(myx + 40, myy - 40);
-				hitBox.addPoint(myx + 70, myy - 40);
-				hitBox.addPoint(myx + 10, myy + 40);
-				hitBox.addPoint(myx + 40, myy - 10);
-				hitBox.addPoint(myx + 40, myy - 70);
-			break;
-			case 4:
-				hitBox.addPoint(myx + 20, myy- 15);
-				hitBox.addPoint(myx + 30, myy- 15);
-				hitBox.addPoint(myx + 20, myy- 35);
-				hitBox.addPoint(myx + 30, myy- 35);
-			break;
-			case 3:
-				hitBox.addPoint(myx + 40, myy - 40);
-				hitBox.addPoint(myx + 70, myy - 40);
-				hitBox.addPoint(myx + 10, myy + 40);
-				hitBox.addPoint(myx + 40, myy - 10);
-				hitBox.addPoint(myx + 40, myy - 70);
-			break;
-		}
+		collided = false;
+		clonePoly();
 		
 	}
 	
 	public boolean checkCollision(Collidable other)
 	{
-		if (hitBox.intersects(other.getRekt()))
-			return true;
-		return false;
+		return getRekt().intersects(other.getRekt());
 		
 	}
-	public Rectangle2D getRekt()
+	public Rectangle getRekt()
 	{
-		return hitBox.getBounds2D();
+		return hitBox.getBounds();
 	}
 	
+	//what happens when things collide... implemented elsewhere
 	public void hitResult(Collidable other)
 	{}
 	
+	//easy-to-call method for world... implemented elsewhere
 	public void move()
 	{
 		moveHelper(0,0);
 	}
 	
+	//helpful, moves hitbox's center and bounds
 	public void moveHelper(int x, int y)
 	{
-		for (int xx: hitBox.xpoints)
-			xx+=x;
-		for (int yy: hitBox.ypoints)
-			yy+=y;
 		myy += y;
 		myx += x;
+		hitBox = new Polygon();
+		clonePoly();
+	}
+	
+	//lets planes and bullets destroy each other, war is heck
+	public void destroy()
+	{
+		getWorld().removeEntity(this);
+	}
+	
+	public void setCollide(boolean coll)
+	{
+		collided = coll;
+	}
+	
+	//create a new instance of hitbox around the new centre, how hitboxes 'move'
+	public void clonePoly()
+	{
+		switch(getType())
+		{
+			// create hitbox based on entity type - 1&3 are plane sized boxes, 2&4 for projectiles
+			case 1:
+			case 3:
+				hitBox.addPoint(myx + 70, myy + 10);
+				hitBox.addPoint(myx + 10, myy + 70);
+				hitBox.addPoint(myx + 70, myy + 70);
+				hitBox.addPoint(myx + 10, myy + 10);
+			break;
+			case 4:
+			case 2:
+				hitBox.addPoint(myx + 50, myy + 10);
+				hitBox.addPoint(myx + 10, myy + 10);
+				hitBox.addPoint(myx + 50, myy + 50);
+				hitBox.addPoint(myx + 10, myy + 50);
+			break;
+		}
+	}
+	
+	public Polygon getHitB()
+	{
+		return hitBox;
 	}
 	
 	public int getType()
@@ -98,5 +115,10 @@ public class Collidable
 	public int getBirth()
 	{
 		return birthTick;
+	}
+	
+	public boolean collided()
+	{
+		return collided;
 	}
 }

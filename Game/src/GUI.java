@@ -17,6 +17,8 @@ public class GUI extends JFrame implements ActionListener
 	private Image bbullet; private ImageIcon bbullety;
 	private Image muzzflash; private ImageIcon muzzflashy;
 	private int steps;
+	private boolean inMenu;
+	private JButton start; private JButton exit; private JButton help;
 
 	public GUI(World w)
 	{
@@ -47,10 +49,6 @@ public class GUI extends JFrame implements ActionListener
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		muzzflashy = new ImageIcon("muzzflash.gif");
-		muzzflash = muzzflashy.getImage();
-		muzzflash = muzzflash.getScaledInstance(75,75,1);
-		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
@@ -67,24 +65,30 @@ public class GUI extends JFrame implements ActionListener
 
 	public void startGame()
 	{
+		//check to see if menu is clicked
+		inMenu = true;
 		Container menu = super.getContentPane();
 		menu.setLayout(new BoxLayout(menu, 3));
-		JButton start = new JButton("Start Game");
-		JButton exit = new JButton("Exit Game");
-		JButton help = new JButton("How To Play");
+		start = new JButton("Start Game");
+		exit = new JButton("Exit Game");
+		help = new JButton("How To Play");
 		menu.add(start);
 		menu.add(exit);
 		menu.add(help);
+		start.addActionListener(this);
 		help.requestFocus();
 		//if (start is clicked)
 		//	planeLabel.requestFocusInWindow()
 	}
 	public void paint(Graphics g)
 	{
-		Image offImage = createImage(350,700);
-		Graphics buffer = offImage.getGraphics();
-		paintBuffer(buffer, myWorld.getList());
-		g.drawImage(offImage, 0, 0, null);	
+		if (inMenu == false)
+		{
+			Image offImage = createImage(350,700);
+			Graphics buffer = offImage.getGraphics();
+			paintBuffer(buffer, myWorld.getList());
+			g.drawImage(offImage, 0, 0, null);	
+		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
 	{
@@ -92,6 +96,7 @@ public class GUI extends JFrame implements ActionListener
 		super.paint(g);
 
 		g.drawImage(bg, 0, 0, this);
+		
 		for(Collidable c: a)
 		{
 			switch(c.getType())
@@ -118,13 +123,32 @@ public class GUI extends JFrame implements ActionListener
 		steps++;
 		myWorld.move();
 		myWorld.act(steps);
-		if(steps % 40 == 0)
+		myWorld.cleanBounds();
+		if(steps % 50 == 0)
 		{
-			myWorld.cleanBounds();
 			System.out.println("it's been " + steps + " ticks");
 		}
 		repaint();
-
+		//detect which button is cliked in the menu
+//		if (start.isSelected())
+//		{
+//			
+//		}
+//		else if (help.isSelected())
+//		{
+//			
+//		}
+//		else
+//		{
+//			
+//		}
+	}
+	private class MenuStartListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			inMenu = false;
+		}
 	}
 	public static void main(String[] args)
 	{

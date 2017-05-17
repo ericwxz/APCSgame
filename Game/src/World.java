@@ -12,15 +12,22 @@ public class World
 		list = new ArrayList<Collidable>();
 		list.add(new Plane(135,700,1,this,20));
 		list.add(new Plane(135,100,3,this,0));
+		list.add(new Plane(70,50,3,this,0));
+		list.add(new Plane(200,50,3,this,0));
+		
 	}
+	
 	public void setGui(GUI g)
 	{
 		myG = g;
 	}
+	
 	public void add(Collidable c)
 	{
 		list.add(c);
 	}
+	
+	//removes the exact instance of Collidable c from the world... nothin personnel kid
 	public void removeEntity(Collidable c)
 	{
 		for (int n = 0; n < list.size(); n++)
@@ -29,6 +36,8 @@ public class World
 				list.remove(n);
 		}
 	}
+	
+	//collidables outside of the frame are banished forver into cyberspace. also dead planes
 	public void cleanBounds()
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
@@ -42,9 +51,18 @@ public class World
 			{
 				removeEntity(c);
 			}
+			else if(c.getType() == 1 || c.getType() == 3)
+			{
+				Plane pl = (Plane) c;
+				if(pl.getLife() <= 0)
+				{
+					pl.destroy();
+				}
+			}
 		}
 	}
 	
+	//everybody jives and then we see if anybodys touching
 	public ArrayList<Collidable> move()
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
@@ -64,6 +82,7 @@ public class World
 		return list;
 	}
 	
+	//all the enemy planes fire at a 160ms interval from their time of birth
 	public ArrayList<Collidable> act(int step)
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
@@ -83,10 +102,13 @@ public class World
 		return list;
 	}
 	
+	//whos out of the screen completely?? check those bounds
 	private boolean isValid(Collidable c)
 	{
 		return (-40 <= c.getLong() && c.getLong() <= 740 && -40 <= c.getLat() && c.getLat() <= 390);
 	}
+	
+	
 	public ArrayList<Collidable> getList()
 	{
 		return list;
