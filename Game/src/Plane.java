@@ -31,6 +31,7 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
+		System.out.println("ya got hit dinkus");
 		imageState--;
 	}
 	
@@ -38,7 +39,7 @@ public class Plane extends Collidable
 	{
 		if(this.getType() == 3)
 		{	
-			super.moveHelper(0, 4);
+			super.moveHelper(0, 2);
 		}
 		else
 		{
@@ -48,8 +49,10 @@ public class Plane extends Collidable
 	
 	public void fire(int step)
 	{
-		getWorld().add(new Projectile(getLat() + 15, 
-				getLong() - 20, getType() + 1, getWorld(), 3, step));
+		if(getType() == 1)
+			getWorld().add(new Projectile(getLat() + 15, getLong() - 20, 2, getWorld(), 3, step));
+		else
+			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 3, step));
 	}
 	
 	public int getImageState()
