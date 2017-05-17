@@ -61,8 +61,8 @@ public class GUI extends JFrame implements ActionListener
 		menu.add(exit);
 		menu.add(help);
 		help.requestFocus();
-		if (start is clicked)
-			planeLabel.requestFocusInWindow()
+		//if (start is clicked)
+		//	planeLabel.requestFocusInWindow()
 	}
 	public void paint(Graphics g)
 	{
@@ -92,7 +92,7 @@ public class GUI extends JFrame implements ActionListener
 					break;
 				case 4:
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
-					break;
+					break; 
 				default:
 			}
 		}
