@@ -10,29 +10,52 @@ public class Plane extends Collidable
 		life = 5;
 	}
 	
+	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
 		switch(other.getType())
-		{
+			{
+			case 1:
+				if(getType() == 3)
+				{
+					life-=2;
+					Plane playerPlane = (Plane) other;
+					playerPlane.hurt(3);
+				}
+				break;
+			case 2: 
+				if(getType() == 3)
+				{
+					Projectile playerProjectile = (Projectile) other;
+					hurt(playerProjectile.getDamage());
+					other.destroy();
+				}
+				break;	
 			case 3:
-				life-=2;
-				Plane enemyPlane = (Plane) other;
-				enemyPlane.hurt(3);
+				if(getType() == 1)
+				{
+					life-=2;
+					Plane enemyPlane = (Plane) other;
+					enemyPlane.hurt(3);
+				}
 				break;
 			case 4: 
-				Projectile enemyProjectile = (Projectile) other;
-				hurt(enemyProjectile.getDamage());
-				enemyProjectile.destroy();
+				if(getType() == 1)
+				{
+					Projectile enemyProjectile = (Projectile) other;
+					hurt(enemyProjectile.getDamage());
+					other.destroy();
+				}
 				break;
 			default:
 		}
 	}
 	
+	//yeowch deduct a bullet's worth of HP from the plane
 	public void hurt(int damage)
 	{
 		life -= damage;
-		System.out.println("ya got hit dinkus");
-		imageState--;
+		System.out.println("ouch ya got hit ya dinkus");
 	}
 	
 	public void move()
@@ -47,6 +70,7 @@ public class Plane extends Collidable
 		}
 	}
 	
+	//give birth to a bullet a little bit in front of u
 	public void fire(int step)
 	{
 		if(getType() == 1)
@@ -55,6 +79,7 @@ public class Plane extends Collidable
 			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 3, step));
 	}
 	
+	//to be implemented when i have damaged plane sprites
 	public int getImageState()
 	{
 		return 3;

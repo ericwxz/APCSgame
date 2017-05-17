@@ -49,10 +49,6 @@ public class GUI extends JFrame implements ActionListener
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		muzzflashy = new ImageIcon("muzzflash.gif");
-		muzzflash = muzzflashy.getImage();
-		muzzflash = muzzflash.getScaledInstance(75,75,1);
-		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
@@ -100,6 +96,7 @@ public class GUI extends JFrame implements ActionListener
 		super.paint(g);
 
 		g.drawImage(bg, 0, 0, this);
+		
 		for(Collidable c: a)
 		{
 			switch(c.getType())
@@ -126,25 +123,25 @@ public class GUI extends JFrame implements ActionListener
 		steps++;
 		myWorld.move();
 		myWorld.act(steps);
-		if(steps % 40 == 0)
+		if(steps % 10 == 0)
 		{
 			myWorld.cleanBounds();
 			System.out.println("it's been " + steps + " ticks");
 		}
 		repaint();
 		//detect which button is cliked in the menu
-		if (start.isSelected())
-		{
-			
-		}
-		else if (help.isSelected())
-		{
-			
-		}
-		else
-		{
-			
-		}
+//		if (start.isSelected())
+//		{
+//			
+//		}
+//		else if (help.isSelected())
+//		{
+//			
+//		}
+//		else
+//		{
+//			
+//		}
 	}
 	private class MenuStartListener implements ActionListener
 	{

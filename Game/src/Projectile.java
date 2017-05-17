@@ -17,9 +17,10 @@ public class Projectile extends Collidable
 			enemyBullet = false;
 	}
 	
+
+	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		//type 1 = friendly projectile, 2 = friendly bullet, 3 = enemy projectile, 4 = enemy bullet
 		switch(other.getType())
 		{
 			case 1:
@@ -54,11 +55,6 @@ public class Projectile extends Collidable
 				}
 				break;
 		}
-	}
-
-	public void destroy()
-	{
-		getWorld().removeEntity(this);
 	}
 	
 	public int getDamage()
