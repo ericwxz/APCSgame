@@ -123,9 +123,9 @@ public class GUI extends JFrame implements ActionListener
 		steps++;
 		myWorld.move();
 		myWorld.act(steps);
-		if(steps % 10 == 0)
+		myWorld.cleanBounds();
+		if(steps % 50 == 0)
 		{
-			myWorld.cleanBounds();
 			System.out.println("it's been " + steps + " ticks");
 		}
 		repaint();

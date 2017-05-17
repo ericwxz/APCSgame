@@ -9,6 +9,7 @@ public class Collidable
 	private World myWorld;
 	private int myType;
 	private int birthTick;
+	private boolean collided;
 	
 	public Collidable(int xinit, int yinit, int type, World world, int tick)
 	{
@@ -18,6 +19,7 @@ public class Collidable
 		myWorld = world;
 		myType = type;
 		birthTick = tick;
+		collided = false;
 		clonePoly();
 		
 	}
@@ -57,6 +59,11 @@ public class Collidable
 		getWorld().removeEntity(this);
 	}
 	
+	public void setCollide(boolean coll)
+	{
+		collided = coll;
+	}
+	
 	//create a new instance of hitbox around the new centre, how hitboxes 'move'
 	public void clonePoly()
 	{
@@ -65,17 +72,17 @@ public class Collidable
 			// create hitbox based on entity type - 1&3 are plane sized boxes, 2&4 for projectiles
 			case 1:
 			case 3:
-				hitBox.addPoint(myx + 80, myy);
-				hitBox.addPoint(myx, myy);
-				hitBox.addPoint(myx + 80, myy + 80);
-				hitBox.addPoint(myx, myy + 80);
+				hitBox.addPoint(myx + 70, myy + 10);
+				hitBox.addPoint(myx + 10, myy + 70);
+				hitBox.addPoint(myx + 70, myy + 70);
+				hitBox.addPoint(myx + 10, myy + 10);
 			break;
 			case 4:
 			case 2:
-				hitBox.addPoint(myx + 50, myy);
-				hitBox.addPoint(myx, myy);
+				hitBox.addPoint(myx + 50, myy + 10);
+				hitBox.addPoint(myx + 10, myy + 10);
 				hitBox.addPoint(myx + 50, myy + 50);
-				hitBox.addPoint(myx, myy + 50);
+				hitBox.addPoint(myx + 10, myy + 50);
 			break;
 		}
 	}
@@ -108,5 +115,10 @@ public class Collidable
 	public int getBirth()
 	{
 		return birthTick;
+	}
+	
+	public boolean collided()
+	{
+		return collided;
 	}
 }

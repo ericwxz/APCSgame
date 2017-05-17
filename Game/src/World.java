@@ -37,7 +37,7 @@ public class World
 		}
 	}
 	
-	//collidables outside of the frame are banished forver into cyberspace
+	//collidables outside of the frame are banished forver into cyberspace. also dead planes
 	public void cleanBounds()
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
@@ -50,6 +50,14 @@ public class World
 			if(!isValid(c))
 			{
 				removeEntity(c);
+			}
+			else if(c.getType() == 1 || c.getType() == 3)
+			{
+				Plane pl = (Plane) c;
+				if(pl.getLife() <= 0)
+				{
+					pl.destroy();
+				}
 			}
 		}
 	}
@@ -73,12 +81,6 @@ public class World
 					}
 		}
 		return list;
-	}
-	
-	//we banish all the dead things on the field (mostly planes) bye bye
-	public void sweepField()
-	{
-		
 	}
 	
 	//all the enemy planes fire at a 160ms interval from their time of birth
