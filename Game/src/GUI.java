@@ -15,7 +15,7 @@ public class GUI extends JFrame implements ActionListener
 	private Image bplane; private ImageIcon bplaney;
 	private Image bullet; private ImageIcon bullety;
 	private Image bbullet; private ImageIcon bbullety;
-	private Image muzzflash; private ImageIcon muzzflashy;
+	private Image explo; private ImageIcon exploy;
 	private int steps;
 	private boolean inMenu;
 	private JButton start; private JButton exit; private JButton help;
@@ -48,6 +48,10 @@ public class GUI extends JFrame implements ActionListener
 		bbullety = new ImageIcon("baddie BULLET.gif");
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
+		
+		exploy = new ImageIcon("explosion (1).gif");
+		explo = exploy.getImage();
+		explo = explo.getScaledInstance(100,100,1);
 		
 		bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
@@ -113,6 +117,9 @@ public class GUI extends JFrame implements ActionListener
 				case 4:
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;
+				case 5:
+					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					break;
 				default:
 			}
 		}
@@ -121,9 +128,9 @@ public class GUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		steps++;
-		myWorld.move();
+		myWorld.move(steps);
 		myWorld.act(steps);
-		myWorld.cleanBounds();
+		myWorld.cleanBounds(steps);
 		if(steps % 50 == 0)
 		{
 			System.out.println("it's been " + steps + " ticks");

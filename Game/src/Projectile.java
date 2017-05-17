@@ -50,6 +50,7 @@ public class Projectile extends Collidable
 						enemy.hurt(getDamage());
 						destroy();
 					}
+					break;
 				case 4:
 					if(!enemyBullet)
 					{
@@ -57,6 +58,8 @@ public class Projectile extends Collidable
 						enemyProj.destroy();
 						destroy();
 					}
+					break;
+				case 5:
 					break;
 			}
 		}
