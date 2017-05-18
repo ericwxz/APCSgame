@@ -10,15 +10,19 @@ public class GUI extends JFrame implements ActionListener
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
 	private World myWorld;
-	private Image bg; private ImageIcon bgGif;
-	private Image plane; private ImageIcon planey;
-	private Image bplane; private ImageIcon bplaney;
-	private Image bullet; private ImageIcon bullety;
-	private Image bbullet; private ImageIcon bbullety;
-	private Image muzzflash; private ImageIcon muzzflashy;
+	private Image bg;
+	private Image plane;
+	private Image bplane;
+	private Image bullet;
+	private Image bbullet;
+	private Image muzzflash;
 	private int steps;
 	private boolean inMenu;
 	private JButton start; private JButton exit; private JButton help;
+	private JTextArea howToPlay;
+	private Image arrowKeys;
+	private Image spaceKey;
+	private Image escapeKey;
 
 	public GUI(World w)
 	{
@@ -33,23 +37,23 @@ public class GUI extends JFrame implements ActionListener
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
 		
-		planey = new ImageIcon("plane1 (1).gif");
+		ImageIcon planey = new ImageIcon("plane1 (1).gif");
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
-		bplaney = new ImageIcon("baddie plane.gif");
+		ImageIcon bplaney = new ImageIcon("baddie plane.gif");
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
-		bullety = new ImageIcon("1 bullet.gif");
+		ImageIcon bullety = new ImageIcon("1 bullet.gif");
 		bullet = bullety.getImage();
 		bullet = bullet.getScaledInstance(50,50,1);
 		
-		bbullety = new ImageIcon("baddie BULLET.gif");
+		ImageIcon bbullety = new ImageIcon("baddie BULLET.gif");
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		bgGif = new ImageIcon("i love clouds.gif");
+		ImageIcon bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
 		
@@ -65,7 +69,7 @@ public class GUI extends JFrame implements ActionListener
 
 	public void startGame()
 	{
-		//check to see if menu is clicked
+		//check to see if menu is selected
 		inMenu = true;
 		Container menu = super.getContentPane();
 		menu.setLayout(new BoxLayout(menu, 3));
@@ -132,15 +136,28 @@ public class GUI extends JFrame implements ActionListener
 		//detect which button is cliked in the menu
 //		if (start.isSelected())
 //		{
-//			
+//			planeLabel.requestFocusInWindow();
 //		}
 //		else if (help.isSelected())
 //		{
+//			Container directions = super.getContentPane();
 //			
+//			ImageIcon arrowIcon = new ImageIcon(".gif");
+//			arrowKeys = arrowIcon.getImage();
+//			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
+//			
+//			ImageIcon spaceIcon = new ImageIcon(".gif");
+//			spaceKey = spaceIcon.getImage();
+//			spaceKey = spaceKey.getScaledInstance(100,100,1);
+//
+//			howToPlay = new JTextArea(100,50);
+//			directions.add(howToPlay);
+//			String playerHelp = "How To Play: " + "\n" + ""
+//			howToPlay.setText();
 //		}
 //		else
 //		{
-//			
+//			close everything
 //		}
 	}
 	private class MenuStartListener implements ActionListener
