@@ -38,7 +38,7 @@ public class World
 	}
 	
 	//collidables outside of the frame are banished forver into cyberspace. also dead planes
-	public void cleanBounds()
+	public void cleanBounds(int steps)
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
 		for(Collidable c: list)
@@ -59,11 +59,15 @@ public class World
 					pl.destroy();
 				}
 			}
+			else if(c.getType() == 5 && (steps - c.getBirth()) % 39 == 0)
+			{
+				removeEntity(c);
+			}
 		}
 	}
 	
 	//everybody jives and then we see if anybodys touching
-	public ArrayList<Collidable> move()
+	public ArrayList<Collidable> move(int steps)
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
 		for(Collidable c: list)
@@ -76,6 +80,7 @@ public class World
 			for (Collidable k : tempList)
 					if (c.checkCollision(k) && c != k)
 					{
+						list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps + 3));
 						c.hitResult(k);
 					}
 		}

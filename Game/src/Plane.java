@@ -35,7 +35,8 @@ public class Plane extends Collidable
 						System.out.println("enemy plane destroyed");
 					}
 					break;
-				default:
+				case 5:
+					break;
 			}
 		}		
 	}
