@@ -14,7 +14,7 @@ public class Plane extends Collidable
 		movingRight = false;
 		movingUp = false;
 		movingDown = false;
-		shootNext = false;
+		shootNext = false; 
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
