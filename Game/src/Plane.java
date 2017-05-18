@@ -8,6 +8,7 @@ public class Plane extends Collidable
 		super(initX,initY,type,world, born);
 		//type = 1 means friendly bullet, type = 3 means enemybullet
 		life = 5;
+		imageState = 3;
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
@@ -23,15 +24,16 @@ public class Plane extends Collidable
 					{
 						Plane playerPlane = (Plane) other;
 						playerPlane.hurt(3);
-						other.destroy();
+						hurt(5);
 						System.out.println("enemy plane destroyed");
 					}
 					break;
 				case 3:
 					if(getType() == 1)
 					{
+						Plane enemyPlane = (Plane) other;
 						life-=3;
-						other.destroy();
+						enemyPlane.hurt(5);
 						System.out.println("enemy plane destroyed");
 					}
 					break;
@@ -52,6 +54,7 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
+		imageState = 0;
 	}
 	
 	public void move()
@@ -83,6 +86,11 @@ public class Plane extends Collidable
 	//to be implemented when i have damaged plane sprites
 	public int getImageState()
 	{
-		return 3;
+		return imageState;
+	}
+	
+	public void setImage(int img)
+	{
+		imageState = img;
 	}
 }

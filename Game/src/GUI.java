@@ -9,6 +9,7 @@ public class GUI extends JFrame implements ActionListener
 {
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
+
 	private World myWorld;
 
 	private Image bg;
@@ -18,8 +19,10 @@ public class GUI extends JFrame implements ActionListener
 	private Image bbullet;
 	private Image muzzflash;
 	private Image explo;
+	private Image hurtplane;
 
 	private int steps;
+	private int timedDisplay;
 	private boolean inMenu;
 	private JButton start; private JButton exit; private JButton help;
 	private JTextArea howToPlay;
@@ -44,6 +47,10 @@ public class GUI extends JFrame implements ActionListener
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
+		ImageIcon hurtplaney = new ImageIcon("ouch (3).gif");
+		hurtplane = hurtplaney.getImage();
+		hurtplane = hurtplane.getScaledInstance(80,80,1);
+		
 		ImageIcon bplaney = new ImageIcon("baddie plane.gif");
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
@@ -58,7 +65,7 @@ public class GUI extends JFrame implements ActionListener
 		
 		ImageIcon exploy = new ImageIcon("explosion (1).gif");
 		explo = exploy.getImage();
-		explo = explo.getScaledInstance(100,100,1);
+		explo = explo.getScaledInstance(80,80,1);
 		
 		ImageIcon bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
@@ -72,6 +79,7 @@ public class GUI extends JFrame implements ActionListener
     	Timer timer = new javax.swing.Timer(40, this);    
     	timer.start(); 
     	steps = 0;
+    	timedDisplay = 20;
 	}
 
 	public void startGame()
@@ -113,7 +121,26 @@ public class GUI extends JFrame implements ActionListener
 			switch(c.getType())
 			{
 				case 1: 
-					g.drawImage(plane, c.getLat(), c.getLong(), this);
+					Plane p = (Plane) c;
+					switch(p.getImageState())
+					{
+						case 3:
+							g.drawImage(plane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								p.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								p.setImage(3);
+							}
+							g.drawImage(hurtplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 2:
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);

@@ -57,9 +57,10 @@ public class World
 				if(pl.getLife() <= 0)
 				{
 					pl.destroy();
+					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 39 == 0)
+			else if(c.getType() == 5 && (steps - c.getBirth()) % 27 == 0)
 			{
 				removeEntity(c);
 			}
@@ -80,7 +81,6 @@ public class World
 			for (Collidable k : tempList)
 					if (c.checkCollision(k) && c != k)
 					{
-						list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps + 3));
 						c.hitResult(k);
 					}
 		}
