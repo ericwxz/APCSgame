@@ -72,7 +72,7 @@ public class World
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
 		for(Collidable c: list)
-		{
+		{ 
 			tempList.add(c);
 		}
 		for (Collidable c : tempList)
@@ -98,7 +98,17 @@ public class World
 		
 		for (Collidable c : tempList)
 		{
-			if(c.getType() == 3 && (step - c.getBirth()) % 40 == 0)
+			if (c.getType() == 1)
+			{
+				Plane player = (Plane)c;
+				if (player.getShootState() == true)
+				{
+					player.fire(step);
+					player.setShootState(false);
+				}
+				
+			}
+			else if ((c.getType() == 3) && ((step - c.getBirth()) % 40 == 0))
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);
