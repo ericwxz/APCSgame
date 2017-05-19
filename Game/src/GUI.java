@@ -9,14 +9,18 @@ public class GUI extends JFrame implements ActionListener
 {
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
+
 	private World myWorld;
-	private Image bg; private ImageIcon bgGif;
-	private Image plane; private ImageIcon planey;
-	private Image hurtplane; private ImageIcon hurtplaney;
-	private Image bplane; private ImageIcon bplaney;
-	private Image bullet; private ImageIcon bullety;
-	private Image bbullet; private ImageIcon bbullety;
-	private Image explo; private ImageIcon exploy;
+
+	private Image bg;
+	private Image plane;
+	private Image bplane;
+	private Image bullet;
+	private Image bbullet;
+	private Image muzzflash;
+	private Image explo;
+	private Image hurtplane;
+
 	private int steps;
 	private int timedDisplay;
 	private boolean inMenu;
@@ -43,11 +47,11 @@ public class GUI extends JFrame implements ActionListener
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
-		hurtplaney = new ImageIcon("ouch (3).gif");
+		ImageIcon hurtplaney = new ImageIcon("ouch (3).gif");
 		hurtplane = hurtplaney.getImage();
 		hurtplane = hurtplane.getScaledInstance(80,80,1);
 		
-		bplaney = new ImageIcon("baddie plane.gif");
+		ImageIcon bplaney = new ImageIcon("baddie plane.gif");
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
@@ -59,7 +63,7 @@ public class GUI extends JFrame implements ActionListener
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		exploy = new ImageIcon("explosion (1).gif");
+		ImageIcon exploy = new ImageIcon("explosion (1).gif");
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
 		
@@ -161,37 +165,51 @@ public class GUI extends JFrame implements ActionListener
 		myWorld.move(steps);
 		myWorld.act(steps);
 		myWorld.cleanBounds(steps);
-		if(steps % 50 == 0)
+/*		if(steps % 50 == 0)
 		{
 			System.out.println("it's been " + steps + " ticks");
 		}
 		repaint();
 		//detect which button is cliked in the menu
-//		if (start.isSelected())
-//		{
-//			planeLabel.requestFocusInWindow();
-//		}
-//		else if (help.isSelected())
-//		{
-//			Container directions = super.getContentPane();
-//			
-//			ImageIcon arrowIcon = new ImageIcon(".gif");
-//			arrowKeys = arrowIcon.getImage();
-//			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
-//			
-//			ImageIcon spaceIcon = new ImageIcon(".gif");
-//			spaceKey = spaceIcon.getImage();
-//			spaceKey = spaceKey.getScaledInstance(100,100,1);
-//
-//			howToPlay = new JTextArea(100,50);
-//			directions.add(howToPlay);
-//			String playerHelp = "How To Play: " + "\n" + ""
-//			howToPlay.setText();
-//		}
-//		else
-//		{
-//			close everything
-//		}
+		if (start.isSelected())
+		{
+			planeLabel.requestFocusInWindow();
+		}
+		else if (help.isSelected())
+		{
+			Container directions = super.getContentPane();
+
+			howToPlay = new JTextArea(100,50);
+			
+			ImageIcon arrowIcon = new ImageIcon("i love clouds.gif");
+			arrowKeys = arrowIcon.getImage();
+			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
+			
+			ImageIcon spaceIcon = new ImageIcon("i love clouds.gif");
+			spaceKey = spaceIcon.getImage();
+			spaceKey = spaceKey.getScaledInstance(100,100,1);
+
+			ImageIcon escapeIcon = new ImageIcon("i love clouds.gif");
+			escapeKey = escapeIcon.getImage();
+			escapeKey = escapeKey.getScaledInstance(100,100,1);
+
+			directions.add(howToPlay);
+
+			String playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
+								+ "is to defeat as many enemy planes as possible. You have 5 lives"
+								+ " initially, and every time you get hit by an enemy bullet, you"
+								+ " lose 1 life. If you collide with an enemy plane... ouch!" +
+								" That's 3 lives gone! When you are out of lives, your mission "
+								+ "must be aborted. Good luck, soldier! We have faith in you."
+								+ "\n" + "Use arrow keys to change your plane's position"
+							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+								
+			howToPlay.setText(playerHelp);
+		}
+		else
+		{
+			System.exit(0);
+		}*/
 	}
 	private class MenuStartListener implements ActionListener
 	{
