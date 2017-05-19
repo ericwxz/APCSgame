@@ -43,7 +43,7 @@ public class GUI extends JFrame implements ActionListener
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
 		
-		ImageIcon planey = new ImageIcon("plane1 (1).gif");
+		ImageIcon planey = new ImageIcon("plane1.gif");
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
@@ -84,7 +84,7 @@ public class GUI extends JFrame implements ActionListener
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-    	Timer timer = new javax.swing.Timer(40, this);    
+    	Timer timer = new javax.swing.Timer(27, this);    
     	timer.start(); 
     	steps = 0;
     	timedDisplay = 20;
