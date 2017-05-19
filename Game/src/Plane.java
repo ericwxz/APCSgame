@@ -2,6 +2,7 @@ public class Plane extends Collidable
 {
 	private int life;
 	private int imageState;
+	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
@@ -9,14 +10,19 @@ public class Plane extends Collidable
 		//type = 1 means friendly bullet, type = 3 means enemybullet
 		life = 5;
 		imageState = 3;
+		movingLeft = false;
+		movingRight = false;
+		movingUp = false;
+		movingDown = false;
+		shootNext = false; 
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		setCollide(true);
 		if(!other.collided())
 		{
+			setCollide(true);
 			switch(other.getType())
 			{
 				case 1:
@@ -65,7 +71,14 @@ public class Plane extends Collidable
 		}
 		else
 		{
-			super.moveHelper(0, -2); //replace with the results from keylistener input
+			if(movingLeft)
+				super.moveHelper(-2, 0);
+			else if (movingRight)
+				super.moveHelper(2, 0);
+			else if(movingUp)
+				super.moveHelper(0, 2);
+			else if (movingDown)
+				super.moveHelper(0, -2);
 		}
 	}
 	
@@ -73,9 +86,9 @@ public class Plane extends Collidable
 	public void fire(int step)
 	{
 		if(getType() == 1)
-			getWorld().add(new Projectile(getLat() + 15, getLong() - 20, 2, getWorld(), 1, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
 		else
-			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 1, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
 	}
 	
 	public int getLife()
@@ -98,4 +111,44 @@ public class Plane extends Collidable
 	{
 		imageState = img;
 	}
+	
+	public void clearMoveState()
+    {
+    	movingLeft = false;
+    	movingRight = false;
+    	movingUp = false;
+    	movingDown = false;
+    }
+    
+    public void setLeftMovement(boolean state)
+    {
+    	movingLeft = state;
+    }
+    
+    public void setRightMovement(boolean state)
+    {
+    	movingRight =  state;
+    }
+    
+    public void setUpwardsMovement(boolean state)
+    {
+    	movingUp =  state;
+    }
+    
+    public void setDownwardsMovement(boolean state)
+    {
+    	movingDown =  state;
+    }
+    
+    public boolean getShootState()
+    {
+    	return shootNext;
+    }
+    
+    public void setShootState(boolean state)
+    {
+    	shootNext =  state;
+    }
 }
+
+

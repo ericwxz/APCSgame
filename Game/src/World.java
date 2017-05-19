@@ -11,7 +11,7 @@ public class World
 	public World()
 	{
 		list = new ArrayList<Collidable>();
-		player = new Plane(135,700,1,this,20);
+		player = new Plane(135,500,1,this,20);
 		list.add(player);
 		list.add(new Plane(135,0,3,this,0));
 		list.add(new Plane(70,50,3,this,0));
@@ -74,7 +74,7 @@ public class World
 	{
 		ArrayList<Collidable> tempList = new ArrayList<Collidable>();
 		for(Collidable c: list)
-		{
+		{ 
 			tempList.add(c);
 		}
 		for (Collidable c : tempList)
@@ -100,7 +100,17 @@ public class World
 		
 		for (Collidable c : tempList)
 		{
-			if(c.getType() == 3 && (step - c.getBirth()) % 40 == 0)
+			if (c.getType() == 1)
+			{
+				Plane player = (Plane)c;
+				if (player.getShootState() == true)
+				{
+					player.fire(step);
+					player.setShootState(false);
+				}
+				
+			}
+			else if ((c.getType() == 3) && ((step - c.getBirth()) % 40 == 0))
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);
@@ -126,3 +136,4 @@ public class World
 		return player;
 	}
 }
+
