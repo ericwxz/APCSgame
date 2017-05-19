@@ -17,6 +17,8 @@ public class GUI extends JFrame implements ActionListener
 	private Image bullet; private ImageIcon bullety;
 	private Image bbullet; private ImageIcon bbullety;
 	private Image explo; private ImageIcon exploy;
+	private Image hp; private ImageIcon hpy;
+	private Image gun; private ImageIcon guny;
 	private int steps;
 	private int timedDisplay;
 	private boolean inMenu;
@@ -62,6 +64,14 @@ public class GUI extends JFrame implements ActionListener
 		exploy = new ImageIcon("explosion (1).gif");
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
+		
+		hpy = new ImageIcon("hp bar (1).gif");
+		hp = hpy.getImage();
+		hp = hp.getScaledInstance(80,80,1);
+		
+		guny = new ImageIcon("weapon1.gif");
+		gun = guny.getImage();
+		gun = gun.getScaledInstance(80,80,1);
 		
 		ImageIcon bgGif = new ImageIcon("i love clouds.gif");
 		bg = bgGif.getImage();
@@ -111,6 +121,10 @@ public class GUI extends JFrame implements ActionListener
 		super.paint(g);
 
 		g.drawImage(bg, 0, 0, this);
+		g.drawImage(hp, 0, 640, this);
+		g.drawImage(gun, 268, 637, this);
+		int hpGone = (5-myWorld.getPlayer().getLife());
+		g.fillRect(75 - hpGone * 10, 674, hpGone * 10, 10);
 		
 		for(Collidable c: a)
 		{

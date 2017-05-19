@@ -80,7 +80,12 @@ public class Plane extends Collidable
 	
 	public int getLife()
 	{
-		return life;
+		if(life >= 0)
+		{
+			return life;	
+		}
+		else 
+			return 0;
 	}
 	
 	//to be implemented when i have damaged plane sprites
