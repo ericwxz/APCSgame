@@ -156,7 +156,7 @@ public class GUI extends JFrame implements ActionListener
 					break;
 				default:
 			}
-		}
+		} 
 	}
 	
 	public void actionPerformed(ActionEvent e)
