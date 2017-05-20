@@ -41,41 +41,40 @@ public class GUI extends JFrame implements ActionListener
 		layers = new JLayeredPane();
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
-		container.add(new JButton("whatupp"), BorderLayout.SOUTH);
 		
-		ImageIcon planey = new ImageIcon("plane1.gif");
+		ImageIcon planey = new ImageIcon("playerPlane.gif");
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
-		ImageIcon hurtplaney = new ImageIcon("ouch (3).gif");
+		ImageIcon hurtplaney = new ImageIcon("planeDamage.gif");
 		hurtplane = hurtplaney.getImage();
 		hurtplane = hurtplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bplaney = new ImageIcon("baddie plane.gif");
+		ImageIcon bplaney = new ImageIcon("enemyPlane.gif");
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bullety = new ImageIcon("1 bullet.gif");
+		ImageIcon bullety = new ImageIcon("playerBullet.gif");
 		bullet = bullety.getImage();
 		bullet = bullet.getScaledInstance(50,50,1);
 		
-		ImageIcon bbullety = new ImageIcon("baddie BULLET.gif");
+		ImageIcon bbullety = new ImageIcon("enemyBullet.gif");
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		ImageIcon exploy = new ImageIcon("explosion (1).gif");
+		ImageIcon exploy = new ImageIcon("explosion.gif");
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
 		
-		ImageIcon hpy = new ImageIcon("hp bar (2).gif");
+		ImageIcon hpy = new ImageIcon("hpBar.gif");
 		hp = hpy.getImage();
 		hp = hp.getScaledInstance(80,80,1);
 		
-		ImageIcon guny = new ImageIcon("weapon1 (1).gif");
+		ImageIcon guny = new ImageIcon("weapon1.gif");
 		gun = guny.getImage();
 		gun = gun.getScaledInstance(80,80,1);
 		
-		ImageIcon bgGif = new ImageIcon("i love clouds.gif");
+		ImageIcon bgGif = new ImageIcon("backgroundImg.gif");
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
 		
@@ -123,10 +122,10 @@ public class GUI extends JFrame implements ActionListener
 		super.paint(g);
 
 		g.drawImage(bg, 0, 0, this);
-		g.drawImage(hp, 0, 640, this);
-		g.drawImage(gun, 268, 637, this);
+		g.drawImage(hp, 5, 640, this);
+		g.drawImage(gun, 262, 637, this);
 		int hpGone = (5-myWorld.getPlayer().getLife());
-		g.fillRect(75 - hpGone * 10, 674, hpGone * 10, 10);
+		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
 		for(Collidable c: a)
 		{
