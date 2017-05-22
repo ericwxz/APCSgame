@@ -225,12 +225,38 @@ public class GUI extends JFrame implements ActionListener
 			System.exit(0);
 		}*/
 	}
-	private class MenuStartListener implements ActionListener
+	private class MenuStartListener extends JFrame implements ActionListener
 	{
+		private JButton start; private JButton exit; private JButton help;
+		private JTextArea howToPlay;
+		private Image arrowKeys;
+		private Image spaceKey;
+		private Image escapeKey;
+		
+		public MenuStartListener()
+		{
+			Container container = super.getContentPane();
+			container.setLayout(new BoxLayout(container, 3));
+			inMenu = true;
+			start = new JButton("Start Game");
+			help = new JButton("How To Play");
+			exit = new JButton("Exit Game");
+			label = new JLabel("whippedee doo doo");
+			layers = new JLayeredPane();
+			container.add(start);
+			container.add(help);
+			container.add(exit);
+			container.add(layers);
+			layers.add(label, JLayeredPane.DEFAULT_LAYER);
+		}
+		
 		public void actionPerformed(ActionEvent e)
 		{
-			inMenu = false;
-			startGame();
+			if (start.isSelected())
+			{
+				inMenu = false;
+				startGame();
+			}
 		}
 	}
 	public static void main(String[] args)
