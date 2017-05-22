@@ -75,7 +75,7 @@ public class Projectile extends Collidable
 		if(this.getType() == 4)
 			super.moveHelper(0, 6);
 		else
-			super.moveHelper(0,-6);
+			super.moveHelper(0,-10);
 	}
 
 }

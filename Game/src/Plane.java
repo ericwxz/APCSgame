@@ -20,9 +20,9 @@ public class Plane extends Collidable
 	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		setCollide(true);
 		if(!other.collided())
 		{
+			setCollide(true);
 			switch(other.getType())
 			{
 				case 1:
@@ -86,14 +86,19 @@ public class Plane extends Collidable
 	public void fire(int step)
 	{
 		if(getType() == 1)
-			getWorld().add(new Projectile(getLat() + 15, getLong() - 20, 2, getWorld(), 1, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
 		else
-			getWorld().add(new Projectile(getLat() + 15, getLong() + 70, 4, getWorld(), 1, step));
+			getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
 	}
 	
 	public int getLife()
 	{
-		return life;
+		if(life >= 0)
+		{
+			return life;	
+		}
+		else 
+			return 0;
 	}
 	
 	//to be implemented when i have damaged plane sprites

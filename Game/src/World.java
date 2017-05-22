@@ -11,7 +11,7 @@ public class World
 	public World()
 	{
 		list = new ArrayList<Collidable>();
-		player = new Plane(135,700,1,this,20);
+		player = new Plane(135,500,1,this,20);
 		list.add(player);
 		list.add(new Plane(135,0,3,this,0));
 		list.add(new Plane(70,50,3,this,0));
@@ -62,7 +62,7 @@ public class World
 					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 27 == 0)
+			else if(c.getType() == 5 && (steps - c.getBirth()) % 20 == 0)
 			{
 				removeEntity(c);
 			}
@@ -134,6 +134,6 @@ public class World
 	{
 		return player;
 	}
-	
+
 }
 
