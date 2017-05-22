@@ -92,8 +92,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		playerPlane = myWorld.getPlayer();
 		
 		super.addKeyListener(this);
-		start.addActionListener(new MenuStartListener()); 
-		help.requestFocus(); 
+		start.addActionListener(new MenuStartListener());
+		help.addActionListener(new MenuStartListener());
+		exit.addActionListener(new MenuStartListener());
+		start.requestFocus(); 
 
 
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,8 +183,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	public void actionPerformed(ActionEvent e)
 	{
 		steps++;
-		myWorld.act(steps);
 		myWorld.move(steps);
+		myWorld.act(steps);
 		myWorld.cleanBounds(steps);
 		if(steps % 50 == 0)
 		{
@@ -195,10 +197,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		repaint();
 		/*
 		//detect which button is cliked in the menu
-		if (start.isSelected())
-		{
-			planeLabel.requestFocusInWindow();
-		}
+
 		else if (help.isSelected())
 		{
 			Container directions = super.getContentPane();
@@ -233,6 +232,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		else
 		{
 			System.exit(0);
+>>>>>>> branch 'master' of https://github.com/ericwxz/APCSgame
 		}*/
 	}
 	private class MenuStartListener implements ActionListener
@@ -306,3 +306,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	}
 
 }
+
+
+
+

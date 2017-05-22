@@ -21,7 +21,7 @@ public class Plane extends Collidable
 	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		if(!other.collided())
+		if(other.collided())
 		{
 			switch(other.getType())
 			{
