@@ -116,7 +116,6 @@ public class World
 		{
 			if (c.getType() == 1)
 			{
-				Plane player = (Plane)c;
 				if (player.getShootState() == true)
 				{
 					player.fire(step);
@@ -149,5 +148,6 @@ public class World
 	{
 		return player;
 	}
+
 }
 

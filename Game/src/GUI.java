@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.Timer;
 
-public class GUI extends JFrame implements ActionListener
+public class GUI extends JFrame implements ActionListener, KeyListener
 {
 	private JLabel label;
 	private JLayeredPane layers; //set db to true
@@ -29,6 +29,8 @@ public class GUI extends JFrame implements ActionListener
 	private Image arrowKeys;
 	private Image spaceKey;
 	private Image escapeKey;
+	
+	private Plane playerPlane;
 
 	public GUI(World w)
 	{
@@ -87,11 +89,13 @@ public class GUI extends JFrame implements ActionListener
 		super.add(start); super.add(help); super.add(exit); 
 		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true); 
 		
+		playerPlane = myWorld.getPlayer();
+		
+		super.addKeyListener(this);
 		start.addActionListener(new MenuStartListener()); 
 		help.requestFocus(); 
 
-		
-	
+
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	super.setSize(350,700);
     	super.setVisible(true);
@@ -108,6 +112,7 @@ public class GUI extends JFrame implements ActionListener
 		Timer timer = new javax.swing.Timer(40, this); 
 		timer.start(); 
 		steps = 0; 
+		this.requestFocus();
 	}
 	public void paint(Graphics g)
 	{
@@ -170,7 +175,7 @@ public class GUI extends JFrame implements ActionListener
 					break;
 				default:
 			}
-		}
+		} 
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -238,6 +243,62 @@ public class GUI extends JFrame implements ActionListener
 			startGame();
 		}
 	}
+	
+    public void keyPressed(KeyEvent e)
+    {
+        //info from these methods needs to be passed to move method in plane
+        //probably with if statement determining if plane is player plane
+        playerPlane.clearMoveState();
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            playerPlane.setLeftMovement(true);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        	playerPlane.setRightMovement(true);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
+        	playerPlane.setUpwardsMovement(true);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        	playerPlane.setDownwardsMovement(true);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	playerPlane.setShootState(true);
+            System.out.println("space");
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            escapeExit();
+        }
+    }
+
+    private void escapeExit()
+    {
+        Object[] options = {"Yes", "No", "Cancel"};
+        int n = JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "End game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        if (n == JOptionPane.YES_OPTION)
+        {
+        	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        }
+        //check if it works on layered pane?
+    }
+
+    public void keyReleased(KeyEvent e)
+    {
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            playerPlane.setLeftMovement(false);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        	playerPlane.setRightMovement(false);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
+        	playerPlane.setUpwardsMovement(false);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        	playerPlane.setDownwardsMovement(false);
+        }
+    }
+
+    public void keyTyped(KeyEvent e) { }
+	
 	public static void main(String[] args)
 	{
 		World w = new World();

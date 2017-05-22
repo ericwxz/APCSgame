@@ -73,13 +73,13 @@ public class Plane extends Collidable
 		else
 		{
 			if(movingLeft)
-				super.moveHelper(-2, 0);
+				super.moveHelper(-5, 0);
 			else if (movingRight)
-				super.moveHelper(2, 0);
+				super.moveHelper(5, 0);
 			else if(movingUp)
-				super.moveHelper(0, 2);
+				super.moveHelper(0, -5);
 			else if (movingDown)
-				super.moveHelper(0, -2);
+				super.moveHelper(0, 5);
 		}
 	}
 	
