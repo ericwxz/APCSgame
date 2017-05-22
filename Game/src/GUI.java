@@ -179,11 +179,16 @@ public class GUI extends JFrame implements ActionListener
 		myWorld.move(steps);
 		myWorld.act(steps);
 		myWorld.cleanBounds(steps);
-/*		if(steps % 50 == 0)
+		if(steps % 50 == 0)
 		{
 			System.out.println("it's been " + steps + " ticks");
 		}
+		if(steps % 70 == 0)
+		{
+			myWorld.spawnWave(steps);
+		}
 		repaint();
+		/*
 		//detect which button is cliked in the menu
 		if (start.isSelected())
 		{

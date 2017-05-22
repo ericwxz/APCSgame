@@ -13,10 +13,6 @@ public class World
 		list = new ArrayList<Collidable>();
 		player = new Plane(135,500,1,this,20);
 		list.add(player);
-		list.add(new Plane(135,0,3,this,0));
-		list.add(new Plane(70,50,3,this,0));
-		list.add(new Plane(200,50,3,this,0));
-		
 	}
 	
 	public void setGui(GUI g)
@@ -39,9 +35,22 @@ public class World
 		}
 	}
 	
-	public void spawnWave()
+	public void spawnWave(int step)
 	{
-		
+		int enemies = (int)(Math.random()*3) + 1;
+		for(int k = 0; k < enemies; k++)
+		{
+			int j = (int) (Math.random() * 2);
+			switch (j)
+			{
+				case 1:
+					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
+					break;
+				case 0:
+					add(new Projectile(15 + (int)(270*Math.random()),-39,4,this,1,step));
+					break;
+			}
+		}
 	}
 	
 	//collidables outside of the frame are banished forver into cyberspace. also dead planes
@@ -61,7 +70,7 @@ public class World
 			else if(c.getType() == 1 || c.getType() == 3)
 			{
 				Plane pl = (Plane) c;
-				if(pl.getLife() <= 0)
+				if(pl.getLife() == 0)
 				{
 					pl.destroy();
 					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));

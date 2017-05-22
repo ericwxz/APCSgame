@@ -2,6 +2,7 @@ public class Plane extends Collidable
 {
 	private int life;
 	private int imageState;
+	private int speed;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
@@ -61,7 +62,6 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
-		imageState = 0;
 	}
 	
 	public void move()
