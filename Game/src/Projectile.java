@@ -33,6 +33,7 @@ public class Projectile extends Collidable
 						player.hurt(getDamage());
 						System.out.println("ouch");
 						destroy();
+						setCollide(true);
 					}
 					break;
 				case 2:
@@ -41,6 +42,7 @@ public class Projectile extends Collidable
 						Projectile playerProj = (Projectile) other;
 						playerProj.destroy();
 						destroy();
+						setCollide(true);
 					}
 					break;
 				case 3:
@@ -49,6 +51,7 @@ public class Projectile extends Collidable
 						Plane enemy = (Plane) other;
 						enemy.hurt(getDamage());
 						destroy();
+						setCollide(true);
 					}
 					break;
 				case 4:
@@ -57,6 +60,7 @@ public class Projectile extends Collidable
 						Projectile enemyProj = (Projectile) other;
 						enemyProj.destroy();
 						destroy();
+						setCollide(true);
 					}
 					break;
 				case 5:

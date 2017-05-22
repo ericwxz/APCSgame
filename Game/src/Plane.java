@@ -23,16 +23,16 @@ public class Plane extends Collidable
 	{
 		if(!other.collided())
 		{
-			setCollide(true);
 			switch(other.getType())
 			{
 				case 1:
 					if(getType() == 3)
 					{
-						Plane playerPlane = (Plane) other;
+						Plane  playerPlane = (Plane) other;
 						playerPlane.hurt(3);
 						hurt(5);
 						System.out.println("enemy plane destroyed");
+						setCollide(true);
 					}
 					break;
 				case 3:
@@ -42,26 +42,30 @@ public class Plane extends Collidable
 						life-=3;
 						enemyPlane.hurt(5);
 						System.out.println("enemy plane destroyed");
+						setCollide(true);
 					}
 					break;
 				case 5:
 					break;
 			}
-		}		
+		}
 	}
 	
 	public void destroy()
 	{
 		if(getType() == 1)
+		{
 			System.out.println("you'll live on in our hearts, trooper");
+			System.exit(0);
+		}
 		getWorld().removeEntity(this);
-		System.exit(0);
 	}
 	
 	//yeowch deduct a bullet's worth of HP from the plane
 	public void hurt(int damage)
 	{
 		life -= damage;
+		setImage(0)  ;
 	}
 	
 	public void move()

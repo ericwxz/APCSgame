@@ -90,6 +90,7 @@ public class World
 		for(Collidable c: list)
 		{ 
 			tempList.add(c);
+			c.setCollide(false);
 		}
 		for (Collidable c : tempList)
 		{

@@ -181,8 +181,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	public void actionPerformed(ActionEvent e)
 	{
 		steps++;
-		myWorld.move(steps);
 		myWorld.act(steps);
+		myWorld.move(steps);
 		myWorld.cleanBounds(steps);
 		if(steps % 50 == 0)
 		{
