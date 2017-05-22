@@ -37,6 +37,7 @@ public class GUI extends JFrame implements ActionListener
 
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
+		inMenu = true; 
 		label = new JLabel("whippedee doo doo");
 		layers = new JLayeredPane();
 		container.add(layers);
@@ -78,33 +79,35 @@ public class GUI extends JFrame implements ActionListener
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
 		
+		start = new JButton("Start Game"); 
+		exit = new JButton("Exit Game"); 
+		help = new JButton("How To Play"); 
+		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
+			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
+		super.add(start); super.add(help); super.add(exit); 
+		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true); 
+		
+		start.addActionListener(new MenuStartListener()); 
+		help.requestFocus(); 
+
+		
 	
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-    	Timer timer = new javax.swing.Timer(27, this);    
-    	timer.start(); 
-    	steps = 0;
-    	timedDisplay = 20;
+
 	}
 
 	public void startGame()
 	{
-		//check to see if menu is selected
-		inMenu = true;
-		Container menu = super.getContentPane();
-		menu.setLayout(new BoxLayout(menu, 3));
-		start = new JButton("Start Game");
-		exit = new JButton("Exit Game");
-		help = new JButton("How To Play");
-		menu.add(start);
-		menu.add(exit);
-		menu.add(help);
-		start.addActionListener(this);
-		help.requestFocus();
-		//if (start is clicked)
-		//	planeLabel.requestFocusInWindow()
+		start.setVisible(false); 
+		help.setVisible(false); 
+		exit.setVisible(false); 
+		inMenu = false; 
+		Timer timer = new javax.swing.Timer(40, this); 
+		timer.start(); 
+		steps = 0; 
 	}
 	public void paint(Graphics g)
 	{
@@ -227,6 +230,7 @@ public class GUI extends JFrame implements ActionListener
 		public void actionPerformed(ActionEvent e)
 		{
 			inMenu = false;
+			startGame();
 		}
 	}
 	public static void main(String[] args)
