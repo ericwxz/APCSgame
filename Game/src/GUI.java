@@ -112,6 +112,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		Timer timer = new javax.swing.Timer(40, this); 
 		timer.start(); 
 		steps = 0; 
+		this.requestFocus();
 	}
 	public void paint(Graphics g)
 	{
