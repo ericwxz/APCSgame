@@ -39,6 +39,11 @@ public class World
 		}
 	}
 	
+	public void spawnWave()
+	{
+		
+	}
+	
 	//collidables outside of the frame are banished forver into cyberspace. also dead planes
 	public void cleanBounds(int steps)
 	{
