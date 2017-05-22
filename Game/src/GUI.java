@@ -230,6 +230,7 @@ public class GUI extends JFrame implements ActionListener
 		public void actionPerformed(ActionEvent e)
 		{
 			inMenu = false;
+			startGame();
 		}
 	}
 	public static void main(String[] args)
