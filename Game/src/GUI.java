@@ -19,6 +19,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bbullet;
 	private Image explo;
 	private Image hurtplane;
+	private Image hurtbplane;
 	private Image hp;
 	private Image gun;
 	private int steps;
@@ -56,6 +57,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon bplaney = new ImageIcon("enemyPlane.gif");
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtbplaney = new ImageIcon("enemyDamage.gif");
+		hurtbplane = hurtbplaney.getImage();
+		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
 		
 		ImageIcon bullety = new ImageIcon("playerBullet.gif");
 		bullet = bullety.getImage();
@@ -167,7 +172,26 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
 				case 3:
-					g.drawImage(bplane, c.getLat(), c.getLong(), this);
+					Plane b = (Plane) c;
+					switch(b.getImageState())
+					{
+						case 3:
+							g.drawImage(bplane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								b.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								b.setImage(3);
+							}
+							g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 4:
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
