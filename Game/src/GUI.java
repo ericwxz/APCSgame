@@ -31,12 +31,23 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image escapeKey;
 	
 	private Plane playerPlane;
+	
+	private String playerHelp;
 
 	public GUI(World w)
 	{
 		super("aerial ace");
 		myWorld = w;
 
+		playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
+				+ "is to defeat as many enemy planes as possible. You have 5 lives"
+				+ " initially, and every time you get hit by an enemy bullet, you"
+				+ " lose 1 life. If you collide with an enemy plane... ouch!" +
+				" That's 3 lives gone! When you are out of lives, your mission "
+				+ "must be aborted. Good luck, soldier! We have faith in you."
+				+ "\n" + "Use arrow keys to change your plane's position"
+			    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+		
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
@@ -193,55 +204,28 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			myWorld.spawnWave(steps);
 		}
 		repaint();
-		/*
-		//detect which button is cliked in the menu
-		if (start.isSelected())
-		{
-			planeLabel.requestFocusInWindow();
-		}
-		else if (help.isSelected())
-		{
-			Container directions = super.getContentPane();
-
-			howToPlay = new JTextArea(100,50);
-			
-			ImageIcon arrowIcon = new ImageIcon("i love clouds.gif");
-			arrowKeys = arrowIcon.getImage();
-			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
-			
-			ImageIcon spaceIcon = new ImageIcon("i love clouds.gif");
-			spaceKey = spaceIcon.getImage();
-			spaceKey = spaceKey.getScaledInstance(100,100,1);
-
-			ImageIcon escapeIcon = new ImageIcon("i love clouds.gif");
-			escapeKey = escapeIcon.getImage();
-			escapeKey = escapeKey.getScaledInstance(100,100,1);
-
-			directions.add(howToPlay);
-
-			String playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-								+ "is to defeat as many enemy planes as possible. You have 5 lives"
-								+ " initially, and every time you get hit by an enemy bullet, you"
-								+ " lose 1 life. If you collide with an enemy plane... ouch!" +
-								" That's 3 lives gone! When you are out of lives, your mission "
-								+ "must be aborted. Good luck, soldier! We have faith in you."
-								+ "\n" + "Use arrow keys to change your plane's position"
-							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
-								
-			howToPlay.setText(playerHelp);
-		}
-		else
-		{
-			System.exit(0);
-		}*/
+		
 	}
 	private class MenuStartListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			if (e.getSource() == start) {
 			inMenu = false;
 			startGame();
+			}
+			else if (e.getSource() == help)
+			{
+				JOptionPane.showMessageDialog(help.getRootPane(), playerHelp);
+			}
+			else if (e.getSource() == exit) {
+				escapeExit();
+			}
 		}
+	}
+	
+	private JFrame returnSelf(){
+		return this;
 	}
 	
     public void keyPressed(KeyEvent e)
@@ -278,7 +262,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         {
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
-        //check if it works on layered pane?
     }
 
     public void keyReleased(KeyEvent e)
