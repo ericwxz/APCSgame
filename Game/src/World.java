@@ -7,11 +7,13 @@ public class World
 	private final int MAX_HEIGHT = 1000;
 	private ArrayList<Collidable> list;
 	private GUI myG;
+	private Plane player;
 	public World()
 	{
 		list = new ArrayList<Collidable>();
-		list.add(new Plane(135,700,1,this,20));
-		list.add(new Plane(135,100,3,this,0));
+		player = new Plane(135,700,1,this,20);
+		list.add(player);
+		list.add(new Plane(135,0,3,this,0));
 		list.add(new Plane(70,50,3,this,0));
 		list.add(new Plane(200,50,3,this,0));
 		
@@ -100,7 +102,6 @@ public class World
 		{
 			if (c.getType() == 1)
 			{
-				Plane player = (Plane)c;
 				if (player.getShootState() == true)
 				{
 					player.fire(step);
@@ -127,6 +128,11 @@ public class World
 	public ArrayList<Collidable> getList()
 	{
 		return list;
+	}
+	
+	public Plane getPlayer()
+	{
+		return player;
 	}
 	
 }
