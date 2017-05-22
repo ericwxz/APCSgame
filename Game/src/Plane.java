@@ -21,7 +21,7 @@ public class Plane extends Collidable
 	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		if(!other.collided())
+		if(other.collided())
 		{
 			setCollide(true);
 			switch(other.getType())
@@ -53,9 +53,11 @@ public class Plane extends Collidable
 	public void destroy()
 	{
 		if(getType() == 1)
+		{	
 			System.out.println("you'll live on in our hearts, trooper");
-		getWorld().removeEntity(this);
-		System.exit(0);
+			getWorld().removeEntity(this);
+			System.exit(0);
+		}
 	}
 	
 	//yeowch deduct a bullet's worth of HP from the plane
