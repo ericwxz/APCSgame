@@ -92,8 +92,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		playerPlane = myWorld.getPlayer();
 		
 		super.addKeyListener(this);
-		start.addActionListener(new MenuStartListener()); 
-		help.requestFocus(); 
+		start.addActionListener(new MenuStartListener());
+		help.addActionListener(new MenuStartListener());
+		exit.addActionListener(new MenuStartListener());
+		start.requestFocus(); 
 
 
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,10 +197,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		repaint();
 		/*
 		//detect which button is cliked in the menu
-		if (start.isSelected())
-		{
-			planeLabel.requestFocusInWindow();
-		}
+
 		else if (help.isSelected())
 		{
 			Container directions = super.getContentPane();
@@ -235,38 +234,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			System.exit(0);
 		}*/
 	}
-	private class MenuStartListener extends JFrame implements ActionListener
+	private class MenuStartListener implements ActionListener
 	{
-		private JButton start; private JButton exit; private JButton help;
-		private JTextArea howToPlay;
-		private Image arrowKeys;
-		private Image spaceKey;
-		private Image escapeKey;
-		
-		public MenuStartListener()
-		{
-			Container container = super.getContentPane();
-			container.setLayout(new BoxLayout(container, 3));
-			inMenu = true;
-			start = new JButton("Start Game");
-			help = new JButton("How To Play");
-			exit = new JButton("Exit Game");
-			label = new JLabel("whippedee doo doo");
-			layers = new JLayeredPane();
-			container.add(start);
-			container.add(help);
-			container.add(exit);
-			container.add(layers);
-			layers.add(label, JLayeredPane.DEFAULT_LAYER);
-		}
-		
 		public void actionPerformed(ActionEvent e)
 		{
-			if (start.isSelected())
-			{
-				inMenu = false;
-				startGame();
-			}
+			inMenu = false;
+			startGame();
 		}
 	}
 	
@@ -332,3 +305,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	}
 
 }
+
+
+
+
