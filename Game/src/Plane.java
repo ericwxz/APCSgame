@@ -54,6 +54,7 @@ public class Plane extends Collidable
 		if(getType() == 1)
 			System.out.println("you'll live on in our hearts, trooper");
 		getWorld().removeEntity(this);
+		System.exit(0);
 	}
 	
 	//yeowch deduct a bullet's worth of HP from the plane
