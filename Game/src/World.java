@@ -68,6 +68,8 @@ public class World
 			if(!isValid(c))
 			{
 				removeEntity(c);
+				if (c.getType() == 3)
+					addScore(-1000);
 			}
 			else if(c.getType() == 1 || c.getType() == 3)
 			{
@@ -157,7 +159,7 @@ public class World
 	}
 	public void addScore(int addy)
 	{
-		score -= addy;
+		score += addy;
 	}
 
 }
