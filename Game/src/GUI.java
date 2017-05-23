@@ -19,6 +19,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bbullet;
 	private Image explo;
 	private Image hurtplane;
+	private Image hurtbplane;
 	private Image hp;
 	private Image gun;
 	private int steps;
@@ -31,22 +32,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image escapeKey;
 	
 	private Plane playerPlane;
-	
-	private String playerHelp;
 
 	public GUI(World w)
 	{
 		super("aerial ace");
 		myWorld = w;
-
-		playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-				+ "is to defeat as many enemy planes as possible. You have 5 lives"
-				+ " initially, and every time you get hit by an enemy bullet, you"
-				+ " lose 1 life. If you collide with an enemy plane... ouch!" +
-				" That's 3 lives gone! When you are out of lives, your mission "
-				+ "must be aborted. Good luck, soldier! We have faith in you."
-				+ "\n" + "Use arrow keys to change your plane's position"
-			    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+		
+		ClassLoader cldr = this.getClass().getClassLoader();
 		
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
@@ -56,39 +48,43 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		
-		ImageIcon planey = new ImageIcon("playerPlane.gif");
+		ImageIcon planey = new ImageIcon(cldr.getResource("playerPlane.gif"));
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
-		ImageIcon hurtplaney = new ImageIcon("planeDamage.gif");
+		ImageIcon hurtplaney = new ImageIcon(cldr.getResource("planeDamage.gif"));
 		hurtplane = hurtplaney.getImage();
 		hurtplane = hurtplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bplaney = new ImageIcon("enemyPlane.gif");
+		ImageIcon bplaney = new ImageIcon(cldr.getResource("enemyPlane.gif"));
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bullety = new ImageIcon("playerBullet.gif");
+		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
+		hurtbplane = hurtbplaney.getImage();
+		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
+		
+		ImageIcon bullety = new ImageIcon(cldr.getResource("playerBullet.gif"));
 		bullet = bullety.getImage();
 		bullet = bullet.getScaledInstance(50,50,1);
 		
-		ImageIcon bbullety = new ImageIcon("enemyBullet.gif");
+		ImageIcon bbullety = new ImageIcon(cldr.getResource("enemyBullet.gif"));
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		ImageIcon exploy = new ImageIcon("explosion.gif");
+		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
 		
-		ImageIcon hpy = new ImageIcon("hpBar.gif");
+		ImageIcon hpy = new ImageIcon(cldr.getResource("hpBar.gif"));
 		hp = hpy.getImage();
 		hp = hp.getScaledInstance(80,80,1);
 		
-		ImageIcon guny = new ImageIcon("weapon1.gif");
+		ImageIcon guny = new ImageIcon(cldr.getResource("weapon1.gif"));
 		gun = guny.getImage();
 		gun = gun.getScaledInstance(80,80,1);
 		
-		ImageIcon bgGif = new ImageIcon("backgroundImg.gif");
+		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
 		
@@ -103,8 +99,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		playerPlane = myWorld.getPlayer();
 		
 		super.addKeyListener(this);
-		start.addActionListener(new MenuStartListener()); 
-		help.requestFocus(); 
+		start.addActionListener(new MenuStartListener());
+		help.addActionListener(new MenuStartListener());
+		exit.addActionListener(new MenuStartListener());
+		start.requestFocus(); 
 
 
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -176,7 +174,26 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
 				case 3:
-					g.drawImage(bplane, c.getLat(), c.getLong(), this);
+					Plane b = (Plane) c;
+					switch(b.getImageState())
+					{
+						case 3:
+							g.drawImage(bplane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								b.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								b.setImage(3);
+							}
+							g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 4:
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
@@ -204,28 +221,53 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			myWorld.spawnWave(steps);
 		}
 		repaint();
-		
+		/*
+		//detect which button is cliked in the menu
+
+		else if (help.isSelected())
+		{
+			Container directions = super.getContentPane();
+
+			howToPlay = new JTextArea(100,50);
+			
+			ImageIcon arrowIcon = new ImageIcon("i love clouds.gif");
+			arrowKeys = arrowIcon.getImage();
+			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
+			
+			ImageIcon spaceIcon = new ImageIcon("i love clouds.gif");
+			spaceKey = spaceIcon.getImage();
+			spaceKey = spaceKey.getScaledInstance(100,100,1);
+
+			ImageIcon escapeIcon = new ImageIcon("i love clouds.gif");
+			escapeKey = escapeIcon.getImage();
+			escapeKey = escapeKey.getScaledInstance(100,100,1);
+
+			directions.add(howToPlay);
+
+			String playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
+								+ "is to defeat as many enemy planes as possible. You have 5 lives"
+								+ " initially, and every time you get hit by an enemy bullet, you"
+								+ " lose 1 life. If you collide with an enemy plane... ouch!" +
+								" That's 3 lives gone! When you are out of lives, your mission "
+								+ "must be aborted. Good luck, soldier! We have faith in you."
+								+ "\n" + "Use arrow keys to change your plane's position"
+							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+								
+			howToPlay.setText(playerHelp);
+		}
+		else
+		{
+			System.exit(0);
+>>>>>>> branch 'master' of https://github.com/ericwxz/APCSgame
+		}*/
 	}
 	private class MenuStartListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if (e.getSource() == start) {
 			inMenu = false;
 			startGame();
-			}
-			else if (e.getSource() == help)
-			{
-				JOptionPane.showMessageDialog(help.getRootPane(), playerHelp);
-			}
-			else if (e.getSource() == exit) {
-				escapeExit();
-			}
 		}
-	}
-	
-	private JFrame returnSelf(){
-		return this;
 	}
 	
     public void keyPressed(KeyEvent e)
@@ -262,6 +304,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         {
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
+        //check if it works on layered pane?
     }
 
     public void keyReleased(KeyEvent e)
@@ -289,3 +332,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	}
 
 }
+
+
+
+
+
+

@@ -76,7 +76,7 @@ public class World
 					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 20 == 0)
+			else if(c.getType() == 5 && (steps - c.getBirth()) % 15  == 0)
 			{
 				removeEntity(c);
 			}
@@ -90,6 +90,7 @@ public class World
 		for(Collidable c: list)
 		{ 
 			tempList.add(c);
+			c.setCollide(false);
 		}
 		for (Collidable c : tempList)
 		{
