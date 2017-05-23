@@ -2,6 +2,7 @@ public class Plane extends Collidable
 {
 	private int life;
 	private int imageState;
+	private int speed;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
@@ -20,18 +21,18 @@ public class Plane extends Collidable
 	//who's hitting me.... and who am i??? important questions for what happens
 	public void hitResult(Collidable other)
 	{
-		if(!other.collided())
+		if(other.collided())
 		{
-			setCollide(true);
 			switch(other.getType())
 			{
 				case 1:
 					if(getType() == 3)
 					{
-						Plane playerPlane = (Plane) other;
+						Plane  playerPlane = (Plane) other;
 						playerPlane.hurt(3);
 						hurt(5);
 						System.out.println("enemy plane destroyed");
+						setCollide(true);
 					}
 					break;
 				case 3:
@@ -41,18 +42,22 @@ public class Plane extends Collidable
 						life-=3;
 						enemyPlane.hurt(5);
 						System.out.println("enemy plane destroyed");
+						setCollide(true);
 					}
 					break;
 				case 5:
 					break;
 			}
-		}		
+		}
 	}
 	
 	public void destroy()
 	{
 		if(getType() == 1)
+		{
 			System.out.println("you'll live on in our hearts, trooper");
+			System.exit(0);
+		}
 		getWorld().removeEntity(this);
 	}
 	
@@ -60,7 +65,7 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
-		imageState = 0;
+		setImage(0)  ;
 	}
 	
 	public void move()
@@ -72,13 +77,13 @@ public class Plane extends Collidable
 		else
 		{
 			if(movingLeft)
-				super.moveHelper(-2, 0);
+				super.moveHelper(-5, 0);
 			else if (movingRight)
-				super.moveHelper(2, 0);
+				super.moveHelper(5, 0);
 			else if(movingUp)
-				super.moveHelper(0, 2);
+				super.moveHelper(0, -5);
 			else if (movingDown)
-				super.moveHelper(0, -2);
+				super.moveHelper(0, 5);
 		}
 	}
 	
