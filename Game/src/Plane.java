@@ -35,7 +35,7 @@ public class Plane extends Collidable
 						hurt(5);
 						System.out.println("enemy plane destroyed");
 						setCollide(true);
-						myWorld.addScore(500);
+						myWorld.addScore(-1000);
 					}
 					break;
 				case 3:
@@ -62,6 +62,8 @@ public class Plane extends Collidable
 			System.out.println("you'll live on in our hearts, trooper");
 			System.exit(0);
 		}
+		else
+			myWorld.addScore(500);
 		getWorld().removeEntity(this);
 	}
 	
@@ -70,6 +72,8 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 		setImage(0)  ;
+		if (getType() == 1)
+			 myWorld.addScore(-500);
 	}
 	
 	public void move()
