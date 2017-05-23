@@ -130,7 +130,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			Image offImage = createImage(350,700);
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());
-			g.drawImage(offImage, 0, 0, null);	
+			g.drawImage(offImage, 0, 0, null);
+			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
@@ -141,6 +142,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(bg, 0, 0, this);
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
+		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		

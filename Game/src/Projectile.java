@@ -55,7 +55,7 @@ public class Projectile extends Collidable
 						enemy.hurt(getDamage());
 						destroy();
 						setCollide(true);
-						myWorld.addScore(500);
+						myWorld.addScore(100);
 					}
 					break;
 				case 4:
