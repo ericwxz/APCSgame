@@ -8,11 +8,13 @@ public class World
 	private ArrayList<Collidable> list;
 	private GUI myG;
 	private Plane player;
+	private int score;
 	public World()
 	{
 		list = new ArrayList<Collidable>();
 		player = new Plane(135,500,1,this,20);
 		list.add(player);
+		score = 0;
 	}
 	
 	public void setGui(GUI g)
@@ -148,6 +150,14 @@ public class World
 	public Plane getPlayer()
 	{
 		return player;
+	}
+	public int getScore()
+	{
+		return score;
+	}
+	public void addScore(int addy)
+	{
+		score += addy;
 	}
 
 }

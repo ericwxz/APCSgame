@@ -4,6 +4,7 @@ public class Plane extends Collidable
 	private int imageState;
 	private int speed;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
+	private World myWorld;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
@@ -16,6 +17,7 @@ public class Plane extends Collidable
 		movingUp = false;
 		movingDown = false;
 		shootNext = false; 
+		myWorld = world;
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
@@ -33,6 +35,7 @@ public class Plane extends Collidable
 						hurt(5);
 						System.out.println("enemy plane destroyed");
 						setCollide(true);
+						myWorld.addScore(500);
 					}
 					break;
 				case 3:
@@ -43,6 +46,7 @@ public class Plane extends Collidable
 						enemyPlane.hurt(5);
 						System.out.println("enemy plane destroyed");
 						setCollide(true);
+						myWorld.addScore(500);
 					}
 					break;
 				case 5:
