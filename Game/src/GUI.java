@@ -300,17 +300,20 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     {
         //info from these methods needs to be passed to move method in plane
         //probably with if statement determining if plane is player plane
-        playerPlane.clearMoveState();
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        	playerPlane.clearMoveState();
             playerPlane.setLeftMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        	playerPlane.clearMoveState();
         	playerPlane.setRightMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP) {
+        	playerPlane.clearMoveState();
         	playerPlane.setUpwardsMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        	playerPlane.clearMoveState();
         	playerPlane.setDownwardsMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
