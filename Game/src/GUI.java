@@ -26,7 +26,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private int timedDisplay;
 	private boolean inMenu;
 	private JButton start; private JButton exit; private JButton help;
-	private JTextArea howToPlay;
 	private Image arrowKeys;
 	private Image spaceKey;
 	private Image escapeKey;
@@ -99,9 +98,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		playerPlane = myWorld.getPlayer();
 		
 		super.addKeyListener(this);
-		start.addActionListener(new MenuStartListener());
-		help.addActionListener(new MenuStartListener());
-		exit.addActionListener(new MenuStartListener());
+		MenuStartListener menuHandler = new MenuStartListener(this);
+		start.addActionListener(menuHandler);
+		help.addActionListener(menuHandler);
+		exit.addActionListener(menuHandler);
 		start.requestFocus(); 
 
 
@@ -116,7 +116,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	{
 		start.setVisible(false); 
 		help.setVisible(false); 
-		exit.setVisible(false); 
+  		exit.setVisible(false); 
 		inMenu = false; 
 		Timer timer = new javax.swing.Timer(40, this); 
 		timer.start(); 
@@ -253,21 +253,45 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 								+ "\n" + "Use arrow keys to change your plane's position"
 							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
 								
-			howToPlay.setText(playerHelp);
+			howToPlay.setText(playerHelp); 
 		}
 		else
 		{
 			System.exit(0);
->>>>>>> branch 'master' of https://github.com/ericwxz/APCSgame
 		}*/
 	}
 	private class MenuStartListener implements ActionListener
 	{
+		private JFrame myFrame;
+		private String playerHelp;
+		public MenuStartListener(JFrame frame)
+		{
+			myFrame = frame;
+			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
+					+ "is to defeat as many enemy planes as possible. You have 5 lives"
+					+ " initially, and every time you get hit by an enemy bullet, you"
+					+ " lose 1 life. If you collide with an enemy plane... ouch!" +
+					" That's 3 lives gone! When you are out of lives, your mission "
+					+ "must be aborted. Good luck, soldier! We have faith in you."
+					+ "\n" + "Use arrow keys to change your plane's position"
+				    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+		}
+		
 		public void actionPerformed(ActionEvent e)
 		{
+			if (e.getSource() == start) {
 			inMenu = false;
 			startGame();
+			}
+			else if (e.getSource() == help)
+			{
+				JOptionPane.showMessageDialog(myFrame, playerHelp);
+			}
+			else if (e.getSource() == exit) {
+				escapeExit();
+			}
 		}
+
 	}
 	
     public void keyPressed(KeyEvent e)
@@ -288,8 +312,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         	playerPlane.setDownwardsMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-        	playerPlane.setShootState(true);
-            System.out.println("space");
+        	playerPlane.setShootState(true); 
         }
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             escapeExit();
@@ -298,8 +321,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 
     private void escapeExit()
     {
-        Object[] options = {"Yes", "No", "Cancel"};
-        int n = JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "End game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        Object[] options = {"Yes", "No"};
+        int n = JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (n == JOptionPane.YES_OPTION)
         {
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
