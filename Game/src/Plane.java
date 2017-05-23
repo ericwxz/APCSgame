@@ -72,7 +72,8 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 		setImage(0)  ;
-		myWorld.addScore(-500);
+		if (getType() == 1)
+			 myWorld.addScore(-500);
 	}
 	
 	public void move()
