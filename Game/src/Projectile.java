@@ -3,6 +3,7 @@ public class Projectile extends Collidable
 {
 	private int damage;
 	private boolean enemyBullet;
+	private World myWorld;
 
 	public Projectile(int xinit, int yinit, int type, World world, int livesLost, int tick)
 	{
@@ -15,6 +16,8 @@ public class Projectile extends Collidable
 			enemyBullet = true;
 		else
 			enemyBullet = false;
+		
+		myWorld = world;
 	}
 	
 
@@ -52,6 +55,7 @@ public class Projectile extends Collidable
 						enemy.hurt(getDamage());
 						destroy();
 						setCollide(true);
+						myWorld.addScore(500);
 					}
 					break;
 				case 4:
