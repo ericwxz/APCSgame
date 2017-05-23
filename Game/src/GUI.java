@@ -223,44 +223,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			myWorld.spawnWave(steps);
 		}
 		repaint();
-		/*
-		//detect which button is cliked in the menu
-
-		else if (help.isSelected())
-		{
-			Container directions = super.getContentPane();
-
-			howToPlay = new JTextArea(100,50);
-			
-			ImageIcon arrowIcon = new ImageIcon("i love clouds.gif");
-			arrowKeys = arrowIcon.getImage();
-			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
-			
-			ImageIcon spaceIcon = new ImageIcon("i love clouds.gif");
-			spaceKey = spaceIcon.getImage();
-			spaceKey = spaceKey.getScaledInstance(100,100,1);
-
-			ImageIcon escapeIcon = new ImageIcon("i love clouds.gif");
-			escapeKey = escapeIcon.getImage();
-			escapeKey = escapeKey.getScaledInstance(100,100,1);
-
-			directions.add(howToPlay);
-
-			String playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-								+ "is to defeat as many enemy planes as possible. You have 5 lives"
-								+ " initially, and every time you get hit by an enemy bullet, you"
-								+ " lose 1 life. If you collide with an enemy plane... ouch!" +
-								" That's 3 lives gone! When you are out of lives, your mission "
-								+ "must be aborted. Good luck, soldier! We have faith in you."
-								+ "\n" + "Use arrow keys to change your plane's position"
-							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
-								
-			howToPlay.setText(playerHelp); 
-		}
-		else
-		{
-			System.exit(0);
-		}*/
 	}
 	private class MenuStartListener implements ActionListener
 	{
@@ -270,13 +232,14 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myFrame = frame;
 			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-					+ "is to defeat as many enemy planes as possible. You have 5 lives"
+					+ "is to defeat as many enemy planes as possible. \nYou have 5 lives"
 					+ " initially, and every time you get hit by an enemy bullet, you"
-					+ " lose 1 life. If you collide with an enemy plane... ouch!" +
-					" That's 3 lives gone! When you are out of lives, your mission "
-					+ "must be aborted. Good luck, soldier! We have faith in you."
-					+ "\n" + "Use arrow keys to change your plane's position"
-				    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
+					+ " lose 1 life. \nIf you collide with an enemy plane... ouch!" 
+					+ " That's 3 lives gone! When you are out of lives, \nyour mission "
+					+ "must be aborted. "
+					+ "\n" + "Good luck, soldier! We have faith in you."
+					+ "\n\n" + "Directions: \n" + "Change your plane's position with the arrow keys, hit space to fire," 
+					+ " and press Esc to exit.";
 		}
 		
 		public void actionPerformed(ActionEvent e)
@@ -298,8 +261,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
     public void keyPressed(KeyEvent e)
     {
-        //info from these methods needs to be passed to move method in plane
-        //probably with if statement determining if plane is player plane
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
         	playerPlane.clearMoveState();
             playerPlane.setLeftMovement(true);
