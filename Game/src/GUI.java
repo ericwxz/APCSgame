@@ -37,7 +37,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	{
 		super("aerial ace");
 		myWorld = w;
-
+		
+		ClassLoader cldr = this.getClass().getClassLoader();
+		
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
@@ -46,43 +48,43 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		
-		ImageIcon planey = new ImageIcon("playerPlane.gif");
+		ImageIcon planey = new ImageIcon(cldr.getResource("playerPlane.gif"));
 		plane = planey.getImage();
 		plane = plane.getScaledInstance(80,80,1);
 		
-		ImageIcon hurtplaney = new ImageIcon("planeDamage.gif");
+		ImageIcon hurtplaney = new ImageIcon(cldr.getResource("planeDamage.gif"));
 		hurtplane = hurtplaney.getImage();
 		hurtplane = hurtplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bplaney = new ImageIcon("enemyPlane.gif");
+		ImageIcon bplaney = new ImageIcon(cldr.getResource("enemyPlane.gif"));
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
-		ImageIcon hurtbplaney = new ImageIcon("enemyDamage.gif");
+		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bullety = new ImageIcon("playerBullet.gif");
+		ImageIcon bullety = new ImageIcon(cldr.getResource("playerBullet.gif"));
 		bullet = bullety.getImage();
 		bullet = bullet.getScaledInstance(50,50,1);
 		
-		ImageIcon bbullety = new ImageIcon("enemyBullet.gif");
+		ImageIcon bbullety = new ImageIcon(cldr.getResource("enemyBullet.gif"));
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
 		
-		ImageIcon exploy = new ImageIcon("explosion.gif");
+		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
 		
-		ImageIcon hpy = new ImageIcon("hpBar.gif");
+		ImageIcon hpy = new ImageIcon(cldr.getResource("hpBar.gif"));
 		hp = hpy.getImage();
 		hp = hp.getScaledInstance(80,80,1);
 		
-		ImageIcon guny = new ImageIcon("weapon1.gif");
+		ImageIcon guny = new ImageIcon(cldr.getResource("weapon1.gif"));
 		gun = guny.getImage();
 		gun = gun.getScaledInstance(80,80,1);
 		
-		ImageIcon bgGif = new ImageIcon("backgroundImg.gif");
+		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,700,1);
 		
