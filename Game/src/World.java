@@ -62,7 +62,7 @@ public class World
 					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 20 == 0)
+			else if(c.getType() == 5 && (steps - c.getBirth()) % 18 == 0)
 			{
 				removeEntity(c);
 			}
