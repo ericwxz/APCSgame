@@ -86,7 +86,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
-		bg = bg.getScaledInstance(350,700,1);
+		bg = bg.getScaledInstance(350,1050,1);
 		
 		start = new JButton("Start Game"); 
 		exit = new JButton("Exit Game"); 
@@ -138,7 +138,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.clearRect(0, 0, 350, 700);
 		super.paint(g);
 
-		g.drawImage(bg, 0, 0, this);
+		g.drawImage(bg, 0, -265 +(steps % 254), this);
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		int hpGone = (5-myWorld.getPlayer().getLife());
