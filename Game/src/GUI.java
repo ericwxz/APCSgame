@@ -93,7 +93,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		help = new JButton("How To Play"); 
 		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
 			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
-		super.add(start); super.add(help); super.add(exit); 
+		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.PAGE_AXIS));
+		super.add(new JLabel(" ")); super.add(start); super.add(new JLabel(" "));
+		super.add(help); super.add(new JLabel(" ")); super.add(exit); 
 		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true); 
 		
 		playerPlane = myWorld.getPlayer();
