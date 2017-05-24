@@ -9,6 +9,7 @@ public class World
 	private GUI myG;
 	private Plane player;
 	private int score;
+	private boolean inGameOver;
 	public World()
 	{
 		list = new ArrayList<Collidable>();
@@ -78,6 +79,10 @@ public class World
 				{
 					pl.destroy();
 					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
+					if(c.getType() == 1)
+					{
+						setGameOver(true);
+					}
 				}
 			}
 			else if(c.getType() == 5 && (steps - c.getBirth()) % 15  == 0)
@@ -160,6 +165,17 @@ public class World
 	{
 		score += addy;
 	}
+	
+	public boolean getGameOver()
+	{
+		return inGameOver;
+	}
+	
+	public void setGameOver(boolean bool)
+	{
+		inGameOver = bool;
+	}
+	
 
 }
 

@@ -73,7 +73,6 @@ public class Plane extends Collidable
 		if(getType() == 1)
 		{
 			System.out.println("you'll live on in our hearts, trooper");
-			System.exit(0);
 		}
 		else
 			myWorld.addScore(500);

@@ -15,6 +15,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private World myWorld;
 
 	private Image bg;
+	private Image go;
 	private Image plane;
 	private Image bplane;
 	private Image bullet;
@@ -27,6 +28,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private int steps;
 	private int timedDisplay;
 	private boolean inMenu;
+	private boolean inGameOver;
 	private JButton start; private JButton exit; private JButton help;
 	private Image arrowKeys;
 	private Image spaceKey;
@@ -44,6 +46,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
+		inGameOver = false;
 		label = new JLabel("whippedee doo doo");
 		layers = new JLayeredPane();
 		container.add(layers);
@@ -89,6 +92,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		bg = bgGif.getImage();
 		bg = bg.getScaledInstance(350,1050,1);
 		
+		ImageIcon goGif = new ImageIcon(cldr.getResource("winstonChurchill.gif"));
+		go = goGif.getImage();
+		go = go.getScaledInstance(350,700,1);
+		
 		start = new JButton("Start Game"); 
 		exit = new JButton("Exit Game"); 
 		help = new JButton("How To Play"); 
@@ -127,7 +134,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	}
 	public void paint(Graphics g)
 	{
-		if (inMenu == false)
+		if (inMenu == false && inGameOver == false)
 		{
 			Image offImage = createImage(350,700);
 			Graphics buffer = offImage.getGraphics();
@@ -135,6 +142,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
 			g.drawString("DISTANCE: " + Format.left((steps * .005),4,2) + "km", 50, 60);
+		}
+		else
+		{
+			g.drawImage(go, 0, 0, null);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
@@ -226,8 +237,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myWorld.spawnWave(steps);
 		}
+		if(myWorld.getGameOver() == true)
+		{
+			inGameOver = true;
+		}
 		repaint();
 	}
+
 	private class MenuStartListener implements ActionListener
 	{
 		private JFrame myFrame;
