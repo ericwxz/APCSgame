@@ -33,6 +33,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image arrowKeys;
 	private Image spaceKey;
 	private Image escapeKey;
+	private Timer myTime;
 	
 	private Plane playerPlane;
 
@@ -127,11 +128,20 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		help.setVisible(false); 
   		exit.setVisible(false); 
 		inMenu = false; 
-		Timer timer = new javax.swing.Timer(40, this); 
-		timer.start(); 
+		myTime = new javax.swing.Timer(40, this); 
+		myTime.start(); 
 		steps = 0; 
 		this.requestFocus();
 	}
+	
+	public void initGameOver()
+	{
+		start.setVisible(true); 
+		help.setVisible(true); 
+  		exit.setVisible(true); 
+		this.requestFocus();
+	}
+	
 	public void paint(Graphics g)
 	{
 		if (inMenu == false && inGameOver == false)
@@ -240,6 +250,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		if(myWorld.getGameOver() == true)
 		{
 			inGameOver = true;
+			initGameOver();
+			myWorld = new World();
+			myTime.stop();
+			playerPlane = myWorld.getPlayer();
 		}
 		repaint();
 	}
@@ -266,6 +280,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			if (e.getSource() == start) {
 			inMenu = false;
+			inGameOver = false;
 			startGame();
 			}
 			else if (e.getSource() == help)
