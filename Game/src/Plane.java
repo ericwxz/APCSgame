@@ -9,7 +9,7 @@ public class Plane extends Collidable
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
 		super(initX,initY,type,world, born);
-		//type = 1 means friendly bullet, type = 3 means enemybullet
+		//type = 1 means friendly bullet, type = 3 means enemybullet, type 7 = tracking
 		life = 5;
 		imageState = 3;
 		movingLeft = false;
@@ -28,7 +28,7 @@ public class Plane extends Collidable
 			switch(other.getType())
 			{
 				case 1:
-					if(getType() == 3)
+					if(getType() == 3 || getType() == 7)
 					{
 						Plane  playerPlane = (Plane) other;
 						playerPlane.hurt(3);
@@ -78,7 +78,7 @@ public class Plane extends Collidable
 	
 	public void move()
 	{
-		if(this.getType() == 3)
+		if(this.getType() == 3 || getType() == 7)
 		{	
 			super.moveHelper(0, 2);
 		}
@@ -100,8 +100,10 @@ public class Plane extends Collidable
 	{
 		if(getType() == 1)
 			getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
-		else
+		else if (getType() == 3)
 			getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
+		else
+			getWorld().add(new Projectile(getLat() + 15, getLong()+50, 6, getWorld(), 1, step));
 	}
 	
 	public int getLife()

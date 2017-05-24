@@ -176,6 +176,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
 				case 3:
+				case 7:   
 					Plane b = (Plane) c;
 					switch(b.getImageState())
 					{
@@ -197,6 +198,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 							break;
 					}
 					break;
+				case 6:
 				case 4:
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;

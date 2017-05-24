@@ -15,6 +15,7 @@ public class World
 		player = new Plane(135,500,1,this,20);
 		list.add(player);
 		score = 0;
+		list.add(new Projectile(50, 50, 6, this, 1,0));
 	}
 	
 	public void setGui(GUI g)
@@ -49,7 +50,7 @@ public class World
 					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
 					break;
 				case 0:
-					add(new Projectile(15 + (int)(270*Math.random()),-39,4,this,1,step));
+					add(new Plane(15 + (int)(270*Math.random()), -39, 7, this, step));
 					break;
 			}
 		}
@@ -67,7 +68,8 @@ public class World
 		{
 			if(!isValid(c))
 			{
-				removeEntity(c);
+				if (!(c.getType() == 1))
+					removeEntity(c);
 				if (c.getType() == 3)
 					addScore(-1000);
 			}
