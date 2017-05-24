@@ -18,8 +18,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image go;
 	private Image plane;
 	private Image bplane;
+	private Image tplane;
 	private Image bullet;
 	private Image bbullet;
+	private Image brocket;
 	private Image explo;
 	private Image hurtplane;
 	private Image hurtbplane;
@@ -61,9 +63,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		hurtplane = hurtplaney.getImage();
 		hurtplane = hurtplane.getScaledInstance(80,80,1);
 		
-		ImageIcon bplaney = new ImageIcon(cldr.getResource("enemyPlane.gif"));
+		ImageIcon bplaney = new ImageIcon(cldr.getResource("trackingEnemy.gif"));
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
+		
+		ImageIcon tplaney = new ImageIcon(cldr.getResource("enemyPlane.gif"));
+		tplane = tplaney.getImage();
+		tplane = tplane.getScaledInstance(80,80,1);
 		
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
@@ -76,6 +82,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon bbullety = new ImageIcon(cldr.getResource("enemyBullet.gif"));
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
+		
+		ImageIcon brockety = new ImageIcon(cldr.getResource("enemyBomb.gif"));
+		brocket = brockety.getImage();
+		brocket = brocket.getScaledInstance(50,50,1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
