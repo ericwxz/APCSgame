@@ -1,9 +1,11 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.Timer;
+
+
+import apcslib.*;
 
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
@@ -132,6 +134,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+			g.drawString("DISTANCE: " + Format.left((steps * .005),4,2) + "km", 50, 60);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
@@ -143,6 +146,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+		g.drawString("DISTANCE: " + Format.left((steps * .005),4,2) + "km", 50, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
@@ -309,6 +313,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	playerPlane.setDownwardsMovement(false);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	playerPlane.setShootState(false); 
         }
     }
 

@@ -124,11 +124,10 @@ public class World
 				if (player.getShootState() == true)
 				{
 					player.fire(step);
-					player.setShootState(false);
 				}
 				
 			}
-			else if ((c.getType() == 3) && ((step - c.getBirth()) % 40 == 0))
+			else if ((c.getType() == 3))
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);

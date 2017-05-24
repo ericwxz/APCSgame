@@ -3,6 +3,8 @@ public class Plane extends Collidable
 	private int life;
 	private int imageState;
 	private int speed;
+	private int cooldown;
+	private int cooldownBuf;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	private World myWorld;
 	
@@ -18,6 +20,17 @@ public class Plane extends Collidable
 		movingDown = false;
 		shootNext = false; 
 		myWorld = world;
+		speed = (int)(Math.random() * 3) + 2;
+		if(type == 3)
+		{
+			cooldownBuf = (int)(Math.random() * 20) + 30;
+			cooldown = cooldownBuf;
+		}
+		else
+		{
+			cooldownBuf = 7;
+			cooldown = cooldownBuf;
+		}
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
@@ -80,7 +93,7 @@ public class Plane extends Collidable
 	{
 		if(this.getType() == 3)
 		{	
-			super.moveHelper(0, 2);
+			super.moveHelper(0, speed);
 		}
 		else
 		{
@@ -98,10 +111,16 @@ public class Plane extends Collidable
 	//give birth to a bullet a little bit in front of u
 	public void fire(int step)
 	{
-		if(getType() == 1)
-			getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
+		if(cooldown <= 0)
+		{
+			if(getType() == 1)
+				getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
+			else
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
+			cooldown = cooldownBuf;
+		}
 		else
-			getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
+			cooldown--;
 	}
 	
 	public int getLife()
