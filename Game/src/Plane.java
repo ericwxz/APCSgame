@@ -94,7 +94,7 @@ public class Plane extends Collidable
 					if (getType() == 11)
 					{
 						Plane enemyPlane = (Plane) other;
-						enemyPlane.hurt(10);
+						enemyPlane.destroy();
 						setCollide(true);
 						myWorld.addScore(1000);
 					}
