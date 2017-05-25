@@ -43,7 +43,7 @@ public class World
 		int enemies = (int)(Math.random()*3) + 1;
 		for(int k = 0; k < enemies; k++)
 		{
-			int j = (int) (Math.random() * 8);
+			int j = (int) (Math.random() * 9);
 			switch (j)
 			{
 				case 1:
@@ -59,6 +59,8 @@ public class World
 				case 7:
 					add(new Plane(player.getLat(), -39, 7, this, step));
 					break;
+				case 8:
+					add(new Powerup((int) (Math.random() * 350), (int) (Math.random() * 200), 10, this, step));
 				case 0:
 				
 			}

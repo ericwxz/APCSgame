@@ -69,6 +69,14 @@ public class Projectile extends Collidable
 						destroy();
 						setCollide(true);
 					}
+				case 10:
+					if (!enemyBullet)
+					{
+						other.destroy();
+						destroy();
+						myWorld.getPlayer().hurt(-2);
+						setCollide(true);
+					}
 				default:
 					break;
 			}
