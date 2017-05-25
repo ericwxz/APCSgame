@@ -1,9 +1,9 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.Timer;
+
 
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
@@ -13,10 +13,14 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private World myWorld;
 
 	private Image bg;
+	private Image go;
 	private Image plane;
 	private Image bplane;
+	private Image tplane;
+	private Image jplane;
 	private Image bullet;
 	private Image bbullet;
+	private Image brocket;
 	private Image explo;
 	private Image hurtplane;
 	private Image hurtbplane;
@@ -25,14 +29,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private int steps;
 	private int timedDisplay;
 	private boolean inMenu;
+	private boolean inGameOver;
 	private JButton start; private JButton exit; private JButton help;
-	private JTextArea howToPlay;
 	private Image arrowKeys;
 	private Image spaceKey;
 	private Image escapeKey;
+	private Timer myTime;
 	
 	private Plane playerPlane;
 
+	
+	public static void main(String[] args)
+	{
+		World w = new World();
+		GUI gg = new GUI(w);
+	}
+	
 	public GUI(World w)
 	{
 		super("aerial ace");
@@ -43,6 +55,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
+		inGameOver = false;
 		label = new JLabel("whippedee doo doo");
 		layers = new JLayeredPane();
 		container.add(layers);
@@ -60,6 +73,14 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
+		ImageIcon tplaney = new ImageIcon(cldr.getResource("trackingEnemy.gif"));
+		tplane = tplaney.getImage();
+		tplane = tplane.getScaledInstance(80,80,1);
+		
+		ImageIcon jplaney = new ImageIcon(cldr.getResource("jetEnemy.gif"));
+		jplane = jplaney.getImage();
+		jplane = jplane.getScaledInstance(80,80,1);
+		
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
@@ -71,6 +92,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon bbullety = new ImageIcon(cldr.getResource("enemyBullet.gif"));
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
+		
+		ImageIcon brockety = new ImageIcon(cldr.getResource("enemyBomb.gif"));
+		brocket = brockety.getImage();
+		brocket = brocket.getScaledInstance(50,50,1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
@@ -86,24 +111,44 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
-		bg = bg.getScaledInstance(350,700,1);
+		bg = bg.getScaledInstance(350,1050,1);
+		
+		ImageIcon goGif = new ImageIcon(cldr.getResource("winstonChurchill.gif"));
+		go = goGif.getImage();
+		go = go.getScaledInstance(350,700,1);
 		
 		start = new JButton("Start Game"); 
 		exit = new JButton("Exit Game"); 
 		help = new JButton("How To Play"); 
+		
 		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
 			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
-		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.PAGE_AXIS));
-		super.add(new JLabel(" ")); super.add(start); super.add(new JLabel(" "));
-		super.add(help); super.add(new JLabel(" ")); super.add(exit); 
-		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true); 
+
+		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+		super.add(Box.createRigidArea(new Dimension(0,280)));
+		super.add(start); 
+		super.add(Box.createVerticalGlue());
+		super.add(help); 
+		super.add(Box.createVerticalGlue());
+		super.add(exit); 
+		super.add(Box.createRigidArea(new Dimension(0,280)));
+		
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		help.setAlignmentX(Component.CENTER_ALIGNMENT);
+		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true);
+
 		
 		playerPlane = myWorld.getPlayer();
 		
+
+		
 		super.addKeyListener(this);
-		start.addActionListener(new MenuStartListener());
-		help.addActionListener(new MenuStartListener());
-		exit.addActionListener(new MenuStartListener());
+		MenuStartListener menuHandler = new MenuStartListener(this);
+		start.addActionListener(menuHandler);
+		help.addActionListener(menuHandler);
+		exit.addActionListener(menuHandler);
 		start.requestFocus(); 
 
 
@@ -118,22 +163,36 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	{
 		start.setVisible(false); 
 		help.setVisible(false); 
-		exit.setVisible(false); 
+  		exit.setVisible(false); 
 		inMenu = false; 
-		Timer timer = new javax.swing.Timer(40, this); 
-		timer.start(); 
+		myTime = new javax.swing.Timer(40, this); 
+		myTime.start(); 
 		steps = 0; 
 		this.requestFocus();
 	}
+	
+	public void initGameOver()
+	{
+		start.setVisible(true); 
+		help.setVisible(true); 
+  		exit.setVisible(true); 
+		this.requestFocus();
+	}
+	
 	public void paint(Graphics g)
 	{
-		if (inMenu == false)
+		if (inMenu == false && inGameOver == false)
 		{
 			Image offImage = createImage(350,700);
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+			g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
+		}
+		else
+		{
+			g.drawImage(go, 0, 0, null);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
@@ -141,10 +200,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.clearRect(0, 0, 350, 700);
 		super.paint(g);
 
-		g.drawImage(bg, 0, 0, this);
+		g.drawImage(bg, 0, -265 +(steps % 254), this);
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+		g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
@@ -152,6 +212,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			switch(c.getType())
 			{
+				case 0:	
+					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					break;
 				case 1: 
 					Plane p = (Plane) c;
 					switch(p.getImageState())
@@ -177,7 +240,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				case 2:
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
-				case 3:
+				case 3:   
 					Plane b = (Plane) c;
 					switch(b.getImageState())
 					{
@@ -203,8 +266,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;
 				case 5:
-					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					g.drawImage(tplane, c.getLat(), c.getLong(), this);
 					break;
+				case 6:
+					g.drawImage(brocket, c.getLat(), c.getLong(), this);
+					break;
+				case 7:
+					g.drawImage(jplane, c.getLat(), c.getLong(), this);
 				default:
 			}
 		} 
@@ -224,76 +292,73 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myWorld.spawnWave(steps);
 		}
-		repaint();
-		/*
-		//detect which button is cliked in the menu
-
-		else if (help.isSelected())
+		if(myWorld.getGameOver() == true)
 		{
-			Container directions = super.getContentPane();
-
-			howToPlay = new JTextArea(100,50);
-			
-			ImageIcon arrowIcon = new ImageIcon("i love clouds.gif");
-			arrowKeys = arrowIcon.getImage();
-			arrowKeys = arrowKeys.getScaledInstance(100,100,1);
-			
-			ImageIcon spaceIcon = new ImageIcon("i love clouds.gif");
-			spaceKey = spaceIcon.getImage();
-			spaceKey = spaceKey.getScaledInstance(100,100,1);
-
-			ImageIcon escapeIcon = new ImageIcon("i love clouds.gif");
-			escapeKey = escapeIcon.getImage();
-			escapeKey = escapeKey.getScaledInstance(100,100,1);
-
-			directions.add(howToPlay);
-
-			String playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-								+ "is to defeat as many enemy planes as possible. You have 5 lives"
-								+ " initially, and every time you get hit by an enemy bullet, you"
-								+ " lose 1 life. If you collide with an enemy plane... ouch!" +
-								" That's 3 lives gone! When you are out of lives, your mission "
-								+ "must be aborted. Good luck, soldier! We have faith in you."
-								+ "\n" + "Use arrow keys to change your plane's position"
-							    + "\n" + "Press space to fire" + "\n" +	"Press Esc to exit";
-								
-			howToPlay.setText(playerHelp);
+			inGameOver = true;
+			initGameOver();
+			myWorld = new World();
+			myTime.stop();
+			playerPlane = myWorld.getPlayer();
 		}
-		else
-		{
-			System.exit(0);
->>>>>>> branch 'master' of https://github.com/ericwxz/APCSgame
-		}*/
+		repaint();
 	}
+
 	private class MenuStartListener implements ActionListener
 	{
+		private JFrame myFrame;
+		private String playerHelp;
+		public MenuStartListener(JFrame frame)
+		{
+			myFrame = frame;
+			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
+					+ "is to defeat as many enemy planes as possible. \nYou have 5 lives"
+					+ " initially, and every time you get hit by an enemy bullet, you"
+					+ " lose 1 life. \nIf you collide with an enemy plane... ouch!" 
+					+ " That's 3 lives gone! When you are out of lives, \nyour mission "
+					+ "must be aborted. "
+					+ "\n" + "Good luck, soldier! We have faith in you."
+					+ "\n\n" + "Directions: \n" + "Change your plane's position with the arrow keys, hit space to fire," 
+					+ " and press Esc to exit.";
+		}
+		
 		public void actionPerformed(ActionEvent e)
 		{
+			if (e.getSource() == start) {
 			inMenu = false;
+			inGameOver = false;
 			startGame();
+			}
+			else if (e.getSource() == help)
+			{
+				JOptionPane.showMessageDialog(myFrame, playerHelp);
+			}
+			else if (e.getSource() == exit) {
+				escapeExit();
+			}
 		}
+
 	}
 	
     public void keyPressed(KeyEvent e)
     {
-        //info from these methods needs to be passed to move method in plane
-        //probably with if statement determining if plane is player plane
-        playerPlane.clearMoveState();
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        	playerPlane.clearMoveState();
             playerPlane.setLeftMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        	playerPlane.clearMoveState();
         	playerPlane.setRightMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP) {
+        	playerPlane.clearMoveState();
         	playerPlane.setUpwardsMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        	playerPlane.clearMoveState();
         	playerPlane.setDownwardsMovement(true);
         }
         else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-        	playerPlane.setShootState(true);
-            System.out.println("space");
+        	playerPlane.setShootState(true); 
         }
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             escapeExit();
@@ -302,8 +367,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 
     private void escapeExit()
     {
-        Object[] options = {"Yes", "No", "Cancel"};
-        int n = JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "End game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        Object[] options = {"Yes", "No"};
+        int n = JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (n == JOptionPane.YES_OPTION)
         {
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -325,17 +390,17 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	playerPlane.setDownwardsMovement(false);
         }
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	playerPlane.setShootState(false); 
+        }
     }
 
     public void keyTyped(KeyEvent e) { }
-	
-	public static void main(String[] args)
-	{
-		World w = new World();
-		GUI gg = new GUI(w);
-	}
+
 
 }
+
+
 
 
 

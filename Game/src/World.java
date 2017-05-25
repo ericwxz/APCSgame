@@ -9,6 +9,7 @@ public class World
 	private GUI myG;
 	private Plane player;
 	private int score;
+	private boolean inGameOver;
 	public World()
 	{
 		list = new ArrayList<Collidable>();
@@ -42,15 +43,24 @@ public class World
 		int enemies = (int)(Math.random()*3) + 1;
 		for(int k = 0; k < enemies; k++)
 		{
-			int j = (int) (Math.random() * 2);
+			int j = (int) (Math.random() * 8);
 			switch (j)
 			{
 				case 1:
+				case 2:
+				case 3:
 					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
 					break;
-				case 0:
-					add(new Projectile(15 + (int)(270*Math.random()),-39,4,this,1,step));
+				case 4:
+				case 5:
+					add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
 					break;
+				case 6:
+				case 7:
+					add(new Plane(player.getLat(), -39, 7, this, step));
+					break;
+				case 0:
+				
 			}
 		}
 	}
@@ -67,20 +77,27 @@ public class World
 		{
 			if(!isValid(c))
 			{
-				removeEntity(c);
+				if (!(c.getType() == 1))
+					removeEntity(c);
+				if (c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
+					addScore(-1000);
 			}
-			else if(c.getType() == 1 || c.getType() == 3)
+			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
 			{
 				Plane pl = (Plane) c;
-				if(pl.getLife() == 0)
+				if(pl.getLife() <= 0)
 				{
 					pl.destroy();
-					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
+					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1));
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 15  == 0)
+			else if(c.getType() == 0 && (steps - c.getBirth()) % 15  == 0)
 			{
 				removeEntity(c);
+				if(player.getLife() <= 0)
+				{
+					setGameOver(true);
+				}
 			}
 		}
 	}
@@ -122,11 +139,10 @@ public class World
 				if (player.getShootState() == true)
 				{
 					player.fire(step);
-					player.setShootState(false);
 				}
 				
 			}
-			else if ((c.getType() == 3) && ((step - c.getBirth()) % 40 == 0))
+			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7)
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);
@@ -157,8 +173,19 @@ public class World
 	}
 	public void addScore(int addy)
 	{
-		score -= addy;
+		score += addy;
 	}
+	
+	public boolean getGameOver()
+	{
+		return inGameOver;
+	}
+	
+	public void setGameOver(boolean bool)
+	{
+		inGameOver = bool;
+	}
+	
 
 }
 
