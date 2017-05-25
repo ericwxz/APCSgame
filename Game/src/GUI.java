@@ -1,6 +1,9 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.Timer;
 
@@ -36,6 +39,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image spaceKey;
 	private Image escapeKey;
 	private Timer myTime;
+	private Font font;
 	
 	private Plane playerPlane;
 
@@ -50,7 +54,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	{
 		super("aerial ace");
 		myWorld = w;
-		
 		ClassLoader cldr = this.getClass().getClassLoader();
 		
 		Container container = super.getContentPane();
@@ -110,9 +113,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		gun = guny.getImage();
 		gun = gun.getScaledInstance(80,80,1);
 		
-		ImageIcon healthy = new ImageIcon(cldr.getResource("healthTemp.gif"));
+		ImageIcon healthy = new ImageIcon(cldr.getResource("hpPack.gif"));
 		healthup = healthy.getImage();
-		healthup = healthup.getScaledInstance(30, 30, 1);
+		healthup = healthup.getScaledInstance(80, 80, 1);
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
@@ -161,7 +164,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-
+		font = Font.getFont("prstartk.ttf");
 	}
 
 	public void startGame()
@@ -188,6 +191,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	{
 		if (inMenu == false && inGameOver == false)
 		{
+			g.setFont(font);
 			Image offImage = createImage(350,700);
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());

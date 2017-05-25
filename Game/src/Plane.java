@@ -84,6 +84,15 @@ public class Plane extends Collidable
 						myWorld.addScore(500);
 					}
 					break;
+				case 10:
+					if (getType() == 1)
+					{
+						other.destroy();
+						myWorld.getPlayer().hurt(-2);
+						if (myWorld.getPlayer().getLife() > 5)
+							myWorld.getPlayer().setLifeMax();
+						setCollide(true);
+					}
 			}
 		}
 	}

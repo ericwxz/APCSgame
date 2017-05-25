@@ -64,7 +64,8 @@ public class World
 				case 12:
 					add(new Plane(player.getLat(), -39, 7, this, step));
 					break;
-				case 15:
+				case 13:
+				case 14:
 					add(new Powerup((int) (Math.random() * 350), (int) (Math.random() * 200), 10, this, step));
 				case 0:
 				
