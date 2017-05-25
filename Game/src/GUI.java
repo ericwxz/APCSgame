@@ -26,6 +26,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image hurtbplane;
 	private Image hp;
 	private Image gun;
+	private Image healthup;
 	private int steps;
 	private int timedDisplay;
 	private boolean inMenu;
@@ -108,6 +109,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon guny = new ImageIcon(cldr.getResource("weapon1.gif"));
 		gun = guny.getImage();
 		gun = gun.getScaledInstance(80,80,1);
+		
+		ImageIcon healthy = new ImageIcon(cldr.getResource("healthTemp.gif"));
+		healthup = healthy.getImage();
+		healthup = healthup.getScaledInstance(30, 30, 1);
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
@@ -277,6 +282,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					break;
 				case 7:
 					g.drawImage(jplane, c.getLat(), c.getLong(), this);
+					break;
+				case 10:
+					g.drawImage(healthup, c.getLat(), c.getLong(), this);
+					break;
 				default:
 			}
 		} 
@@ -315,7 +324,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myFrame = frame;
 			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-					+ "is to defeat as many enemy planes as possible. \nYou have 5 lives"
+					+ "is to defeat as many enemy planes as possible and minize the enemy planes getting past you. \nYou have 5 lives"
 					+ " initially, and every time you get hit by an enemy bullet, you"
 					+ " lose 1 life. \nIf you collide with an enemy plane... ouch!" 
 					+ " That's 3 lives gone! When you are out of lives, \nyour mission "

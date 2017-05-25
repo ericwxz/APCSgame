@@ -7,4 +7,8 @@ public class Powerup extends Collidable
 		//9 = invincibility, 11 = stronger bullets, 13 = add one life;
 		super(xinit, yinit, powerType, world, tick);
 	}
+	public void move()
+	{
+		super.moveHelper(0, 6);
+	}
 }

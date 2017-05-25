@@ -123,7 +123,7 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 		setImage(0)  ;
-		if (getType() == 1)
+		if (getType() == 1 && damage > 0)
 			 myWorld.addScore(-500);
 	}
 	
@@ -222,6 +222,10 @@ public class Plane extends Collidable
     public void setShootState(boolean state)
     {
     	shootNext =  state;
+    }
+    public void setLifeMax()
+    {
+    	life = 5;
     }
 }
 
