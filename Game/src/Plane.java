@@ -84,6 +84,25 @@ public class Plane extends Collidable
 						myWorld.addScore(500);
 					}
 					break;
+				case 9: //invincible
+					if (getType() == 9)
+					{
+						
+					}
+					break;
+				case 11: //bullet on steroid
+					if (getType() == 11)
+					{
+						Plane enemyPlane = (Plane) other;
+						enemyPlane.hurt(10);
+						setCollide(true);
+						myWorld.addScore(1000);
+					}
+					break;
+				case 13: //add a life
+					if (getType() == 13)
+						life++;
+					break;
 			}
 		}
 	}
