@@ -120,12 +120,29 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		start = new JButton("Start Game"); 
 		exit = new JButton("Exit Game"); 
 		help = new JButton("How To Play"); 
+		
 		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
 			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
-		super.add(start); super.add(help); super.add(exit); 
-		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true); 
+
+		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+		super.add(Box.createRigidArea(new Dimension(0,280)));
+		super.add(start); 
+		super.add(Box.createVerticalGlue());
+		super.add(help); 
+		super.add(Box.createVerticalGlue());
+		super.add(exit); 
+		super.add(Box.createRigidArea(new Dimension(0,280)));
+		
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		help.setAlignmentX(Component.CENTER_ALIGNMENT);
+		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true);
+
 		
 		playerPlane = myWorld.getPlayer();
+		
+
 		
 		super.addKeyListener(this);
 		MenuStartListener menuHandler = new MenuStartListener(this);

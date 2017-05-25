@@ -104,7 +104,7 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 		setImage(0)  ;
-		if (getType() == 1)
+		if (getType() == 1 && damage > 0)
 			 myWorld.addScore(-500);
 	}
 	
