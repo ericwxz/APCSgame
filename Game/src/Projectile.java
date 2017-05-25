@@ -57,7 +57,6 @@ public class Projectile extends Collidable
 						enemy.hurt(getDamage());
 						destroy();
 						setCollide(true);
-						myWorld.addScore(100);
 					}
 					break;
 				case 4:
@@ -91,8 +90,6 @@ public class Projectile extends Collidable
 		{
 			myWorld.add(new Explosion(getLat(), getLong(), 0, myWorld, 0));
 		}
-		else
-			myWorld.addScore(500);
 		getWorld().removeEntity(this);
 	}
 	
