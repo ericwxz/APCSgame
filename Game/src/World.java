@@ -16,7 +16,6 @@ public class World
 		player = new Plane(135,500,1,this,20);
 		list.add(player);
 		score = 0;
-		list.add(new Projectile(50, 50, 6, this, 1,0));
 	}
 	
 	public void setGui(GUI g)
@@ -41,18 +40,27 @@ public class World
 	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*3) + 1;
+		int enemies = (int)(Math.random()*2) + 1;
 		for(int k = 0; k < enemies; k++)
 		{
-			int j = (int) (Math.random() * 2);
+			int j = (int) (Math.random() * 8);
 			switch (j)
 			{
 				case 1:
+				case 2:
+				case 3:
 					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
 					break;
-				case 0:
-					add(new Plane(15 + (int)(270*Math.random()), -39, 7, this, step));
+				case 4:
+				case 5:
+					add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
 					break;
+				case 6:
+				case 7:
+					add(new Plane(player.getLat(), -39, 7, this, step));
+					break;
+				case 0:
+				
 			}
 		}
 	}
@@ -71,23 +79,23 @@ public class World
 			{
 				if (!(c.getType() == 1))
 					removeEntity(c);
-				if (c.getType() == 3)
+				if (c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
 					addScore(-1000);
 			}
-			else if(c.getType() == 1 || c.getType() == 3)
+			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
 			{
 				Plane pl = (Plane) c;
-				if(pl.getLife() == 0)
+				if(pl.getLife() <= 0)
 				{
 					pl.destroy();
-					list.add(new Explosion(c.getLat(), c.getLong(), 5, this, steps-1));
+					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1));
 					if(c.getType() == 1)
 					{
 						setGameOver(true);
 					}
 				}
 			}
-			else if(c.getType() == 5 && (steps - c.getBirth()) % 15  == 0)
+			else if(c.getType() == 0 && (steps - c.getBirth()) % 15  == 0)
 			{
 				removeEntity(c);
 			}
@@ -134,7 +142,7 @@ public class World
 				}
 				
 			}
-			else if ((c.getType() == 3))
+			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7)
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);
