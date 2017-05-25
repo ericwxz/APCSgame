@@ -197,7 +197,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-			g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
+			double distance = steps * 0.005;
+			String formatTest = String.format("DISTANCE: %5.2f km", distance);
+			g.drawString(formatTest, 50, 60);
 		}
 		else
 		{
@@ -213,7 +215,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-		g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
+		double distance = steps * 0.005;
+		String formatTest = String.format("DISTANCE: %5.2f km", distance);
+		g.drawString(formatTest, 50, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
@@ -324,14 +328,19 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myFrame = frame;
 			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-					+ "is to defeat as many enemy planes as possible and minize the enemy planes getting past you. \nYou have 5 lives"
+					+ "is to defeat as many enemy planes as possible and minimize the number of enemy planes \n getting past you. \nYou have 5 lives"
 					+ " initially, and every time you get hit by an enemy bullet, you"
-					+ " lose 1 life. \nIf you collide with an enemy plane... ouch!" 
-					+ " That's 3 lives gone! When you are out of lives, \nyour mission "
-					+ "must be aborted. "
-					+ "\n" + "Good luck, soldier! We have faith in you."
+					+ " lose 1 life. \nIf you collide with a regular enemy plane... ouch!" 
+					+ " That's 3 lives gone! Bomber planes release tracking bombs that \n punch more than bullets, and occasional"
+					+ " kamikaze pilots will explode you. When you are out of lives, \nyour mission "
+					+ "must be aborted. If you run into a health drop, it will magically fix up your plane by 2 life."
+					+ "\n \n We have gamified war by assigning worthless points for certain actions. For each \n enemy"
+					+ "plane you destroy, you get +100 points. For each plane hat gets past your \n"
+					+ "defenses and reaches mother base, you get -1000 points."
+					+ "\n \n" + "Good luck, soldier! We have faith in you."
 					+ "\n\n" + "Directions: \n" + "Change your plane's position with the arrow keys, hit space to fire," 
-					+ " and press Esc to exit.";
+					+ " and press Esc to exit."
+					+ "\n \n War is heck, kiddo.";
 		}
 		
 		public void actionPerformed(ActionEvent e)
