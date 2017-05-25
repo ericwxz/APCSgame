@@ -114,7 +114,7 @@ public class Plane extends Collidable
 			System.out.println("you'll live on in our hearts, trooper");
 		}
 		else
-			myWorld.addScore(500);
+			myWorld.addScore(100);
 		getWorld().removeEntity(this);
 	}
 	
