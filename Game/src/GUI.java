@@ -193,7 +193,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-			g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
+			double distance = steps * 0.005;
+			String formatTest = String.format("DISTANCE: %5.2f km", distance);
+			g.drawString(formatTest, 50, 60);
 		}
 		else
 		{
@@ -209,7 +211,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-		g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
+		double distance = steps * 0.005;
+		String formatTest = String.format("DISTANCE: %5.2f km", distance);
+		g.drawString(formatTest, 50, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		

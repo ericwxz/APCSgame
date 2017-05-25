@@ -1,10 +1,11 @@
 
 public class Powerup extends Collidable
 {
-	public Powerup(int xinit, int yinit, int type, World world, int tick)
+	
+	public Powerup(int xinit, int yinit, int powerType, World world, int tick)
 	{
-		//type 10 = health, type 11 = ?
-		super(xinit, yinit, type, world, tick);
+		//9 = invincibility, 11 = stronger bullets, 13 = add one life;
+		super(xinit, yinit, powerType, world, tick);
 	}
 	public void move()
 	{
