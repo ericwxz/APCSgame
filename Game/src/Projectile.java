@@ -49,6 +49,7 @@ public class Projectile extends Collidable
 					}
 					break;
 				case 3:
+				case 5:
 				case 7:
 					if(!enemyBullet)
 					{
@@ -60,14 +61,6 @@ public class Projectile extends Collidable
 					}
 					break;
 				case 4:
-					if(!enemyBullet)
-					{
-						Projectile enemyProj = (Projectile) other;
-						enemyProj.destroy();
-						destroy();
-						setCollide(true);
-					}
-					break;
 				case 6:
 					if(!enemyBullet)
 					{
@@ -80,6 +73,17 @@ public class Projectile extends Collidable
 					break;
 			}
 		}
+	}
+	
+	public void destroy()
+	{
+		if(getType() == 6)
+		{
+			myWorld.add(new Explosion(getLat(), getLong(), 0, myWorld, 0));
+		}
+		else
+			myWorld.addScore(500);
+		getWorld().removeEntity(this);
 	}
 	
 	public int getDamage()
@@ -96,10 +100,12 @@ public class Projectile extends Collidable
 			Plane pplane = myWorld.getPlayer();
 			int deltax = 0;
 			if (pplane.getLat() < super.getLat())
-				deltax = -3;
+				deltax = -2;
+			else if (pplane.getLat() > super.getLat())
+				deltax = 2;
 			else
-				deltax = 3;
-			super.moveHelper(deltax,6);
+				deltax = 0;
+			super.moveHelper(deltax,5);
 				
 		}
 		else

@@ -72,19 +72,20 @@ public class Collidable
 			// create hitbox based on entity type - 1&3&7 are plane sized boxes, 2&4&6 for projectiles
 			case 1:
 			case 3:
+			case 5:
 			case 7:
-				hitBox.addPoint(myx + 70, myy + 10);
-				hitBox.addPoint(myx + 10, myy + 70);
-				hitBox.addPoint(myx + 70, myy + 70);
-				hitBox.addPoint(myx + 10, myy + 10);
+				hitBox.addPoint(myx + 65, myy + 15);
+				hitBox.addPoint(myx + 15, myy + 65);
+				hitBox.addPoint(myx + 65, myy + 65);
+				hitBox.addPoint(myx + 15, myy + 15);
 			break;
 			case 4:
 			case 2:
 			case 6:
-				hitBox.addPoint(myx + 50, myy + 10);
-				hitBox.addPoint(myx + 10, myy + 10);
-				hitBox.addPoint(myx + 50, myy + 50);
-				hitBox.addPoint(myx + 10, myy + 50);
+				hitBox.addPoint(myx + 45, myy + 15);
+				hitBox.addPoint(myx + 15, myy + 15);
+				hitBox.addPoint(myx + 45, myy + 45);
+				hitBox.addPoint(myx + 15, myy + 45);
 			break;
 		}
 	}

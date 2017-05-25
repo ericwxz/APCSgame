@@ -5,8 +5,6 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 
-import apcslib.*;
-
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
 	private JLabel label;
@@ -18,8 +16,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image go;
 	private Image plane;
 	private Image bplane;
+	private Image tplane;
+	private Image jplane;
 	private Image bullet;
 	private Image bbullet;
+	private Image brocket;
 	private Image explo;
 	private Image hurtplane;
 	private Image hurtbplane;
@@ -37,6 +38,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	private Plane playerPlane;
 
+	
+	public static void main(String[] args)
+	{
+		World w = new World();
+		GUI gg = new GUI(w);
+	}
+	
 	public GUI(World w)
 	{
 		super("aerial ace");
@@ -65,6 +73,14 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		bplane = bplaney.getImage();
 		bplane = bplane.getScaledInstance(80,80,1);
 		
+		ImageIcon tplaney = new ImageIcon(cldr.getResource("trackingEnemy.gif"));
+		tplane = tplaney.getImage();
+		tplane = tplane.getScaledInstance(80,80,1);
+		
+		ImageIcon jplaney = new ImageIcon(cldr.getResource("jetEnemy.gif"));
+		jplane = jplaney.getImage();
+		jplane = jplane.getScaledInstance(80,80,1);
+		
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
@@ -76,6 +92,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon bbullety = new ImageIcon(cldr.getResource("enemyBullet.gif"));
 		bbullet = bbullety.getImage();
 		bbullet = bbullet.getScaledInstance(50,50,1);
+		
+		ImageIcon brockety = new ImageIcon(cldr.getResource("enemyBomb.gif"));
+		brocket = brockety.getImage();
+		brocket = brocket.getScaledInstance(50,50,1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
@@ -167,7 +187,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-			g.drawString("DISTANCE: " + Format.left((steps * .005),4,2) + "km", 50, 60);
+			g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
 		}
 		else
 		{
@@ -183,7 +203,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
 		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-		g.drawString("DISTANCE: " + Format.left((steps * .005),4,2) + "km", 50, 60);
+		g.drawString("DISTANCE: " + (steps * .005) + "km", 50, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
@@ -191,6 +211,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			switch(c.getType())
 			{
+				case 0:	
+					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					break;
 				case 1: 
 					Plane p = (Plane) c;
 					switch(p.getImageState())
@@ -216,8 +239,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				case 2:
 					g.drawImage(bullet, c.getLat(), c.getLong(), this);
 					break;
-				case 3:
-				case 7:   
+				case 3:   
 					Plane b = (Plane) c;
 					switch(b.getImageState())
 					{
@@ -239,13 +261,17 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 							break;
 					}
 					break;
-				case 6:
 				case 4:
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;
 				case 5:
-					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					g.drawImage(tplane, c.getLat(), c.getLong(), this);
 					break;
+				case 6:
+					g.drawImage(brocket, c.getLat(), c.getLong(), this);
+					break;
+				case 7:
+					g.drawImage(jplane, c.getLat(), c.getLong(), this);
 				default:
 			}
 		} 
@@ -369,12 +395,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     }
 
     public void keyTyped(KeyEvent e) { }
-	
-	public static void main(String[] args)
-	{
-		World w = new World();
-		GUI gg = new GUI(w);
-	}
+
 
 }
 
