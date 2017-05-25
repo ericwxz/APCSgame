@@ -23,7 +23,7 @@ public class Plane extends Collidable
 		switch(type)
 		{
 			case 1:
-				cooldownBuf = 6;
+				cooldownBuf = 4;
 			break;
 			case 3:
 				cooldownBuf = (int)(Math.random() * 20) + 30;

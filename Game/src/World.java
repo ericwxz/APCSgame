@@ -40,7 +40,7 @@ public class World
 	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*2) + 1;
+		int enemies = (int)(Math.random()*3) + 1;
 		for(int k = 0; k < enemies; k++)
 		{
 			int j = (int) (Math.random() * 8);
@@ -89,15 +89,15 @@ public class World
 				{
 					pl.destroy();
 					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1));
-					if(c.getType() == 1)
-					{
-						setGameOver(true);
-					}
 				}
 			}
 			else if(c.getType() == 0 && (steps - c.getBirth()) % 15  == 0)
 			{
 				removeEntity(c);
+				if(player.getLife() <= 0)
+				{
+					setGameOver(true);
+				}
 			}
 		}
 	}

@@ -101,9 +101,11 @@ public class Projectile extends Collidable
 			int deltax = 0;
 			if (pplane.getLat() < super.getLat())
 				deltax = -2;
-			else
+			else if (pplane.getLat() > super.getLat())
 				deltax = 2;
-			super.moveHelper(deltax,3);
+			else
+				deltax = 0;
+			super.moveHelper(deltax,5);
 				
 		}
 		else
