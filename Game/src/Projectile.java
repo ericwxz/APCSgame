@@ -75,6 +75,8 @@ public class Projectile extends Collidable
 						other.destroy();
 						destroy();
 						myWorld.getPlayer().hurt(-2);
+						if (myWorld.getPlayer().getLife() > 5)
+							myWorld.getPlayer().setLifeMax();
 						setCollide(true);
 					}
 				default:

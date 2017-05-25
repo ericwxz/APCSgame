@@ -204,6 +204,10 @@ public class Plane extends Collidable
     {
     	shootNext =  state;
     }
+    public void setLifeMax()
+    {
+    	life = 5;
+    }
 }
 
 
