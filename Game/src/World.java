@@ -173,7 +173,7 @@ public class World
 	}
 	public void addScore(int addy)
 	{
-		score += addy;
+		score -= addy;
 	}
 	
 	public boolean getGameOver()
