@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -33,12 +34,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image healthup;
 	private int steps;
 	private int timedDisplay;
+	private int restartDelay;
 	private boolean inMenu;
 	private boolean inGameOver;
 	private JButton start; private JButton exit; private JButton help;
-	private Image arrowKeys;
-	private Image spaceKey;
-	private Image escapeKey;
 	private Timer myTime;
 	private Font font;
 	
@@ -146,6 +145,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		super.add(exit); 
 		super.add(Box.createRigidArea(new Dimension(0,280)));
 		
+		//add a method for menu screen
+		
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		help.setAlignmentX(Component.CENTER_ALIGNMENT);
 		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -184,14 +185,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		this.requestFocus();
 	}
 	
-	public void initGameOver()
-	{
-		start.setVisible(true); 
-		help.setVisible(true); 
-  		exit.setVisible(true); 
-		this.requestFocus();
-	}
-	
 	public void paint(Graphics g)
 	{
 		if (inMenu == false && inGameOver == false)
@@ -206,7 +199,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
 			g.drawString(formatTest, 50, 60);
 		}
-		else
+		else if (inGameOver == true)
 		{
 			g.drawImage(go, 0, 0, null);
 		}
@@ -320,15 +313,42 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		}
 		if(myWorld.getGameOver() == true)
 		{
-			inGameOver = true;
-			initGameOver();
-			myWorld = new World();
-			myTime.stop();
-			playerPlane = myWorld.getPlayer();
+			if(restartDelay == 0) {
+				inGameOver = true;
+				myTime.restart();
+				myTime.setDelay(1000);
+			}
+			restartDelay++;
+			System.out.println("it's been " + restartDelay + " ticks");
+			if (restartDelay == 5) {
+				myTime.setDelay(40);
+				confirmReplay();
+			}
 		}
 		repaint();
 	}
-
+	
+	private void confirmReplay()
+	{
+		Object[] options = {"Yes", "No"};
+        int n = JOptionPane.showOptionDialog(this, "Play again?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if (n == JOptionPane.YES_OPTION)
+        {
+        	myTime.stop();
+    		myWorld = new World();
+    		playerPlane = myWorld.getPlayer();
+    		inMenu = true;
+    		inGameOver = false;
+    		start.setVisible(true); 
+    		help.setVisible(true); 
+      		exit.setVisible(true); 
+    		this.requestFocus();
+    		super.setVisible(true);
+        }
+        else
+        	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+	}
+	
 	private class MenuStartListener implements ActionListener
 	{
 		private JFrame myFrame;
@@ -404,7 +424,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         {
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
-        //check if it works on layered pane?
     }
 
     public void keyReleased(KeyEvent e)
