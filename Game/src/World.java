@@ -87,8 +87,6 @@ public class World
 			{
 				if (!(c.getType() == 1))
 					removeEntity(c);
-				if (c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
-					addScore(-1000);
 			}
 			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
 			{
@@ -96,7 +94,7 @@ public class World
 				if(pl.getLife() <= 0)
 				{
 					pl.destroy();
-					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1));
+					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, true));
 				}
 			}
 			else if(c.getType() == 0 && (steps - c.getBirth()) % 15  == 0)

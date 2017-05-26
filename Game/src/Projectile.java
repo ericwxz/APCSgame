@@ -78,9 +78,9 @@ public class Projectile extends Collidable
 	public void destroy()
 	{
 		if(getType() == 6)
-		{
-			myWorld.add(new Explosion(getLat(), getLong(), 0, myWorld, 0));
-		}
+			myWorld.add(new Explosion(getLat(), getLong(), 0, myWorld, 1, true));
+		else
+			myWorld.add(new Explosion(getLat(), getLong(), 0, myWorld, 1, false));
 		getWorld().removeEntity(this);
 	}
 	

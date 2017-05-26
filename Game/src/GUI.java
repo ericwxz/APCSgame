@@ -25,6 +25,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bbullet;
 	private Image brocket;
 	private Image explo;
+	private Image bexplo;
 	private Image hurtplane;
 	private Image hurtbplane;
 	private Image hp;
@@ -104,6 +105,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
 		explo = explo.getScaledInstance(80,80,1);
+		
+		ImageIcon exp = new ImageIcon(cldr.getResource("bulletExplosion.gif"));
+		bexplo = exp.getImage();
+		bexplo = bexplo.getScaledInstance(50,50,1);
 		
 		ImageIcon hpy = new ImageIcon(cldr.getResource("hpBar.gif"));
 		hp = hpy.getImage();
@@ -226,7 +231,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			switch(c.getType())
 			{
 				case 0:	
-					g.drawImage(explo, c.getLat(), c.getLong(), this);
+					Explosion x = (Explosion) c;
+					if(x.getStyle() == true)
+						g.drawImage(explo, c.getLat(), c.getLong(), this);
+					else
+						g.drawImage(bexplo, c.getLat(), c.getLong(), this);
 					break;
 				case 1: 
 					Plane p = (Plane) c;
