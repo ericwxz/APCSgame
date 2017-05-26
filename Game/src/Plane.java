@@ -84,6 +84,34 @@ public class Plane extends Collidable
 						myWorld.addScore(500);
 					}
 					break;
+				case 10:
+					if (getType() == 1)
+					{
+						other.destroy();
+						myWorld.getPlayer().hurt(-2);
+						if (myWorld.getPlayer().getLife() > 5)
+							myWorld.getPlayer().setLifeMax();
+						setCollide(true);
+					}
+				case 9: //invincible
+					if (getType() == 9)
+					{
+						
+					}
+					break;
+				case 11: //bullet on steroid
+					if (getType() == 11)
+					{
+						Plane enemyPlane = (Plane) other;
+						enemyPlane.destroy();
+						setCollide(true);
+						myWorld.addScore(1000);
+					}
+					break;
+				case 13: //add a life
+					if (getType() == 13)
+						life++;
+					break;
 			}
 		}
 	}
@@ -95,7 +123,7 @@ public class Plane extends Collidable
 			System.out.println("you'll live on in our hearts, trooper");
 		}
 		else
-			myWorld.addScore(500);
+			myWorld.addScore(100);
 		getWorld().removeEntity(this);
 	}
 	
@@ -104,7 +132,7 @@ public class Plane extends Collidable
 	{
 		life -= damage;
 		setImage(0)  ;
-		if (getType() == 1)
+		if (getType() == 1 && damage > 0)
 			 myWorld.addScore(-500);
 	}
 	
@@ -203,6 +231,10 @@ public class Plane extends Collidable
     public void setShootState(boolean state)
     {
     	shootNext =  state;
+    }
+    public void setLifeMax()
+    {
+    	life = 5;
     }
 }
 
