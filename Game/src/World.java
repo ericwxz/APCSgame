@@ -10,12 +10,14 @@ public class World
 	private Plane player;
 	private int score;
 	private boolean inGameOver;
+	private int difficulty;
 	public World()
 	{
 		list = new ArrayList<Collidable>();
 		player = new Plane(135,500,1,this,20);
 		list.add(player);
 		score = 0;
+		difficulty = 1;
 	}
 	
 	public void setGui(GUI g)
@@ -38,9 +40,14 @@ public class World
 		}
 	}
 	
+	public void harder()
+	{
+		difficulty++;
+	}
+	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*3) + 1;
+		int enemies = (int)(Math.random()*3) + difficulty;
 		for(int k = 0; k < enemies; k++)
 		{
 			int j = (int) (Math.random() * 20);
@@ -51,21 +58,32 @@ public class World
 				case 3:
 				case 4:
 				case 5:
-				case 6:
 					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
 					break;
+				case 6:
 				case 7:
 				case 8:
 				case 9:
 				case 10:
-					add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
+					if(difficulty > 1)
+						add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
+					else
+						add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
 					break;
 				case 11:
 				case 12:
-					add(new Plane(player.getLat(), -39, 7, this, step));
-					break;
 				case 13:
 				case 14:
+					if(difficulty > 2)
+						add(new Plane(player.getLat(), -39, 7, this, step));
+					else 
+						if(difficulty > 1)
+							add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
+						else
+							add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
+					break;
+				case 15: 
+				case 16:
 					add(new Powerup((int) (Math.random() * 350), (int) (Math.random() * 200), 10, this, step));
 				case 0:
 				

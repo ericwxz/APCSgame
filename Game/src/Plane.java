@@ -11,7 +11,7 @@ public class Plane extends Collidable
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
 		super(initX,initY,type,world, born);
-		//type = 1 means friendly plane, type = 3 means normal plane, type 5 = tracking plane, type 7 = jet 
+		//type = 1 means friendly plane, type = 3 means normal plane, type 5 = tracking plane, type 7 = jet, type 9 = laser
 		life = 5;
 		imageState = 3;
 		movingLeft = false;
@@ -36,6 +36,10 @@ public class Plane extends Collidable
 			case 7:
 				cooldownBuf = 0;
 				speed = 15;
+			break;
+			case 9:
+				cooldownBuf = 0;
+				speed = 2;
 			break;
 		}
 		cooldown = cooldownBuf;
@@ -93,10 +97,14 @@ public class Plane extends Collidable
 							myWorld.getPlayer().setLifeMax();
 						setCollide(true);
 					}
-				case 9: //invincible
-					if (getType() == 9)
+				case 9: 
+					if (getType() == 1)
 					{
-						
+						Plane enemyPlane = (Plane) other;
+						life-=3;
+						enemyPlane.hurt(1);
+						setCollide(true);
+						myWorld.addScore(500);
 					}
 					break;
 				case 11: //bullet on steroid

@@ -311,6 +311,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myWorld.spawnWave(steps);
 		}
+		if(steps * .005 % 2.5 == 0)
+		{
+			myWorld.harder();
+		}
 		if(myWorld.getGameOver() == true)
 		{
 			if(restartDelay == 0) {
