@@ -22,9 +22,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bplane;
 	private Image tplane;
 	private Image jplane;
+	private Image behemoth;
 	private Image bullet;
 	private Image bbullet;
 	private Image brocket;
+	private Image bplasma;
 	private Image explo;
 	private Image bexplo;
 	private Image hurtplane;
@@ -85,6 +87,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		jplane = jplaney.getImage();
 		jplane = jplane.getScaledInstance(80,80,1);
 		
+		ImageIcon splaney = new ImageIcon(cldr.getResource("behemothEnemy.gif"));
+		behemoth = splaney.getImage();
+		behemoth = behemoth.getScaledInstance(90,90,1);
+		
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
@@ -100,6 +106,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon brockety = new ImageIcon(cldr.getResource("enemyBomb.gif"));
 		brocket = brockety.getImage();
 		brocket = brocket.getScaledInstance(50,50,1);
+		
+		ImageIcon bplasmay = new ImageIcon(cldr.getResource("plasmaBullet.gif"));
+		bplasma = bplasmay.getImage();
+		bplasma = bplasma.getScaledInstance(50,50,1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
@@ -289,7 +299,13 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				case 7:
 					g.drawImage(jplane, c.getLat(), c.getLong(), this);
 					break;
+				case 9:
+					g.drawImage(behemoth, c.getLat(), c.getLong(), this);
+					break;
 				case 10:
+					g.drawImage(bplasma, c.getLat(), c.getLong(), this);
+					break;
+				case 13:
 					g.drawImage(healthup, c.getLat(), c.getLong(), this);
 					break;
 				default:
@@ -311,7 +327,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			myWorld.spawnWave(steps);
 		}
-		if(steps * .005 % 2.5 == 0)
+		if(steps * .005 % 2 == 0)
 		{
 			myWorld.harder();
 		}

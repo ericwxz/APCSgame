@@ -9,6 +9,6 @@ public class Powerup extends Collidable
 	}
 	public void move()
 	{
-		super.moveHelper(0, 6);
+		super.moveHelper(0, 3);
 	}
 }

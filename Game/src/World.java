@@ -47,7 +47,7 @@ public class World
 	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*3) + difficulty;
+		int enemies = (int)(Math.random()*3) + difficulty - 1;
 		for(int k = 0; k < enemies; k++)
 		{
 			int j = (int) (Math.random() * 20);
@@ -58,33 +58,50 @@ public class World
 				case 3:
 				case 4:
 				case 5:
-					add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
-					break;
 				case 6:
+					add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
+					break;
 				case 7:
 				case 8:
 				case 9:
 				case 10:
 					if(difficulty > 1)
-						add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
+						add(new Plane(15 + (int)(250*Math.random()), -39, 5, this, step));
 					else
-						add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
+						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
 					break;
 				case 11:
 				case 12:
-				case 13:
-				case 14:
 					if(difficulty > 2)
-						add(new Plane(player.getLat(), -39, 7, this, step));
-					else 
-						if(difficulty > 1)
-							add(new Plane(15 + (int)(270*Math.random()), -39, 5, this, step));
-						else
-							add(new Plane(15 + (int)(270*Math.random()),-39,3,this,step));
+						add(new Plane(15 + (int)(250*Math.random()), -39, 7, this, step));
+					else if(difficulty > 1)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 5, this, step));
+					else
+						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
 					break;
-				case 15: 
+				case 13:
+					if(difficulty > 3 && !contains(new Plane(0,0,9,this,0)))
+						add(new Plane(15 + (int)(250*Math.random()), -39, 9, this, step));
+					else if(difficulty > 2)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 7, this, step));
+					else if(difficulty > 1)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 5, this, step));
+					else
+						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
+					break;
+				case 14:
+				case 15:
 				case 16:
-					add(new Powerup((int) (Math.random() * 350), (int) (Math.random() * 200), 10, this, step));
+				case 17:
+					break;
+				case 18:
+				case 19:
+					if(player.getLife() < 5)
+						add(new Powerup((int) (Math.random() * 350), -39, 13, this, step));
+					else if (difficulty > 1)
+						add(new Plane(player.getLat(), -39, 7, this, step));
+					else{}
+					break;
 				case 0:
 				
 			}
@@ -106,7 +123,7 @@ public class World
 				if (!(c.getType() == 1))
 					removeEntity(c);
 			}
-			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7)
+			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7 || c.getType() == 9)
 			{
 				Plane pl = (Plane) c;
 				if(pl.getLife() <= 0)
@@ -115,10 +132,10 @@ public class World
 					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, true));
 				}
 			}
-			else if(c.getType() == 0 && (steps - c.getBirth()) % 15  == 0)
+			else if(c.getType() == 0 && (steps - c.getBirth()) % 20  == 0)
 			{
 				removeEntity(c);
-				if(player.getLife() <= 0)
+				if(!list.contains(player))
 				{
 					setGameOver(true);
 				}
@@ -166,7 +183,7 @@ public class World
 				}
 				
 			}
-			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7)
+			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7 || c.getType() == 9)
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);
@@ -210,6 +227,15 @@ public class World
 		inGameOver = bool;
 	}
 	
+	public boolean contains(Collidable c)
+	{
+		for(Collidable d : list)
+		{
+			if(d.getType() == c.getType())
+				return true;
+		}
+		return false;
+	}
 
 }
 

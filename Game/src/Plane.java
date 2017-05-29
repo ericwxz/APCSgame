@@ -11,8 +11,8 @@ public class Plane extends Collidable
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
 		super(initX,initY,type,world, born);
-		//type = 1 means friendly plane, type = 3 means normal plane, type 5 = tracking plane, type 7 = jet, type 9 = laser
-		life = 5;
+		//type = 1 means friendly plane, type = 3 means normal plane, type 5 = tracking plane, type 7 = jet,
+		//type 9 = behemoth, type 11 = laser
 		imageState = 3;
 		movingLeft = false;
 		movingRight = false;
@@ -24,22 +24,27 @@ public class Plane extends Collidable
 		{
 			case 1:
 				cooldownBuf = 4;
+				life = 5;
 			break;
 			case 3:
-				cooldownBuf = (int)(Math.random() * 20) + 30;
-				speed = (int)(Math.random() * 3) + 2;
+				cooldownBuf = (int)(Math.random() * 30) + 20;
+				speed = (int)(Math.random() * 3) + 3;
+				life = 3;
 			break;
 			case 5:
-				cooldownBuf = 70;
-				speed = 4;
+				cooldownBuf = (int)(Math.random() * 30) + 50;
+				speed = (int)(Math.random() * 3) + 2;
+				life = 4;
 			break;
 			case 7:
 				cooldownBuf = 0;
 				speed = 15;
+				life = 2;
 			break;
 			case 9:
-				cooldownBuf = 0;
+				cooldownBuf = 50;
 				speed = 2;
+				life = 8;
 			break;
 		}
 		cooldown = cooldownBuf;
@@ -52,12 +57,14 @@ public class Plane extends Collidable
 		{
 			switch(other.getType())
 			{
+				case 0:
+				break;
 				case 1:
 					if(getType() == 3 || getType() == 5)
 					{
 						Plane  playerPlane = (Plane) other;
 						playerPlane.hurt(3);
-						hurt(5);
+						hurt(6);
 						setCollide(true);
 					}
 					else if (getType() == 7)
@@ -88,7 +95,27 @@ public class Plane extends Collidable
 						myWorld.addScore(500);
 					}
 					break;
-				case 10:
+				case 9: 
+					if (getType() == 1)
+					{
+						Plane enemyPlane = (Plane) other;
+						life-=5;
+						enemyPlane.hurt(5);
+						setCollide(true);
+						myWorld.addScore(500);
+					}
+					break;
+				case 11:
+					if (getType() == 1)
+					{
+						Plane enemyPlane = (Plane) other;
+						life-=5;
+						enemyPlane.hurt(5);
+						setCollide(true);
+						myWorld.addScore(500);
+					}
+					break;
+				case 13:
 					if (getType() == 1)
 					{
 						other.destroy();
@@ -96,22 +123,6 @@ public class Plane extends Collidable
 						if (myWorld.getPlayer().getLife() > 5)
 							myWorld.getPlayer().setLifeMax();
 						setCollide(true);
-					}
-				case 9: 
-					if (getType() == 1)
-					{
-						Plane enemyPlane = (Plane) other;
-						life-=3;
-						enemyPlane.hurt(1);
-						setCollide(true);
-						myWorld.addScore(500);
-					}
-					break;
-				case 11: //bullet on steroid
-					if (getType() == 11)
-					{
-						other.destroy();
-						myWorld.addScore(1000);
 					}
 					break;
 			}
@@ -140,20 +151,26 @@ public class Plane extends Collidable
 	
 	public void move()
 	{
-		if(this.getType() == 3 || getType() == 5 || getType() == 7)
+		if(this.getType() == 3 || getType() == 5 || getType() == 7 || getType() == 9 || getType() == 11)
 		{	
 			super.moveHelper(0, speed);
 		}
 		else
 		{
+			int s;
+			if(shootNext == true)
+				s = 4;
+			else
+				s = 7;
+			
 			if(movingLeft)
-				super.moveHelper(-5, 0);
+				super.moveHelper(-s, 0);
 			else if (movingRight)
-				super.moveHelper(5, 0);
+				super.moveHelper(s, 0);
 			else if(movingUp)
-				super.moveHelper(0, -5);
+				super.moveHelper(0, -s);
 			else if (movingDown)
-				super.moveHelper(0, 5);
+				super.moveHelper(0, s);
 		}
 	}
 	
@@ -163,11 +180,19 @@ public class Plane extends Collidable
 		if(cooldown <= 0)
 		{
 			if(getType() == 1)
-				getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), 1, step));
+				getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
 			else if (getType() == 3)
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), 1, step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), step));
 			else if (getType() == 5)
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 6, getWorld(), 3, step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 6, getWorld(), step));
+			else if (getType() == 9)
+			{
+				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+			}
 			else{}
 			
 			cooldown = cooldownBuf;
@@ -237,6 +262,10 @@ public class Plane extends Collidable
     public void setLifeMax()
     {
     	life = 5;
+    }
+    public double compareTo(Plane other)
+    {
+    	return other.getType() - getType();
     }
 }
 

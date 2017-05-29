@@ -1,23 +1,60 @@
+import java.util.ArrayList;
+
 
 public class Projectile extends Collidable
 {
 	private int damage;
 	private boolean enemyBullet;
 	private World myWorld;
+	private int xspeed;
+	private int yspeed;
 
-	public Projectile(int xinit, int yinit, int type, World world, int livesLost, int tick)
+	public Projectile(int xinit, int yinit, int type, World world, int tick)
 	{
 
 		//type = 2 means friendly bullet, type = 4 means enemybullet, type 6 = trackingbullet
 		super (xinit, yinit, type, world, tick);
-
-		damage = livesLost;
-		if (type == 4 || type == 6)
-			enemyBullet = true;
-		else
-			enemyBullet = false;
-		
 		myWorld = world;
+		
+		switch(type)
+		{
+			case 2:
+				damage = 1;
+				enemyBullet = false;
+				yspeed = -10;
+				xspeed = 0;
+				break;
+			case 4:
+				damage = 1;
+				enemyBullet = true;
+				yspeed = 7;
+				xspeed = 0;
+				break;
+			case 6:
+				damage = 3;
+				enemyBullet = true;
+				yspeed = 4;
+				xspeed = 1;
+				break;
+			case 10:
+				damage = 1;
+				enemyBullet = true;
+				int setNum = 0;
+				for(Collidable c: myWorld.getList())
+				{
+					if(c.getType() == 10)
+						setNum++;
+				}
+				setNum %= 5;
+				setNum++;
+				if(setNum == 3)
+					yspeed = 3;
+				else
+					yspeed = -1 * Math.abs(3 - setNum) + 4;
+				xspeed = -3 + 1 * setNum;
+				break;
+		}
+		
 	}
 	
 
@@ -51,6 +88,7 @@ public class Projectile extends Collidable
 				case 3:
 				case 5:
 				case 7:
+				case 9:
 					if(!enemyBullet)
 					{
 						Plane enemy = (Plane) other;
@@ -61,6 +99,7 @@ public class Projectile extends Collidable
 					break;
 				case 4:
 				case 6:
+				case 10:
 					if(!enemyBullet)
 					{
 						Projectile enemyProj = (Projectile) other;
@@ -91,23 +130,20 @@ public class Projectile extends Collidable
 	
 	public void move()
 	{
-		if(this.getType() == 4)
-			super.moveHelper(0, 6);
-		else if (this.getType() == 6)
+		if (this.getType() == 6)
 		{
 			Plane pplane = myWorld.getPlayer();
 			int deltax = 0;
 			if (pplane.getLat() < super.getLat())
-				deltax = -2;
+				deltax = 0-xspeed;
 			else if (pplane.getLat() > super.getLat())
-				deltax = 2;
+				deltax = xspeed;
 			else
 				deltax = 0;
-			super.moveHelper(deltax,5);
-				
+			super.moveHelper(deltax,yspeed);
 		}
 		else
-			super.moveHelper(0,-10);
+			super.moveHelper(xspeed, yspeed);
 	}
 
 }
