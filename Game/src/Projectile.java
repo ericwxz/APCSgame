@@ -21,7 +21,7 @@ public class Projectile extends Collidable
 			case 2:
 				damage = 1;
 				enemyBullet = false;
-				yspeed = -10;
+				yspeed = -15;
 				xspeed = 0;
 				break;
 			case 4:
@@ -33,7 +33,7 @@ public class Projectile extends Collidable
 			case 6:
 				damage = 3;
 				enemyBullet = true;
-				yspeed = 4;
+				yspeed = 5;
 				xspeed = 1;
 				break;
 			case 10:
@@ -52,6 +52,12 @@ public class Projectile extends Collidable
 				else
 					yspeed = -1 * Math.abs(3 - setNum) + 4;
 				xspeed = -3 + 1 * setNum;
+				break;
+			case 12:
+				damage = 5;
+				enemyBullet = true;
+				yspeed = 3;
+				xspeed = 0;
 				break;
 		}
 		
@@ -89,6 +95,7 @@ public class Projectile extends Collidable
 				case 5:
 				case 7:
 				case 9:
+				case 11:
 					if(!enemyBullet)
 					{
 						Plane enemy = (Plane) other;
@@ -107,7 +114,6 @@ public class Projectile extends Collidable
 						destroy();
 						setCollide(true);
 					}
-				
 				default:
 					break;
 			}
@@ -130,6 +136,7 @@ public class Projectile extends Collidable
 	
 	public void move()
 	{
+		setCollide(false);
 		if (this.getType() == 6)
 		{
 			Plane pplane = myWorld.getPlayer();

@@ -47,7 +47,7 @@ public class World
 	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*3) + difficulty - 1;
+		int enemies = (int)(Math.random()*3) + difficulty;
 		for(int k = 0; k < enemies; k++)
 		{
 			int j = (int) (Math.random() * 20);
@@ -90,6 +90,15 @@ public class World
 						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
 					break;
 				case 14:
+					if(difficulty > 3)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 11, this, step));
+					else if(difficulty > 2)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 7, this, step));
+					else if(difficulty > 1)
+						add(new Plane(15 + (int)(250*Math.random()), -39, 5, this, step));
+					else
+						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
+					break;
 				case 15:
 				case 16:
 				case 17:
@@ -123,7 +132,8 @@ public class World
 				if (!(c.getType() == 1))
 					removeEntity(c);
 			}
-			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7 || c.getType() == 9)
+			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7 || 
+					c.getType() == 9 || c.getType() == 11)
 			{
 				Plane pl = (Plane) c;
 				if(pl.getLife() <= 0)
@@ -131,6 +141,10 @@ public class World
 					pl.destroy();
 					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, true));
 				}
+			}
+			else if(c.getType() == 12 && (steps - c.getBirth()) % 10  == 0)
+			{
+				removeEntity(c);
 			}
 			else if(c.getType() == 0 && (steps - c.getBirth()) % 20  == 0)
 			{
@@ -156,7 +170,7 @@ public class World
 		{
 			c.move();
 			for (Collidable k : tempList)
-					if (c.checkCollision(k) && c != k)
+					if (c.checkCollision(k) && c != k && !k.collided())
 					{
 						c.hitResult(k);
 					}
@@ -183,7 +197,8 @@ public class World
 				}
 				
 			}
-			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7 || c.getType() == 9)
+			else if ((c.getType() == 3) || c.getType() == 5 || c.getType() == 7 
+					|| c.getType() == 9 || c.getType() == 11)
 			{
 				Plane plane = (Plane) c;
 				plane.fire(step);

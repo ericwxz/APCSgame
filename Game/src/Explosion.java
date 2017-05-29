@@ -9,7 +9,7 @@ public class Explosion extends Collidable
 	}
 	public void move()
 	{
-		moveHelper(0,3);
+		moveHelper(0,0);
 	}
 	public void setStyle(boolean plane)
 	{

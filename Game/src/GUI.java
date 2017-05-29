@@ -23,10 +23,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image tplane;
 	private Image jplane;
 	private Image behemoth;
+	private Image lplane;
 	private Image bullet;
 	private Image bbullet;
 	private Image brocket;
 	private Image bplasma;
+	private Image blaser;
 	private Image explo;
 	private Image bexplo;
 	private Image hurtplane;
@@ -91,6 +93,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		behemoth = splaney.getImage();
 		behemoth = behemoth.getScaledInstance(90,90,1);
 		
+		ImageIcon lplaney = new ImageIcon(cldr.getResource("laserEnemy.gif"));
+		lplane = lplaney.getImage();
+		lplane = lplane.getScaledInstance(80,80,1);
+		
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
@@ -110,6 +116,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon bplasmay = new ImageIcon(cldr.getResource("plasmaBullet.gif"));
 		bplasma = bplasmay.getImage();
 		bplasma = bplasma.getScaledInstance(50,50,1);
+		
+		ImageIcon blasery = new ImageIcon(cldr.getResource("laser.gif"));
+		blaser = blasery.getImage();
+		blaser = blaser.getScaledInstance(15, 800, 1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
@@ -305,6 +315,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				case 10:
 					g.drawImage(bplasma, c.getLat(), c.getLong(), this);
 					break;
+				case 11:
+					g.drawImage(lplane, c.getLat(), c.getLong(), this);
+					break;
+				case 12:
+					g.drawImage(blaser, c.getLat(), c.getLong(), this);
+					break;
 				case 13:
 					g.drawImage(healthup, c.getLat(), c.getLong(), this);
 					break;
@@ -323,7 +339,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			System.out.println("it's been " + steps + " ticks");
 		}
-		if(steps % 70 == 0)
+		if(steps % 60 == 0)
 		{
 			myWorld.spawnWave(steps);
 		}

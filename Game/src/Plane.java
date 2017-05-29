@@ -23,28 +23,33 @@ public class Plane extends Collidable
 		switch(type)
 		{
 			case 1:
-				cooldownBuf = 4;
+				cooldownBuf = 5;
 				life = 5;
 			break;
 			case 3:
 				cooldownBuf = (int)(Math.random() * 30) + 20;
-				speed = (int)(Math.random() * 3) + 3;
+				speed = (int)(Math.random() * 4) + 3;
 				life = 3;
 			break;
 			case 5:
-				cooldownBuf = (int)(Math.random() * 30) + 50;
-				speed = (int)(Math.random() * 3) + 2;
+				cooldownBuf = (int)(Math.random() * 30) + 40;
+				speed = (int)(Math.random() * 4) + 2;
 				life = 4;
 			break;
 			case 7:
 				cooldownBuf = 0;
-				speed = 15;
+				speed = (int)(Math.random() * 5) + 15;
 				life = 2;
 			break;
 			case 9:
-				cooldownBuf = 50;
+				cooldownBuf = 30;
 				speed = 2;
 				life = 8;
+			break;
+			case 11:
+				cooldownBuf = 60;
+				speed = 3;
+				life = 5;
 			break;
 		}
 		cooldown = cooldownBuf;
@@ -76,37 +81,19 @@ public class Plane extends Collidable
 					break;
 				case 3:
 				case 5:
+				case 11:
 					if(getType() == 1)
 					{
 						Plane enemyPlane = (Plane) other;
-						life-=3;
+						life -= 3;
 						enemyPlane.hurt(5);
 						setCollide(true);
 						myWorld.addScore(500);
 					}
 					break;
 				case 7:
+				case 9:
 					if(getType() == 1)
-					{
-						Plane enemyPlane = (Plane) other;
-						life-=5;
-						enemyPlane.hurt(5);
-						setCollide(true);
-						myWorld.addScore(500);
-					}
-					break;
-				case 9: 
-					if (getType() == 1)
-					{
-						Plane enemyPlane = (Plane) other;
-						life-=5;
-						enemyPlane.hurt(5);
-						setCollide(true);
-						myWorld.addScore(500);
-					}
-					break;
-				case 11:
-					if (getType() == 1)
 					{
 						Plane enemyPlane = (Plane) other;
 						life-=5;
@@ -144,13 +131,14 @@ public class Plane extends Collidable
 	public void hurt(int damage)
 	{
 		life -= damage;
-		setImage(0)  ;
+		setImage(0);
 		if (getType() == 1 && damage > 0)
 			 myWorld.addScore(-250);
 	}
 	
 	public void move()
 	{
+		setCollide(false);
 		if(this.getType() == 3 || getType() == 5 || getType() == 7 || getType() == 9 || getType() == 11)
 		{	
 			super.moveHelper(0, speed);
@@ -187,12 +175,14 @@ public class Plane extends Collidable
 				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 6, getWorld(), step));
 			else if (getType() == 9)
 			{
-				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 20, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
 			}
+			else if (getType() == 11)
+				getWorld().add(new Projectile(getLat() + 30, getLong() + 69, 12, getWorld(), step-1));
 			else{}
 			
 			cooldown = cooldownBuf;
