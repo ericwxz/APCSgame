@@ -75,7 +75,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 
 		InputStream stream = cldr.getResourceAsStream("prstartk.ttf");
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(48f);
+			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(10f);
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -243,195 +243,221 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
-			g.drawString("SCORE: " + myWorld.getScore(), 40, 50);
+			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
 			double distance = steps * 0.005;
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
-			g.drawString(formatTest, 40, 60);
+			g.drawString(formatTest, 20, 60);
 		}
 		else if (inGameOver == true)
 		{
+			super.setFont(font.deriveFont(20f));
+			Image offImage = createImage(350,700);
+			Graphics buffer = offImage.getGraphics();
+			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(go, 0, 0, null);
+			g.drawString("Final Score:",65,75);
+			g.drawString(myWorld.getScore() + "", 140, 95);
+			g.drawString("Final Distance:",40,115);
+			g.drawString(myWorld.getScore() + "km", 130, 135);
+			g.drawString("'We Shall",76,215);
+			g.drawString("Never Surrender!'",10,235);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
 	{
+		
 		g.clearRect(0, 0, 350, 700);
 		super.paint(g);
 
-		g.drawImage(bg, 0, -265 +(steps % 254), this);
-		g.drawImage(hp, 5, 640, this);
-		g.drawImage(gun, 262, 637, this);
-		g.drawString("SCORE: " + myWorld.getScore(), 40, 50);
-		double distance = steps * 0.005;
-		String formatTest = String.format("DISTANCE: %5.2f km", distance);
-		g.drawString(formatTest, 40, 60);
-		int hpGone = (5-myWorld.getPlayer().getLife());
-		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
-		
-		for(Collidable c: a)
+		if (inGameOver == true)
 		{
-			switch(c.getType())
+			g.drawImage(go, 0, 0, null);
+			super.setFont(super.getFont().deriveFont(20f));
+			g.drawString("Final Score:",65,75);
+			g.drawString(myWorld.getScore() + "", 130, 95);
+			g.drawString("Final Distance:",40,115);
+			g.drawString(myWorld.getScore() + "km", 120, 135);
+		}
+		else
+		{
+			
+			g.drawImage(bg, 0, -265 +(steps % 254), this);
+			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
+			double distance = steps * 0.005;
+			String formatTest = String.format("DISTANCE: %5.2f km", distance);
+			g.drawString(formatTest, 20, 60);
+			
+			
+			
+			for(Collidable c: a)
 			{
-				case 0:	
-					Explosion x = (Explosion) c;
-					if(x.getStyle() == true)
-						g.drawImage(explo, c.getLat(), c.getLong(), this);
-					else
-						g.drawImage(bexplo, c.getLat(), c.getLong(), this);
-					break;
-				case 1: 
-					Plane p = (Plane) c;
-					switch(p.getImageState())
-					{
-						case 3:
-							g.drawImage(plane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								p.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								p.setImage(3);
-							}
-							g.drawImage(hurtplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 2:
-					g.drawImage(bullet, c.getLat(), c.getLong(), this);
-					break;
-				case 3:   
-					Plane b = (Plane) c;
-					switch(b.getImageState())
-					{
-						case 3:
-							g.drawImage(bplane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								b.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								b.setImage(3);
-							}
-							g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 4:
-					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
-					break;
-				case 5:
-					Plane t = (Plane) c;
-					switch(t.getImageState())
-					{
-						case 3:
-							g.drawImage(tplane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								t.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								t.setImage(3);
-							}
-							g.drawImage(hurttplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 6:
-					g.drawImage(brocket, c.getLat(), c.getLong(), this);
-					break;
-				case 7:
-					Plane j = (Plane) c;
-					switch(j.getImageState())
-					{
-						case 3:
-							g.drawImage(jplane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								j.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								j.setImage(3);
-							}
-							g.drawImage(hurtjplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 9:
-					Plane z = (Plane) c;
-					switch(z.getImageState())
-					{
-						case 3:
-							g.drawImage(behemoth, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								z.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								z.setImage(3);
-							}
-							g.drawImage(hurtbehemoth, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 10:
-					g.drawImage(bplasma, c.getLat(), c.getLong(), this);
-					break;
-				case 11:
-					Plane l = (Plane) c;
-					switch(l.getImageState())
-					{
-						case 3:
-							g.drawImage(lplane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								l.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								l.setImage(3);
-							}
-							g.drawImage(hurtlplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 12:
-					g.drawImage(blaser, c.getLat(), c.getLong(), this);
-					break;
-				case 13:
-					g.drawImage(healthup, c.getLat(), c.getLong(), this);
-					break;
-				default:
-			}
-		} 
+				switch(c.getType())
+				{
+					case 0:	
+						Explosion x = (Explosion) c;
+						if(x.getStyle() == true)
+							g.drawImage(explo, c.getLat(), c.getLong(), this);
+						else
+							g.drawImage(bexplo, c.getLat(), c.getLong(), this);
+						break;
+					case 1: 
+						Plane p = (Plane) c;
+						switch(p.getImageState())
+						{
+							case 3:
+								g.drawImage(plane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									p.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									p.setImage(3);
+								}
+								g.drawImage(hurtplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 2:
+						g.drawImage(bullet, c.getLat(), c.getLong(), this);
+						break;
+					case 3:   
+						Plane b = (Plane) c;
+						switch(b.getImageState())
+						{
+							case 3:
+								g.drawImage(bplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									b.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									b.setImage(3);
+								}
+								g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 4:
+						g.drawImage(bbullet, c.getLat(), c.getLong(), this);
+						break;
+					case 5:
+						Plane t = (Plane) c;
+						switch(t.getImageState())
+						{
+							case 3:
+								g.drawImage(tplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									t.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									t.setImage(3);
+								}
+								g.drawImage(hurttplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 6:
+						g.drawImage(brocket, c.getLat(), c.getLong(), this);
+						break;
+					case 7:
+						Plane j = (Plane) c;
+						switch(j.getImageState())
+						{
+							case 3:
+								g.drawImage(jplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									j.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									j.setImage(3);
+								}
+								g.drawImage(hurtjplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 9:
+						Plane z = (Plane) c;
+						switch(z.getImageState())
+						{
+							case 3:
+								g.drawImage(behemoth, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									z.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									z.setImage(3);
+								}
+								g.drawImage(hurtbehemoth, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 10:
+						g.drawImage(bplasma, c.getLat(), c.getLong(), this);
+						break;
+					case 11:
+						Plane l = (Plane) c;
+						switch(l.getImageState())
+						{
+							case 3:
+								g.drawImage(lplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									l.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									l.setImage(3);
+								}
+								g.drawImage(hurtlplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 12:
+						g.drawImage(blaser, c.getLat(), c.getLong(), this);
+						break;
+					case 13:
+						g.drawImage(healthup, c.getLat(), c.getLong(), this);
+						break;
+					default:
+				}
+			} 
+			g.drawImage(hp, 5, 640, this);
+			g.drawImage(gun, 262, 637, this);
+			int hpGone = (5-myWorld.getPlayer().getLife());
+			g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
