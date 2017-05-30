@@ -471,15 +471,19 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         if (n == JOptionPane.YES_OPTION)
         {
         	myTime.stop();
-    		myWorld = new World();
+        	World ww = new World();
+    		myWorld = ww;
+    		ww.setGui(this);
     		playerPlane = myWorld.getPlayer();
-    		inMenu = true;
+    		restartDelay = 0;
+ //   		inMenu = true;
     		inGameOver = false;
-    		start.setVisible(true); 
-    		help.setVisible(true); 
-      		exit.setVisible(true); 
+//    		start.setVisible(true); 
+//    		help.setVisible(true); 
+//      		exit.setVisible(true); 
     		this.requestFocus();
     		super.setVisible(true);
+    		startGame();
         }
         else
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
