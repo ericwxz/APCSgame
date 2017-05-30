@@ -121,9 +121,7 @@ public class Plane extends Collidable
 	public void destroy()
 	{
 		if(getType() == 1)
-		{
-			System.out.println("you'll live on in our hearts, trooper");
-		}
+		{}
 		else
 			myWorld.addScore(100);
 		getWorld().removeEntity(this);

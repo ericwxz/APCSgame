@@ -74,7 +74,6 @@ public class Projectile extends Collidable
 				{
 					Plane player = (Plane) other;
 					player.hurt(getDamage());
-					System.out.println("ouch");
 					destroy();
 					return true;
 				}

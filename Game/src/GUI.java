@@ -33,6 +33,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bexplo;
 	private Image hurtplane;
 	private Image hurtbplane;
+	private Image hurttplane;
+	private Image hurtjplane;
+	private Image hurtlplane;
+	private Image hurtbehemoth;
 	private Image hp;
 	private Image gun;
 	private Image healthup;
@@ -100,6 +104,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurttplaney = new ImageIcon(cldr.getResource("trackingHurt.gif"));
+		hurttplane = hurttplaney.getImage();
+		hurttplane = hurttplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtjplaney = new ImageIcon(cldr.getResource("jetHurt.gif"));
+		hurtjplane = hurtjplaney.getImage();
+		hurtjplane = hurtjplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtlplaney = new ImageIcon(cldr.getResource("laserHurt.gif"));
+		hurtlplane = hurtlplaney.getImage();
+		hurtlplane = hurtlplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtbehemothy = new ImageIcon(cldr.getResource("behemothHurt.gif"));
+		hurtbehemoth = hurtbehemothy.getImage();
+		hurtbehemoth = hurtbehemoth.getScaledInstance(90,90,1);
 		
 		ImageIcon bullety = new ImageIcon(cldr.getResource("playerBullet.gif"));
 		bullet = bullety.getImage();
@@ -214,10 +234,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
-			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+			g.drawString("SCORE: " + myWorld.getScore(), 40, 50);
 			double distance = steps * 0.005;
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
-			g.drawString(formatTest, 50, 60);
+			g.drawString(formatTest, 40, 60);
 		}
 		else if (inGameOver == true)
 		{
@@ -232,10 +252,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		g.drawImage(bg, 0, -265 +(steps % 254), this);
 		g.drawImage(hp, 5, 640, this);
 		g.drawImage(gun, 262, 637, this);
-		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+		g.drawString("SCORE: " + myWorld.getScore(), 40, 50);
 		double distance = steps * 0.005;
 		String formatTest = String.format("DISTANCE: %5.2f km", distance);
-		g.drawString(formatTest, 50, 60);
+		g.drawString(formatTest, 40, 60);
 		int hpGone = (5-myWorld.getPlayer().getLife());
 		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		
@@ -301,22 +321,98 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
 					break;
 				case 5:
-					g.drawImage(tplane, c.getLat(), c.getLong(), this);
+					Plane t = (Plane) c;
+					switch(t.getImageState())
+					{
+						case 3:
+							g.drawImage(tplane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								t.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								t.setImage(3);
+							}
+							g.drawImage(hurttplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 6:
 					g.drawImage(brocket, c.getLat(), c.getLong(), this);
 					break;
 				case 7:
-					g.drawImage(jplane, c.getLat(), c.getLong(), this);
+					Plane j = (Plane) c;
+					switch(j.getImageState())
+					{
+						case 3:
+							g.drawImage(jplane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								j.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								j.setImage(3);
+							}
+							g.drawImage(hurtjplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 9:
-					g.drawImage(behemoth, c.getLat(), c.getLong(), this);
+					Plane z = (Plane) c;
+					switch(z.getImageState())
+					{
+						case 3:
+							g.drawImage(behemoth, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								z.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								z.setImage(3);
+							}
+							g.drawImage(hurtbehemoth, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 10:
 					g.drawImage(bplasma, c.getLat(), c.getLong(), this);
 					break;
 				case 11:
-					g.drawImage(lplane, c.getLat(), c.getLong(), this);
+					Plane l = (Plane) c;
+					switch(l.getImageState())
+					{
+						case 3:
+							g.drawImage(lplane, c.getLat(), c.getLong(), this);
+							break;
+						case 0:
+							if(timedDisplay >= 0)
+							{
+								l.setImage(0);
+								timedDisplay--;
+							}
+							else
+							{
+								timedDisplay = 20;
+								l.setImage(3);
+							}
+							g.drawImage(hurtlplane, c.getLat(), c.getLong(), this);
+							break;
+					}
 					break;
 				case 12:
 					g.drawImage(blaser, c.getLat(), c.getLong(), this);
@@ -335,10 +431,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		myWorld.move(steps);
 		myWorld.act(steps);
 		myWorld.cleanBounds(steps);
-		if(steps % 50 == 0)
-		{
-			System.out.println("it's been " + steps + " ticks");
-		}
 		if(steps % 60 == 0)
 		{
 			myWorld.spawnWave(steps);
@@ -355,7 +447,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				myTime.setDelay(1000);
 			}
 			restartDelay++;
-			System.out.println("it's been " + restartDelay + " ticks");
 			if (restartDelay == 5) {
 				myTime.setDelay(40);
 				confirmReplay();
