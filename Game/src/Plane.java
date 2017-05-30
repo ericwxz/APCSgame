@@ -27,13 +27,13 @@ public class Plane extends Collidable
 				life = 5;
 			break;
 			case 3:
-				cooldownBuf = (int)(Math.random() * 30) + 20;
-				speed = (int)(Math.random() * 4) + 3;
+				cooldownBuf = (int)(Math.random() * 30) + 30;
+				speed = (int)(Math.random() * 3) + 3;
 				life = 3;
 			break;
 			case 5:
-				cooldownBuf = (int)(Math.random() * 30) + 40;
-				speed = (int)(Math.random() * 4) + 2;
+				cooldownBuf = (int)(Math.random() * 30) + 50;
+				speed = (int)(Math.random() * 3) + 2;
 				life = 4;
 			break;
 			case 7:
@@ -44,76 +44,78 @@ public class Plane extends Collidable
 			case 9:
 				cooldownBuf = 30;
 				speed = 2;
-				life = 8;
+				life = 7;
 			break;
 			case 11:
 				cooldownBuf = 60;
-				speed = 3;
-				life = 5;
+				speed = 2;
+				life = 3;
 			break;
 		}
 		cooldown = cooldownBuf;
 	}
 	
 	//who's hitting me.... and who am i??? important questions for what happens
-	public void hitResult(Collidable other)
+	public boolean hitResult(Collidable other)
 	{
-		if(!other.collided())
+		switch(other.getType())
 		{
-			switch(other.getType())
-			{
-				case 0:
+			case 0:
+				return false;
+			case 1:
+				if(getType() == 3 || getType() == 5)
+				{
+					Plane  playerPlane = (Plane) other;
+					playerPlane.hurt(3);
+					hurt(6);
+					setCollide(true);
+					return true;
+				}
+				else if (getType() == 7)
+				{
+					Plane  playerPlane = (Plane) other;
+					playerPlane.hurt(5);
+					hurt(5);
+					return true;
+				}
 				break;
-				case 1:
-					if(getType() == 3 || getType() == 5)
-					{
-						Plane  playerPlane = (Plane) other;
-						playerPlane.hurt(3);
-						hurt(6);
-						setCollide(true);
-					}
-					else if (getType() == 7)
-					{
-						Plane  playerPlane = (Plane) other;
-						playerPlane.hurt(5);
-						hurt(5);
-					}
-					break;
-				case 3:
-				case 5:
-				case 11:
-					if(getType() == 1)
-					{
-						Plane enemyPlane = (Plane) other;
-						life -= 3;
-						enemyPlane.hurt(5);
-						setCollide(true);
-						myWorld.addScore(500);
-					}
-					break;
-				case 7:
-				case 9:
-					if(getType() == 1)
-					{
-						Plane enemyPlane = (Plane) other;
-						life-=5;
-						enemyPlane.hurt(5);
-						setCollide(true);
-						myWorld.addScore(500);
-					}
-					break;
-				case 13:
-					if (getType() == 1)
-					{
-						other.destroy();
-						myWorld.getPlayer().hurt(-2);
-						if (myWorld.getPlayer().getLife() > 5)
-							myWorld.getPlayer().setLifeMax();
-						setCollide(true);
-					}
-					break;
-			}
+			case 3:
+			case 5:
+			case 11:
+				if(getType() == 1)
+				{
+					Plane enemyPlane = (Plane) other;
+					life -= 3;
+					enemyPlane.hurt(5);
+					setCollide(true);
+					myWorld.addScore(500);
+					return true;
+				}
+				break;
+			case 7:
+			case 9:
+				if(getType() == 1)
+				{
+					Plane enemyPlane = (Plane) other;
+					destroy();
+					enemyPlane.hurt(5);
+					setCollide(true);
+					myWorld.addScore(500);
+					return true;
+				}
+				break;
+			case 13:
+				if (getType() == 1)
+				{
+					other.destroy();
+					myWorld.getPlayer().hurt(-2);
+					if (myWorld.getPlayer().getLife() > 5)
+						myWorld.getPlayer().setLifeMax();
+					return true;
+				}
+				break;
 		}
+		return false;
 	}
 	
 	public void destroy()
@@ -175,14 +177,14 @@ public class Plane extends Collidable
 				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 6, getWorld(), step));
 			else if (getType() == 9)
 			{
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
-				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 8, getLong()+50, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 11, getLong()+52, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 15, getLong()+53, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 19, getLong()+52, 10, getWorld(), step));
+				getWorld().add(new Projectile(getLat() + 22, getLong()+50, 10, getWorld(), step));
 			}
 			else if (getType() == 11)
-				getWorld().add(new Projectile(getLat() + 30, getLong() + 69, 12, getWorld(), step-1));
+				getWorld().add(new Projectile(getLat() + 27, getLong() + 69, 12, getWorld(), step-1));
 			else{}
 			
 			cooldown = cooldownBuf;

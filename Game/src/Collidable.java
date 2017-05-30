@@ -35,8 +35,10 @@ public class Collidable
 	}
 	
 	//what happens when things collide... implemented elsewhere
-	public void hitResult(Collidable other)
-	{}
+	public boolean hitResult(Collidable other)
+	{
+		return true;
+	}
 	
 	//easy-to-call method for world... implemented elsewhere
 	public void move()
@@ -93,10 +95,10 @@ public class Collidable
 				hitBox.addPoint(myx + 15, myy + 45);
 			break;
 			case 12:
-				hitBox.addPoint(myx + 5, myy + 0);
-				hitBox.addPoint(myx + 15, myy + 0);
-				hitBox.addPoint(myx + 5, myy + 800);
-				hitBox.addPoint(myx + 15, myy + 800);
+				hitBox.addPoint(myx + 7, myy + 0);
+				hitBox.addPoint(myx + 8, myy + 0);
+				hitBox.addPoint(myx + 7, myy + 800);
+				hitBox.addPoint(myx + 8, myy + 800);
 			break;
 			
 		}

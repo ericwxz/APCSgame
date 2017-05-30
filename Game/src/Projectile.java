@@ -48,15 +48,15 @@ public class Projectile extends Collidable
 				setNum %= 5;
 				setNum++;
 				if(setNum == 3)
-					yspeed = 3;
+					yspeed = 4;
 				else
-					yspeed = -1 * Math.abs(3 - setNum) + 4;
+					yspeed = -1 * Math.abs(3 - setNum) + 5;
 				xspeed = -3 + 1 * setNum;
 				break;
 			case 12:
 				damage = 5;
 				enemyBullet = true;
-				yspeed = 3;
+				yspeed = 2;
 				xspeed = 0;
 				break;
 		}
@@ -65,59 +65,54 @@ public class Projectile extends Collidable
 	
 
 	//who's hitting me.... and who am i??? important questions for what happens
-	public void hitResult(Collidable other)
+	public boolean hitResult(Collidable other)
 	{
-		setCollide(true);
-		if(!other.collided())
+		switch(other.getType())
 		{
-			switch(other.getType())
-			{
-				case 1:
-					if(enemyBullet)
-					{
-						Plane player = (Plane) other;
-						player.hurt(getDamage());
-						System.out.println("ouch");
-						destroy();
-						setCollide(true);
-					}
-					break;
-				case 2:
-					if(enemyBullet)
-					{
-						Projectile playerProj = (Projectile) other;
-						playerProj.destroy();
-						destroy();
-						setCollide(true);
-					}
-					break;
-				case 3:
-				case 5:
-				case 7:
-				case 9:
-				case 11:
-					if(!enemyBullet)
-					{
-						Plane enemy = (Plane) other;
-						enemy.hurt(getDamage());
-						destroy();
-						setCollide(true);
-					}
-					break;
-				case 4:
-				case 6:
-				case 10:
-					if(!enemyBullet)
-					{
-						Projectile enemyProj = (Projectile) other;
-						enemyProj.destroy();
-						destroy();
-						setCollide(true);
-					}
-				default:
-					break;
-			}
+			case 1:
+				if(enemyBullet)
+				{
+					Plane player = (Plane) other;
+					player.hurt(getDamage());
+					System.out.println("ouch");
+					destroy();
+					return true;
+				}
+				break;
+			case 2:
+				if(enemyBullet)
+				{
+					Projectile playerProj = (Projectile) other;
+					playerProj.destroy();
+					destroy();
+					return true;
+				}
+				break;
+			case 3:
+			case 5:
+			case 7:
+			case 9:
+			case 11:
+				if(!enemyBullet)
+				{
+					Plane enemy = (Plane) other;
+					enemy.hurt(getDamage());
+					destroy();
+					return true;
+				}
+				break;
+			case 4:
+			case 6:
+			case 10:
+				if(!enemyBullet)
+				{
+					Projectile enemyProj = (Projectile) other;
+					enemyProj.destroy();
+					destroy();
+					return true;
+				}
 		}
+		return false;
 	}
 	
 	public void destroy()

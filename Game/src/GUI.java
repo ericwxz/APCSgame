@@ -119,7 +119,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		ImageIcon blasery = new ImageIcon(cldr.getResource("laser.gif"));
 		blaser = blasery.getImage();
-		blaser = blaser.getScaledInstance(15, 800, 1);
+		blaser = blaser.getScaledInstance(21, 1120, 1);
 		
 		ImageIcon exploy = new ImageIcon(cldr.getResource("explosion.gif"));
 		explo = exploy.getImage();
