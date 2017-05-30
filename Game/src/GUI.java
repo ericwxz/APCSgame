@@ -2,8 +2,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -72,6 +71,17 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		layers = new JLayeredPane();
 		container.add(layers);
 		layers.add(label, JLayeredPane.DEFAULT_LAYER);
+		
+
+		InputStream stream = cldr.getResourceAsStream("prstartk.ttf");
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(48f);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.setFont(font);
 		
 		ImageIcon planey = new ImageIcon(cldr.getResource("playerPlane.gif"));
 		plane = planey.getImage();
@@ -210,9 +220,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-		font = Font.getFont("prstartk.ttf");
 	}
-
+	
 	public void startGame()
 	{
 		start.setVisible(false); 
