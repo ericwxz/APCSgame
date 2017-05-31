@@ -59,7 +59,7 @@ public class World
 				case 4:
 				case 5:
 				case 6:
-					add(new Powerup((int) (Math.random() * 350), -39, 3, this, step));
+					add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
 					break; 
 				case 7:
 				case 8:
