@@ -8,6 +8,9 @@ public class Plane extends Collidable
 	private int powerStep;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	private World myWorld;
+	private boolean damageUp;
+	private int damageCooldown;
+	private int damageStep;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
@@ -20,12 +23,14 @@ public class Plane extends Collidable
 		movingUp = false;
 		movingDown = false;
 		shootNext = false; 
+		damageUp = false;
 		myWorld = world;
 		switch(type)
 		{
 			case 1:
 				cooldownBuf = 5;
 				life = 5;
+				damageCooldown = 5;
 			break;
 			case 3:
 				cooldownBuf = (int)(Math.random() * 30) + 30;
@@ -93,6 +98,7 @@ public class Plane extends Collidable
 					return true;
 				}
 				break;
+
 			case 7:
 			case 9:
 				if(getType() == 1)
@@ -105,6 +111,7 @@ public class Plane extends Collidable
 					return true;
 				}
 				break;
+			
 			case 13:
 				if (getType() == 1)
 				{
@@ -121,6 +128,15 @@ public class Plane extends Collidable
 					other.destroy();
 					myWorld.getPlayer().setCool(3, myWorld.getGui().getSteps());
 					return true;
+				}
+				break;
+			case 15:
+				if (getType() == 1)
+				{
+					Powerup plane = (Powerup) other;
+					other.destroy();
+					myWorld.getPlayer().setCool(3,  myWorld.getGui().getSteps());
+					damageUp = true;
 				}
 				break;
 		}
@@ -178,8 +194,11 @@ public class Plane extends Collidable
 		{
 			if(getType() == 1)
 			{
-				getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
-				if(cooldownBuf != 7 && (step - powerStep) % 20 == 0)
+				if (damageUp && (step-damageStep) % 50 == 0)
+					getWorld().add(new Projectile(getLat() + 15, getLong(), 17, getWorld(), step));
+				else
+					getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
+				if(cooldownBuf != 7 && (step - powerStep) % 50 == 0)
 					cooldownBuf = 7;
 			}
 			else if (getType() == 3)
@@ -275,6 +294,19 @@ public class Plane extends Collidable
     {
     	cooldownBuf = i;
     	powerStep = step;
+    }
+    public void setDamageCool(int i, int step)
+    {
+    	damageCooldown = i;
+    	damageStep = step;
+    }
+    public void setDamageUp(boolean bool)
+    {
+    	damageUp = bool;
+    }
+    public boolean getDamageUp()
+    {
+    	return damageUp;
     }
 }
 
