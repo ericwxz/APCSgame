@@ -80,7 +80,7 @@ public class World
 						add(new Plane(15 + (int)(250*Math.random()),-39,3,this,step));
 					break;
 				case 13:
-					if(difficulty > 3 && !contains(new Plane(0,0,9,this,0)))
+					if(difficulty > 3 && !contains(9))
 						add(new Plane(15 + (int)(250*Math.random()), -39, 9, this, step));
 					else if(difficulty > 2)
 						add(new Plane(15 + (int)(250*Math.random()), -39, 7, this, step));
@@ -123,10 +123,10 @@ public class World
 		}
 		for (Collidable c : tempList)
 		{
-			if(!isValid(c))
+			if(!isValid(c) && c.getType() != 0)
 			{
-				if (!(c.getType() == 1))
 					removeEntity(c);
+					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, false));
 			}
 			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7 || 
 					c.getType() == 9 || c.getType() == 11)
@@ -145,10 +145,10 @@ public class World
 			else if(c.getType() == 0 && (steps - c.getBirth()) % 20  == 0)
 			{
 				removeEntity(c);
-				if(!list.contains(player))
-				{
-					setGameOver(true);
-				}
+			}
+			if(!list.contains(player) && !contains(0))
+			{
+				setGameOver(true);
 			}
 		}
 	}
@@ -238,11 +238,11 @@ public class World
 		inGameOver = bool;
 	}
 	
-	public boolean contains(Collidable c)
+	public boolean contains(int c)
 	{
 		for(Collidable d : list)
 		{
-			if(d.getType() == c.getType())
+			if(d.getType() == c)
 				return true;
 		}
 		return false;

@@ -5,6 +5,7 @@ public class Plane extends Collidable
 	private int speed;
 	private int cooldown;
 	private int cooldownBuf;
+	private int powerStep;
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	private World myWorld;
 	
@@ -114,6 +115,14 @@ public class Plane extends Collidable
 					return true;
 				}
 				break;
+			case 14:
+				if (getType() == 1)
+				{
+					other.destroy();
+					myWorld.getPlayer().setCool(0, myWorld.getStep());
+					return true;
+				}
+				break;
 		}
 		return false;
 	}
@@ -121,9 +130,7 @@ public class Plane extends Collidable
 	public void destroy()
 	{
 		if(getType() == 1)
-		{
-			System.out.println("you'll live on in our hearts, trooper");
-		}
+		{}
 		else
 			myWorld.addScore(100);
 		getWorld().removeEntity(this);
@@ -170,7 +177,11 @@ public class Plane extends Collidable
 		if(cooldown <= 0)
 		{
 			if(getType() == 1)
+			{
 				getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
+				if(cooldownBuf != 7 && (step - powerStep) % 20 == 0)
+					cooldownBuf = 7;
+			}
 			else if (getType() == 3)
 				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), step));
 			else if (getType() == 5)
@@ -258,6 +269,12 @@ public class Plane extends Collidable
     public double compareTo(Plane other)
     {
     	return other.getType() - getType();
+    }
+    
+    public void setCool(int i, int step)
+    {
+    	cooldownBuf = i;
+    	powerStep = step;
     }
 }
 

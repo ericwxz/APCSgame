@@ -1,6 +1,8 @@
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
  
 import javax.swing.*;
 import javax.swing.Timer;
@@ -8,6 +10,9 @@ import javax.swing.Timer;
  
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
+	private JLabel label;
+	private JLayeredPane layers; //set db to true
+ 
 	private World myWorld;
  
 	private Image bg;
@@ -27,6 +32,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bexplo;
 	private Image hurtplane;
 	private Image hurtbplane;
+	private Image hurttplane;
+	private Image hurtjplane;
+	private Image hurtlplane;
+	private Image hurtbehemoth;
 	private Image hp;
 	private Image gun;
 	private Image healthup;
@@ -38,7 +47,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private JButton start; private JButton exit; private JButton help;
 	private Timer myTime;
 	private Font font;
-	private KPanel ppanel;
+	
 	private Plane playerPlane;
  
 	
@@ -58,6 +67,21 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
 		inGameOver = false;
+		label = new JLabel("whippedee doo doo");
+		layers = new JLayeredPane();
+		container.add(layers);
+		layers.add(label, JLayeredPane.DEFAULT_LAYER);
+		
+ 
+		InputStream stream = cldr.getResourceAsStream("prstartk.ttf");
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(10f);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.setFont(font);
 		
 		ImageIcon planey = new ImageIcon(cldr.getResource("playerPlane.gif"));
 		plane = planey.getImage();
@@ -90,6 +114,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon hurtbplaney = new ImageIcon(cldr.getResource("enemyDamage.gif"));
 		hurtbplane = hurtbplaney.getImage();
 		hurtbplane = hurtbplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurttplaney = new ImageIcon(cldr.getResource("trackingHurt.gif"));
+		hurttplane = hurttplaney.getImage();
+		hurttplane = hurttplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtjplaney = new ImageIcon(cldr.getResource("jetHurt.gif"));
+		hurtjplane = hurtjplaney.getImage();
+		hurtjplane = hurtjplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtlplaney = new ImageIcon(cldr.getResource("laserHurt.gif"));
+		hurtlplane = hurtlplaney.getImage();
+		hurtlplane = hurtlplane.getScaledInstance(80,80,1);
+		
+		ImageIcon hurtbehemothy = new ImageIcon(cldr.getResource("behemothHurt.gif"));
+		hurtbehemoth = hurtbehemothy.getImage();
+		hurtbehemoth = hurtbehemoth.getScaledInstance(90,90,1);
 		
 		ImageIcon bullety = new ImageIcon(cldr.getResource("playerBullet.gif"));
 		bullet = bullety.getImage();
@@ -142,8 +182,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		start = new JButton("Start Game"); 
 		exit = new JButton("Exit Game"); 
 		help = new JButton("How To Play"); 
-		ppanel = new KPanel();
-		super.setContentPane(ppanel);
+		
+		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
+			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
  
 		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
 		super.add(Box.createRigidArea(new Dimension(0,280)));
@@ -154,6 +195,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		super.add(exit); 
 		super.add(Box.createRigidArea(new Dimension(0,280)));
 		
+		//add a method for menu screen
 		
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		help.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -161,34 +203,27 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true);
  
+		
 		playerPlane = myWorld.getPlayer();
+		
+ 
 		
 		super.addKeyListener(this);
 		MenuStartListener menuHandler = new MenuStartListener(this);
 		start.addActionListener(menuHandler);
 		help.addActionListener(menuHandler);
 		exit.addActionListener(menuHandler);
+		start.requestFocus(); 
+ 
  
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	super.setSize(350,700);
     	super.setVisible(true);
     	
-		font = Font.getFont("prstartk.ttf");
-	}
- 
-	public void showMenu()
-	{
-		inMenu = true;
-		ppanel.setVisible(true);
-		start.setVisible(true); 
-		help.setVisible(true); 
-  		exit.setVisible(true); 
-		start.requestFocus();
 	}
 	
 	public void startGame()
 	{
-		ppanel.setVisible(false);
 		start.setVisible(false); 
 		help.setVisible(false); 
   		exit.setVisible(false); 
@@ -201,131 +236,228 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	public void paint(Graphics g)
 	{
-		if (inMenu == true)
-		{
-			ppanel.paintComponent(g);
-			
-		}
-		else if (inMenu == false && inGameOver == false)
+		if (inMenu == false && inGameOver == false)
 		{
 			g.setFont(font);
 			Image offImage = createImage(350,700);
 			Graphics buffer = offImage.getGraphics();
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
-			g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
+			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
 			double distance = steps * 0.005;
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
-			g.drawString(formatTest, 50, 60);
+			g.drawString(formatTest, 20, 60);
 		}
 		else if (inGameOver == true)
 		{
+			super.setFont(font.deriveFont(20f));
+			Image offImage = createImage(350,700);
+			Graphics buffer = offImage.getGraphics();
+			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(go, 0, 0, null);
+			g.drawString("Final Score:",65,75);
+			g.drawString(myWorld.getScore() + "", 140, 95);
+			g.drawString("Final Distance:",40,115);
+			g.drawString(myWorld.getScore() + "km", 130, 135);
+			g.drawString("'We Shall",76,215);
+			g.drawString("Never Surrender!'",10,235);
 		}
 	}
 	private void paintBuffer(Graphics g, ArrayList<Collidable> a)
 	{
+		
 		g.clearRect(0, 0, 350, 700);
 		super.paint(g);
  
-		g.drawImage(bg, 0, -265 +(steps % 254), this);
-		g.drawImage(hp, 5, 640, this);
-		g.drawImage(gun, 262, 637, this);
-		g.drawString("SCORE: " + myWorld.getScore(), 50, 50);
-		double distance = steps * 0.005;
-		String formatTest = String.format("DISTANCE: %5.2f km", distance);
-		g.drawString(formatTest, 50, 60);
-		int hpGone = (5-myWorld.getPlayer().getLife());
-		g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
-		
-		for(Collidable c: a)
+		if (inGameOver == true)
 		{
-			switch(c.getType())
+			g.drawImage(go, 0, 0, null);
+			super.setFont(super.getFont().deriveFont(20f));
+			g.drawString("Final Score:",65,75);
+			g.drawString(myWorld.getScore() + "", 130, 95);
+			g.drawString("Final Distance:",40,115);
+			g.drawString(myWorld.getScore() + "km", 120, 135);
+		}
+		else
+		{
+			
+			g.drawImage(bg, 0, -265 +(steps % 254), this);
+			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
+			double distance = steps * 0.005;
+			String formatTest = String.format("DISTANCE: %5.2f km", distance);
+			g.drawString(formatTest, 20, 60);
+			
+			
+			
+			for(Collidable c: a)
 			{
-				case 0:	
-					Explosion x = (Explosion) c;
-					if(x.getStyle() == true)
-						g.drawImage(explo, c.getLat(), c.getLong(), this);
-					else
-						g.drawImage(bexplo, c.getLat(), c.getLong(), this);
-					break;
-				case 1: 
-					Plane p = (Plane) c;
-					switch(p.getImageState())
-					{
-						case 3:
-							g.drawImage(plane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								p.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								p.setImage(3);
-							}
-							g.drawImage(hurtplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 2:
-					g.drawImage(bullet, c.getLat(), c.getLong(), this);
-					break;
-				case 3:   
-					Plane b = (Plane) c;
-					switch(b.getImageState())
-					{
-						case 3:
-							g.drawImage(bplane, c.getLat(), c.getLong(), this);
-							break;
-						case 0:
-							if(timedDisplay >= 0)
-							{
-								b.setImage(0);
-								timedDisplay--;
-							}
-							else
-							{
-								timedDisplay = 20;
-								b.setImage(3);
-							}
-							g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
-							break;
-					}
-					break;
-				case 4:
-					g.drawImage(bbullet, c.getLat(), c.getLong(), this);
-					break;
-				case 5:
-					g.drawImage(tplane, c.getLat(), c.getLong(), this);
-					break;
-				case 6:
-					g.drawImage(brocket, c.getLat(), c.getLong(), this);
-					break;
-				case 7:
-					g.drawImage(jplane, c.getLat(), c.getLong(), this);
-					break;
-				case 9:
-					g.drawImage(behemoth, c.getLat(), c.getLong(), this);
-					break;
-				case 10:
-					g.drawImage(bplasma, c.getLat(), c.getLong(), this);
-					break;
-				case 11:
-					g.drawImage(lplane, c.getLat(), c.getLong(), this);
-					break;
-				case 12:
-					g.drawImage(blaser, c.getLat(), c.getLong(), this);
-					break;
-				case 13:
-					g.drawImage(healthup, c.getLat(), c.getLong(), this);
-					break;
-				default:
-			}
-		} 
+				switch(c.getType())
+				{
+					case 0:	
+						Explosion x = (Explosion) c;
+						if(x.getStyle() == true)
+							g.drawImage(explo, c.getLat(), c.getLong(), this);
+						else
+							g.drawImage(bexplo, c.getLat(), c.getLong(), this);
+						break;
+					case 1: 
+						Plane p = (Plane) c;
+						switch(p.getImageState())
+						{
+							case 3:
+								g.drawImage(plane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									p.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									p.setImage(3);
+								}
+								g.drawImage(hurtplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 2:
+						g.drawImage(bullet, c.getLat(), c.getLong(), this);
+						break;
+					case 3:   
+						Plane b = (Plane) c;
+						switch(b.getImageState())
+						{
+							case 3:
+								g.drawImage(bplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									b.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									b.setImage(3);
+								}
+								g.drawImage(hurtbplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 4:
+						g.drawImage(bbullet, c.getLat(), c.getLong(), this);
+						break;
+					case 5:
+						Plane t = (Plane) c;
+						switch(t.getImageState())
+						{
+							case 3:
+								g.drawImage(tplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									t.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									t.setImage(3);
+								}
+								g.drawImage(hurttplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 6:
+						g.drawImage(brocket, c.getLat(), c.getLong(), this);
+						break;
+					case 7:
+						Plane j = (Plane) c;
+						switch(j.getImageState())
+						{
+							case 3:
+								g.drawImage(jplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									j.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									j.setImage(3);
+								}
+								g.drawImage(hurtjplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 9:
+						Plane z = (Plane) c;
+						switch(z.getImageState())
+						{
+							case 3:
+								g.drawImage(behemoth, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									z.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									z.setImage(3);
+								}
+								g.drawImage(hurtbehemoth, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 10:
+						g.drawImage(bplasma, c.getLat(), c.getLong(), this);
+						break;
+					case 11:
+						Plane l = (Plane) c;
+						switch(l.getImageState())
+						{
+							case 3:
+								g.drawImage(lplane, c.getLat(), c.getLong(), this);
+								break;
+							case 0:
+								if(timedDisplay >= 0)
+								{
+									l.setImage(0);
+									timedDisplay--;
+								}
+								else
+								{
+									timedDisplay = 20;
+									l.setImage(3);
+								}
+								g.drawImage(hurtlplane, c.getLat(), c.getLong(), this);
+								break;
+						}
+						break;
+					case 12:
+						g.drawImage(blaser, c.getLat(), c.getLong(), this);
+						break;
+					case 13:
+						g.drawImage(healthup, c.getLat(), c.getLong(), this);
+						break;
+					default:
+				}
+			} 
+			g.drawImage(hp, 5, 640, this);
+			g.drawImage(gun, 262, 637, this);
+			int hpGone = (5-myWorld.getPlayer().getLife());
+			g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -334,10 +466,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		myWorld.move(steps);
 		myWorld.act(steps);
 		myWorld.cleanBounds(steps);
-		if(steps % 50 == 0)
-		{
-			System.out.println("it's been " + steps + " ticks");
-		}
 		if(steps % 60 == 0)
 		{
 			myWorld.spawnWave(steps);
@@ -348,13 +476,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		}
 		if(myWorld.getGameOver() == true)
 		{
-			if(restartDelay == 0) { 
+			if(restartDelay == 0) {
 				inGameOver = true;
 				myTime.restart();
 				myTime.setDelay(1000);
 			}
 			restartDelay++;
-			System.out.println("it's been " + restartDelay + " ticks");
 			if (restartDelay == 5) {
 				myTime.setDelay(40);
 				confirmReplay();
@@ -366,15 +493,23 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private void confirmReplay()
 	{
 		Object[] options = {"Yes", "No"};
-        int n = JOptionPane.showOptionDialog(this, "Play again?", "Mission terminated", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        int n = JOptionPane.showOptionDialog(this, "Play again?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (n == JOptionPane.YES_OPTION)
         {
-        	
         	myTime.stop();
-    		myWorld = new World();
+        	World ww = new World();
+    		myWorld = ww;
+    		ww.setGui(this);
     		playerPlane = myWorld.getPlayer();
+    		restartDelay = 0;
+ //   		inMenu = true;
     		inGameOver = false;
-    		showMenu();
+//    		start.setVisible(true); 
+//    		help.setVisible(true); 
+//      		exit.setVisible(true); 
+    		this.requestFocus();
+    		super.setVisible(true);
+    		startGame();
         }
         else
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -393,7 +528,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					+ " lose 1 life. \nIf you collide with a regular enemy plane... ouch!" 
 					+ " That's 3 lives gone! Bomber planes release tracking bombs that \n punch more than bullets, and occasional"
 					+ " kamikaze pilots will explode you. When you are out of lives, \nyour mission "
-					+ "must be aborted. If you run into a health drop, it will magically fix up your plane by 2 lifes."
+					+ "must be aborted. If you run into a health drop, it will magically fix up your plane by 2 life."
 					+ "\n \n We have gamified war by assigning worthless points for certain actions. For each \n enemy"
 					+ "plane you destroy, you get +100 points. For each plane hat gets past your \n"
 					+ "defenses and reaches mother base, you get -1000 points."
@@ -477,15 +612,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     }
  
     public void keyTyped(KeyEvent e) { }
-    
-    public class KPanel extends JPanel
-    {
-    	public void paintComponent(Graphics g)
-		{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}
-    }
+ 
  
 }
- 
  
  
  
