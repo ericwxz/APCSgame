@@ -81,6 +81,7 @@ public class Collidable
 			case 11:
 			case 13:
 			case 14:
+			case 15:
 				hitBox.addPoint(myx + 65, myy + 15);
 				hitBox.addPoint(myx + 15, myy + 65);
 				hitBox.addPoint(myx + 65, myy + 65);
@@ -90,6 +91,7 @@ public class Collidable
 			case 2:
 			case 6:
 			case 10:
+			case 17:
 				hitBox.addPoint(myx + 45, myy + 15);
 				hitBox.addPoint(myx + 15, myy + 15);
 				hitBox.addPoint(myx + 45, myy + 45);

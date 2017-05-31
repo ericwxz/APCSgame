@@ -101,7 +101,7 @@ public class World
 					break;
 				case 15:
 				case 16:
-					if(player.getLife() < 5)
+					if(player.getLife() < 5 && !contains(13) && !contains(14) && !contains(15))
 						add(new Powerup(15 + (int) (Math.random() * 250), -39, 13, this, step));
 					else if (difficulty > 1)
 						add(new Plane(player.getLat(), -39, 7, this, step));
@@ -109,8 +109,13 @@ public class World
 					break;
 				case 17:
 				case 18:
-					if(player.getLife() == 5)
+					if(!contains(13) && !contains(14) && !contains(15))
 						add(new Powerup(15 + (int) (Math.random() * 250), -39, 14, this, step));
+					break;
+				case 19:
+				case 20:
+					if(!contains(13) && !contains(14) && !contains(15))
+						add(new Powerup(15 + (int) (Math.random() * 250), -39, 15, this, step));
 					break;
 				case 0:
 				

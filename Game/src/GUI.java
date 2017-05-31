@@ -23,6 +23,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image bbullet;
 	private Image brocket;
 	private Image bplasma;
+	private Image dbullet;
 	private Image blaser;
 	private Image explo;
 	private Image bexplo;
@@ -36,6 +37,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image gun;
 	private Image healthup;
 	private Image fastfire;
+	private Image damageup;
 	private int steps;
 	private int timedDisplay;
 	private int restartDelay;
@@ -140,6 +142,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		bplasma = bplasmay.getImage();
 		bplasma = bplasma.getScaledInstance(50,50,1);
 		
+		ImageIcon dbully = new ImageIcon(cldr.getResource("damageBullet.gif"));
+		dbullet = dbully.getImage();
+		dbullet = dbullet.getScaledInstance(50,50,1);
+		
 		ImageIcon blasery = new ImageIcon(cldr.getResource("laser.gif"));
 		blaser = blasery.getImage();
 		blaser = blaser.getScaledInstance(21, 1120, 1);
@@ -167,6 +173,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon firey = new ImageIcon(cldr.getResource("fireUp.gif"));
 		fastfire = firey.getImage();
 		fastfire = fastfire.getScaledInstance(80, 80, 1);
+		
+		ImageIcon hurty = new ImageIcon(cldr.getResource("damageUp.gif"));
+		damageup = hurty.getImage();
+		damageup = damageup.getScaledInstance(80, 80, 1);
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
@@ -448,6 +458,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 						break;
 					case 14:
 						g.drawImage(fastfire, c.getLat(), c.getLong(), this);
+						break;
+					case 15:
+						g.drawImage(damageup, c.getLat(), c.getLong(), this);
+						break;
+					case 17:
+						g.drawImage(dbullet, c.getLat(), c.getLong(), this);
 						break;
 					default:
 				}

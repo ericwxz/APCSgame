@@ -194,12 +194,18 @@ public class Plane extends Collidable
 		{
 			if(getType() == 1)
 			{
-				if (damageUp && (step-damageStep) % 50 == 0)
+				if((step - powerStep) % 40 == 0)
+				{
+					clearPowers();
+				}
+				if (damageUp)
+				{
 					getWorld().add(new Projectile(getLat() + 15, getLong(), 17, getWorld(), step));
+					if((step-damageStep) % 40 != 0)
+						clearPowers();
+				}
 				else
 					getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
-				if(cooldownBuf != 7 && (step - powerStep) % 50 == 0)
-					cooldownBuf = 7;
 			}
 			else if (getType() == 3)
 				getWorld().add(new Projectile(getLat() + 15, getLong()+50, 4, getWorld(), step));
@@ -292,21 +298,19 @@ public class Plane extends Collidable
     
     public void setCool(int i, int step)
     {
+    	clearPowers();
     	cooldownBuf = i;
     	powerStep = step;
     }
-    public void setDamageCool(int i, int step)
+    public void setDamageCool(int step)
     {
-    	damageCooldown = i;
+    	clearPowers();
     	damageStep = step;
     }
-    public void setDamageUp(boolean bool)
+    public void clearPowers()
     {
-    	damageUp = bool;
-    }
-    public boolean getDamageUp()
-    {
-    	return damageUp;
+    	damageUp = false;
+    	cooldownBuf = 7;
     }
 }
 
