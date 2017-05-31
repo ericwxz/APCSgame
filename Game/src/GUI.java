@@ -38,6 +38,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private int steps;
 	private int timedDisplay;
 	private int restartDelay;
+	private double distance;
 	private boolean inMenu;
 	private boolean inGameOver;
 	private JButton start; private JButton exit; private JButton help;
@@ -195,7 +196,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
  
 		
 		playerPlane = myWorld.getPlayer();
-		
+		distance = 0;
  
 		
 		super.addKeyListener(this);
@@ -227,6 +228,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	public void paint(Graphics g)
 	{
+		
 		if (inMenu == false && inGameOver == false)
 		{
 			g.setFont(font);
@@ -235,7 +237,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(offImage, 0, 0, null);
 			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
-			double distance = steps * 0.005;
+			distance = steps * 0.005;
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
 			g.drawString(formatTest, 20, 60);
 		}
@@ -249,7 +251,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			g.drawString("Final Score:",65,75);
 			g.drawString(myWorld.getScore() + "", 140, 95);
 			g.drawString("Final Distance:",40,115);
-			g.drawString(myWorld.getScore() + "km", 130, 135);
+			g.drawString(distance + "km", 130, 135);
 			g.drawString("'We Shall",76,215);
 			g.drawString("Never Surrender!'",10,235);
 		}
@@ -274,7 +276,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			
 			g.drawImage(bg, 0, -265 +(steps % 254), this);
 			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
-			double distance = steps * 0.005;
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
 			g.drawString(formatTest, 20, 60);
 			
