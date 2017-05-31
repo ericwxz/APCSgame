@@ -39,6 +39,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Image hp;
 	private Image gun;
 	private Image healthup;
+	private Image fastfire;
 	private int steps;
 	private int timedDisplay;
 	private int restartDelay;
@@ -171,6 +172,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		ImageIcon healthy = new ImageIcon(cldr.getResource("hpPack.gif"));
 		healthup = healthy.getImage();
 		healthup = healthup.getScaledInstance(80, 80, 1);
+		
+		ImageIcon firey = new ImageIcon(cldr.getResource("fireUp.gif"));
+		fastfire = firey.getImage();
+		fastfire = fastfire.getScaledInstance(80, 80, 1);
 		
 		ImageIcon bgGif = new ImageIcon(cldr.getResource("backgroundImg.gif"));
 		bg = bgGif.getImage();
@@ -452,7 +457,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 						g.drawImage(healthup, c.getLat(), c.getLong(), this);
 						break;
 					case 14:
-						g.drawString(":-)", c.getLat(), c.getLong());
+						g.drawImage(fastfire, c.getLat(), c.getLong(), this);
+						break;
 					default:
 				}
 			} 
