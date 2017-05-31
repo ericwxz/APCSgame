@@ -1,20 +1,16 @@
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
+ 
 import javax.swing.*;
 import javax.swing.Timer;
-
-
+ 
+ 
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
-	private JLabel label;
-	private JLayeredPane layers; //set db to true
-
 	private World myWorld;
-
+ 
 	private Image bg;
 	private Image go;
 	private Image plane;
@@ -50,7 +46,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	private Font font;
 	
 	private Plane playerPlane;
-
+ 
 	
 	public static void main(String[] args)
 	{
@@ -69,12 +65,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
 		inGameOver = false;
-		label = new JLabel("whippedee doo doo");
-		layers = new JLayeredPane();
-		container.add(layers);
-		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		
-
 		InputStream stream = cldr.getResourceAsStream("prstartk.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(10f);
@@ -191,7 +182,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		super.setContentPane(new JPanel() {public void paintComponent(Graphics g)
 			{ super.paintComponent(g); g.drawImage(bg, 0, 0, this);}});
-
+ 
 		super.setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
 		super.add(Box.createRigidArea(new Dimension(0,280)));
 		super.add(start); 
@@ -201,18 +192,16 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		super.add(exit); 
 		super.add(Box.createRigidArea(new Dimension(0,280)));
 		
-		//add a method for menu screen
-		
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		help.setAlignmentX(Component.CENTER_ALIGNMENT);
 		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		start.setOpaque(true); help.setOpaque(true); exit.setOpaque(true);
-
+ 
 		
 		playerPlane = myWorld.getPlayer();
 		
-
+ 
 		
 		super.addKeyListener(this);
 		MenuStartListener menuHandler = new MenuStartListener(this);
@@ -220,8 +209,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		help.addActionListener(menuHandler);
 		exit.addActionListener(menuHandler);
 		start.requestFocus(); 
-
-
+ 
+ 
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	super.setSize(350,700);
     	super.setVisible(true);
@@ -233,6 +222,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		start.setVisible(false); 
 		help.setVisible(false); 
   		exit.setVisible(false); 
+  		super.setFont(font);
 		inMenu = false; 
 		myTime = new javax.swing.Timer(40, this); 
 		myTime.start(); 
@@ -274,7 +264,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		
 		g.clearRect(0, 0, 350, 700);
 		super.paint(g);
-
+ 
 		if (inGameOver == true)
 		{
 			g.drawImage(go, 0, 0, null);
@@ -506,8 +496,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	private void confirmReplay()
 	{
-		Object[] options = {"Yes", "No"};
-        int n = JOptionPane.showOptionDialog(this, "Play again?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+		Object[] options = {"I'm ready!", "Not yet..."};
+        int n = JOptionPane.showOptionDialog(this, "Go on a new mission?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (n == JOptionPane.YES_OPTION)
         {
         	myTime.stop();
@@ -516,11 +506,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     		ww.setGui(this);
     		playerPlane = myWorld.getPlayer();
     		restartDelay = 0;
- //   		inMenu = true;
     		inGameOver = false;
-//    		start.setVisible(true); 
-//    		help.setVisible(true); 
-//      		exit.setVisible(true); 
     		this.requestFocus();
     		super.setVisible(true);
     		startGame();
@@ -567,7 +553,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				escapeExit();
 			}
 		}
-
+ 
 	}
 	
     public void keyPressed(KeyEvent e)
@@ -595,7 +581,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
             escapeExit();
         }
     }
-
+ 
     private void escapeExit()
     {
         Object[] options = {"Yes", "No"};
@@ -605,7 +591,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
     }
-
+ 
     public void keyReleased(KeyEvent e)
     {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -624,14 +610,15 @@ public class GUI extends JFrame implements ActionListener, KeyListener
         	playerPlane.setShootState(false); 
         }
     }
-
+ 
     public void keyTyped(KeyEvent e) { }
-
-
+ 
+ 
 }
-
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
