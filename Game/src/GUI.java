@@ -196,8 +196,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		super.add(exit); 
 		super.add(Box.createRigidArea(new Dimension(0,280)));
 		
-		//add a method for menu screen
-		
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		help.setAlignmentX(Component.CENTER_ALIGNMENT);
 		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -500,8 +498,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	private void confirmReplay()
 	{
-		Object[] options = {"Yes", "No"};
-        int n = JOptionPane.showOptionDialog(this, "Play again?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+		Object[] options = {"I'm ready!", "Not yet..."};
+        int n = JOptionPane.showOptionDialog(this, "Go on a new mission?", "End game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (n == JOptionPane.YES_OPTION)
         {
         	myTime.stop();
@@ -510,11 +508,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
     		ww.setGui(this);
     		playerPlane = myWorld.getPlayer();
     		restartDelay = 0;
- //   		inMenu = true;
     		inGameOver = false;
-//    		start.setVisible(true); 
-//    		help.setVisible(true); 
-//      		exit.setVisible(true); 
     		this.requestFocus();
     		super.setVisible(true);
     		startGame();
