@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -10,9 +9,6 @@ import javax.swing.Timer;
  
 public class GUI extends JFrame implements ActionListener, KeyListener
 {
-	private JLabel label;
-	private JLayeredPane layers; //set db to true
- 
 	private World myWorld;
  
 	private Image bg;
@@ -68,12 +64,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		container.setLayout(new BorderLayout());
 		inMenu = true; 
 		inGameOver = false;
-		label = new JLabel("whippedee doo doo");
-		layers = new JLayeredPane();
-		container.add(layers);
-		layers.add(label, JLayeredPane.DEFAULT_LAYER);
 		
- 
 		InputStream stream = cldr.getResourceAsStream("prstartk.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(10f);
@@ -226,6 +217,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		start.setVisible(false); 
 		help.setVisible(false); 
   		exit.setVisible(false); 
+  		super.setFont(font);
 		inMenu = false; 
 		myTime = new javax.swing.Timer(40, this); 
 		myTime.start(); 
