@@ -119,7 +119,7 @@ public class Plane extends Collidable
 				if (getType() == 1)
 				{
 					other.destroy();
-					myWorld.getPlayer().setCool(0, myWorld.getStep());
+					myWorld.getPlayer().setCool(3, myWorld.getGui().getSteps());
 					return true;
 				}
 				break;

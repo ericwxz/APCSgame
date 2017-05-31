@@ -62,6 +62,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		super("aerial ace");
 		myWorld = w;
 		ClassLoader cldr = this.getClass().getClassLoader();
+		myWorld.setGui(this);
 		
 		Container container = super.getContentPane();
 		container.setLayout(new BorderLayout());
@@ -450,6 +451,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 					case 13:
 						g.drawImage(healthup, c.getLat(), c.getLong(), this);
 						break;
+					case 14:
+						g.drawString(":-)", c.getLat(), c.getLong());
 					default:
 				}
 			} 
@@ -458,6 +461,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			int hpGone = (5-myWorld.getPlayer().getLife());
 			g.fillRect(80 - hpGone * 10, 674, hpGone * 10, 10);
 		}
+	}
+	
+	public int getSteps()
+	{
+		return steps;
 	}
 	
 	public void actionPerformed(ActionEvent e)

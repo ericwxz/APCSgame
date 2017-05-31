@@ -47,7 +47,7 @@ public class World
 	
 	public void spawnWave(int step)
 	{
-		int enemies = (int)(Math.random()*3) + (difficulty +1)/ 2;
+		int enemies = (int)(Math.random()*(1+ difficulty)) + (difficulty +1)/ 2;
 		for(int k = 0; k < enemies; k++)
 		{
 			int j = (int) (Math.random() * 25);
@@ -59,7 +59,7 @@ public class World
 				case 4:
 				case 5:
 				case 6:
-					add(new Plane(15 + (int)(250*Math.random()),-39, 3,this,step));
+					add(new Powerup((int) (Math.random() * 350), -39, 3, this, step));
 					break; 
 				case 7:
 				case 8:
@@ -106,6 +106,11 @@ public class World
 					else if (difficulty > 1)
 						add(new Plane(player.getLat(), -39, 7, this, step));
 					else{}
+					break;
+				case 17:
+				case 18:
+					if(player.getLife() == 5)
+						add(new Powerup((int) (Math.random() * 350), -39, 14, this, step));
 					break;
 				case 0:
 				
@@ -219,6 +224,10 @@ public class World
 	{
 		return player;
 	}
+	public GUI getGui()
+	{
+		return myG;
+	}
 	public int getScore()
 	{
 		return score;
@@ -247,6 +256,7 @@ public class World
 		}
 		return false;
 	}
+	
 
 }
 
