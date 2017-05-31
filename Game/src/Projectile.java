@@ -12,7 +12,7 @@ public class Projectile extends Collidable
 	public Projectile(int xinit, int yinit, int type, World world, int tick)
 	{
 
-		//type = 2 means friendly bullet, type = 4 means enemybullet, type 6 = trackingbullet
+		//type = 2 means friendly bullet, type = 4 means enemybullet, type 6 = trackingbullet, type 17 = increased damage
 		super (xinit, yinit, type, world, tick);
 		myWorld = world;
 		
@@ -59,6 +59,12 @@ public class Projectile extends Collidable
 				yspeed = 2;
 				xspeed = 0;
 				break;
+			case 17:
+				damage = 3;
+				enemyBullet = false;
+				yspeed = -15;
+				xspeed = 0;
+				break;
 		}
 		
 	}
@@ -92,6 +98,7 @@ public class Projectile extends Collidable
 			case 7:
 			case 9:
 			case 11:
+			case 17:
 				if(!enemyBullet)
 				{
 					Plane enemy = (Plane) other;
