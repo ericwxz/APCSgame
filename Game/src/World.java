@@ -139,7 +139,7 @@ public class World
 					c.getType() == 9 || c.getType() == 11)
 			{
 				Plane pl = (Plane) c;
-				if(pl.getLife() <= 0)
+				if(pl.getLife() <= 0 && isValid((Collidable) pl))
 				{
 					pl.destroy();
 					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, true));
