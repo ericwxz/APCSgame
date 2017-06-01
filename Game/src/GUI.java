@@ -498,6 +498,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		}
 		else
 		{
+			if (!myWorld.contains(0) && !myWorld.contains(1))
+				myWorld.setGameOver(true);
 			steps++;
 			myWorld.move(steps);
 			myWorld.act(steps);
