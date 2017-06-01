@@ -2,7 +2,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
- 
+
 import javax.swing.*;
 import javax.swing.Timer;
  
@@ -264,9 +264,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 			paintBuffer(buffer, myWorld.getList());
 			g.drawImage(go, 0, 0, null);
 			g.drawString("Final Score:",65,75);
-			g.drawString(myWorld.getScore() + "", 140, 95);
+			g.drawString("" + myWorld.getScore(), 140, 95);
 			g.drawString("Final Distance:",40,115);
-			g.drawString(distance + "km", 130, 135);
+			g.drawString(String.format("%5.2f", steps * .005) + "km", 100, 135);
 			g.drawString("'We Shall",76,215);
 			g.drawString("Never Surrender!'",10,235);
 		}
@@ -288,7 +288,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		}
 		else
 		{
-			
 			g.drawImage(bg, 0, -265 +(steps % 254), this);
 			g.drawString("SCORE: " + myWorld.getScore(), 20, 50);
 			String formatTest = String.format("DISTANCE: %5.2f km", distance);
@@ -483,18 +482,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		steps++;
-		myWorld.move(steps);
-		myWorld.act(steps);
-		myWorld.cleanBounds(steps);
-		if(steps % 60 == 0)
-		{
-			myWorld.spawnWave(steps);
-		}
-		if(steps * .005 % 2 == 0)
-		{
-			myWorld.harder();
-		}
 		if(myWorld.getGameOver() == true)
 		{
 			if(restartDelay == 0) {
@@ -508,6 +495,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 				confirmReplay();
 			}
 		}
+		else
+		{
+			steps++;
+			myWorld.move(steps);
+			myWorld.act(steps);
+			myWorld.cleanBounds(steps);
+			if(steps % 60 == 0)
+			{
+				myWorld.spawnWave(steps);
+			}
+			if(steps * .005 % 2 == 0)
+			{
+				myWorld.harder();
+			}
+		}
+		
 		repaint();
 	}
 	
