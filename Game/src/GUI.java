@@ -545,20 +545,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		public MenuStartListener(JFrame frame)
 		{
 			myFrame = frame;
-			playerHelp = "How To Play: " + "\n" + "Welcome to Aerial Ace! Your mission "
-					+ "is to defeat as many enemy planes as possible and minimize the number of enemy planes \n getting past you. \nYou have 5 lives"
+			playerHelp = "How To Play: " + "\n" + "\nWelcome to Aerial Ace! Your mission "
+					+ "is to defeat as many enemy planes as possible." + "\n \nYou have 5 lives"
 					+ " initially, and every time you get hit by an enemy bullet, you"
 					+ " lose 1 life. \nIf you collide with a regular enemy plane... ouch!" 
-					+ " That's 3 lives gone! Bomber planes release tracking bombs that \n punch more than bullets, and occasional"
-					+ " kamikaze pilots will explode you. When you are out of lives, \nyour mission "
-					+ "must be aborted. If you run into a health drop, it will magically fix up your plane by 2 life."
+					+ " That's 3 lives gone! Bomber planes \nrelease tracking bombs that punch harder than bullets, and occasionally,"
+					+ " kamikaze \npilots will speed by and try to explode you. When you are out of lives, your mission "
+					+ "\nmust be aborted. In order to stay on mission longer, be sure to pick up some health \npacks and other performance boosts."
 					+ "\n \n We have gamified war by assigning worthless points for certain actions. For each \n enemy"
-					+ "plane you destroy, you get +100 points. For each plane hat gets past your \n"
-					+ "defenses and reaches mother base, you get -1000 points."
+					+ "plane you destroy, you get +100 points. Additionally, if you get hit by an enemy \nbullet,"
+					+ " you lose 250 points! Crashing into an enemy plane will also result in -150 points."
 					+ "\n \n" + "Good luck, soldier! We have faith in you."
 					+ "\n\n" + "Directions: \n" + "Change your plane's position with the arrow keys, hit space to fire," 
 					+ " and press Esc to exit."
 					+ "\n \n War is heck, kiddo.";
+ 
+
 		}
 		
 		public void actionPerformed(ActionEvent e)
