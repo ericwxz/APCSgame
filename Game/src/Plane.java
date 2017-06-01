@@ -9,8 +9,7 @@ public class Plane extends Collidable
 	private boolean movingLeft, movingRight, movingUp, movingDown, shootNext;
 	private World myWorld;
 	private boolean damageUp;
-	private int damageCooldown;
-	private int damageStep;
+	private boolean powered;
 	
 	public Plane(int initX, int initY, int type, World world, int born)
 	{
@@ -24,13 +23,13 @@ public class Plane extends Collidable
 		movingDown = false;
 		shootNext = false; 
 		damageUp = false;
+		powered = false;
 		myWorld = world;
 		switch(type)
 		{
 			case 1:
 				cooldownBuf = 5;
 				life = 5;
-				damageCooldown = 5;
 			break;
 			case 3:
 				cooldownBuf = (int)(Math.random() * 30) + 30;
@@ -126,7 +125,9 @@ public class Plane extends Collidable
 				if (getType() == 1)
 				{
 					other.destroy();
-					myWorld.getPlayer().setCool(3, myWorld.getGui().getSteps());
+					myWorld.getPlayer().setCool(3);
+					powered = true;
+					powerStep = new Integer(myWorld.getGui().getSteps());
 					return true;
 				}
 				break;
@@ -135,8 +136,10 @@ public class Plane extends Collidable
 				{
 					Powerup plane = (Powerup) other;
 					other.destroy();
-					myWorld.getPlayer().setCool(3,  myWorld.getGui().getSteps());
 					damageUp = true;
+					powered = true;
+					powerStep = new Integer(myWorld.getGui().getSteps());
+					return true;
 				}
 				break;
 		}
@@ -190,19 +193,17 @@ public class Plane extends Collidable
 	//give birth to a bullet a little bit in front of u
 	public void fire(int step)
 	{
+		if(powered && (step - powerStep) % 150 == 0)
+		{
+			clearPowers();
+		}
 		if(cooldown <= 0)
 		{
 			if(getType() == 1)
 			{
-				if((step - powerStep) % 40 == 0)
-				{
-					clearPowers();
-				}
 				if (damageUp)
 				{
 					getWorld().add(new Projectile(getLat() + 15, getLong(), 17, getWorld(), step));
-					if((step-damageStep) % 40 != 0)
-						clearPowers();
 				}
 				else
 					getWorld().add(new Projectile(getLat() + 15, getLong(), 2, getWorld(), step));
@@ -296,21 +297,20 @@ public class Plane extends Collidable
     	return other.getType() - getType();
     }
     
-    public void setCool(int i, int step)
+    public void setCool(int i)
     {
     	clearPowers();
     	cooldownBuf = i;
-    	powerStep = step;
-    }
-    public void setDamageCool(int step)
-    {
-    	clearPowers();
-    	damageStep = step;
     }
     public void clearPowers()
     {
     	damageUp = false;
     	cooldownBuf = 7;
+    	powered = false;
+    }
+    public boolean hasPower()
+    {
+    	return powered;
     }
 }
 

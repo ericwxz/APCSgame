@@ -109,13 +109,10 @@ public class World
 					break;
 				case 17:
 				case 18:
-					if(!contains(13) && !contains(14) && !contains(15))
-						add(new Powerup(15 + (int) (Math.random() * 250), -39, 14, this, step));
-					break;
 				case 19:
 				case 20:
-					if(!contains(13) && !contains(14) && !contains(15))
-						add(new Powerup(15 + (int) (Math.random() * 250), -39, 15, this, step));
+					if(difficulty > 1 && !contains(13) && !contains(14) && !contains(15) && !player.hasPower())
+						add(new Powerup(15 + (int) (Math.random() * 250), -39, 14 + (int)(Math.random() * 2), this, step));
 					break;
 				case 0:
 				
@@ -156,7 +153,7 @@ public class World
 			{
 				removeEntity(c);
 			}
-			if(!list.contains(player) && !contains(0))
+			if(!contains(1) && !contains(2))
 			{
 				setGameOver(true);
 			}

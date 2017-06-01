@@ -60,7 +60,7 @@ public class Projectile extends Collidable
 				xspeed = 0;
 				break;
 			case 17:
-				damage = 3;
+				damage = 2;
 				enemyBullet = false;
 				yspeed = -15;
 				xspeed = 0;
