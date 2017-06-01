@@ -133,7 +133,6 @@ public class World
 			if(!isValid(c) && c.getType() != 0)
 			{
 					removeEntity(c);
-					list.add(new Explosion(c.getLat(), c.getLong(), 0, this, steps-1, false));
 			}
 			else if(c.getType() == 1 || c.getType() == 3 || c.getType() == 5 || c.getType() == 7 || 
 					c.getType() == 9 || c.getType() == 11)
@@ -153,7 +152,7 @@ public class World
 			{
 				removeEntity(c);
 			}
-			if(!contains(1) && !contains(2))
+			if(!contains(1) && !contains(0))
 			{
 				setGameOver(true);
 			}
