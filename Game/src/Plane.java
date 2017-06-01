@@ -127,7 +127,7 @@ public class Plane extends Collidable
 					other.destroy();
 					myWorld.getPlayer().setCool(3);
 					powered = true;
-					powerStep = new Integer(myWorld.getGui().getSteps());
+					powerStep = new Integer(myWorld.getGui().getSteps()-1);
 					return true;
 				}
 				break;
@@ -138,7 +138,7 @@ public class Plane extends Collidable
 					other.destroy();
 					damageUp = true;
 					powered = true;
-					powerStep = new Integer(myWorld.getGui().getSteps());
+					powerStep = new Integer(myWorld.getGui().getSteps()-1);
 					return true;
 				}
 				break;
@@ -299,7 +299,6 @@ public class Plane extends Collidable
     
     public void setCool(int i)
     {
-    	clearPowers();
     	cooldownBuf = i;
     }
     public void clearPowers()
