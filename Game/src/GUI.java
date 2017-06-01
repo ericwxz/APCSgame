@@ -235,7 +235,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
   		exit.setVisible(false); 
   		super.setFont(font);
 		inMenu = false; 
-		myTime = new javax.swing.Timer(40, this); 
+		myTime = new javax.swing.Timer(20, this); 
 		myTime.start(); 
 		steps = 0; 
 		this.requestFocus();
@@ -486,6 +486,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
 		{
 			if(restartDelay == 0) {
 				inGameOver = true;
+				myWorld.setGameOver(true);
 				myTime.restart();
 				myTime.setDelay(1000);
 			}
