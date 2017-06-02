@@ -235,7 +235,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener
   		exit.setVisible(false); 
   		super.setFont(font);
 		inMenu = false; 
-		myTime = new javax.swing.Timer(20, this); 
+		myTime = new javax.swing.Timer(40, this); 
 		myTime.start(); 
 		steps = 0; 
 		this.requestFocus();
