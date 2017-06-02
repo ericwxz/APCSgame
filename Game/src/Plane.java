@@ -134,7 +134,6 @@ public class Plane extends Collidable
 			case 15:
 				if (getType() == 1)
 				{
-					Powerup plane = (Powerup) other;
 					other.destroy();
 					damageUp = true;
 					powered = true;
@@ -299,7 +298,6 @@ public class Plane extends Collidable
     
     public void setCool(int i)
     {
-    	clearPowers();
     	cooldownBuf = i;
     }
     public void clearPowers()
@@ -307,6 +305,7 @@ public class Plane extends Collidable
     	damageUp = false;
     	cooldownBuf = 7;
     	powered = false;
+    	
     }
     public boolean hasPower()
     {

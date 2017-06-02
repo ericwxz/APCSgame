@@ -111,6 +111,8 @@ public class World
 				case 18:
 				case 19:
 				case 20:
+				case 21:
+				case 22:
 					if(difficulty > 1 && !contains(13) && !contains(14) && !contains(15) && !player.hasPower())
 						add(new Powerup(15 + (int) (Math.random() * 250), -39, 14 + (int)(Math.random() * 2), this, step));
 					break;
